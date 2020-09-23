@@ -11,6 +11,8 @@ public class User {
     @SerializedName("_id")
     private String id;
 
+
+    // Getters
     public String getId() {
         return id;
     }
@@ -22,4 +24,20 @@ public class User {
     public String getEmail() {
         return email;
     }
+
+
+    // Setters
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }
