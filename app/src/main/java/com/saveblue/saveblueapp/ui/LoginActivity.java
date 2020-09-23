@@ -2,6 +2,7 @@ package com.saveblue.saveblueapp.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +27,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-        callApiUser("5f46455318b52809c8c35c2a");
+        Intent intentAbout = new Intent(this, DashboardActivity.class);
+        startActivity(intentAbout);
+
+        //callApiUser("5f46455318b52809c8c35c2a");
     }
 
 

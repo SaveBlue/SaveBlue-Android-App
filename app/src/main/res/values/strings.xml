@@ -11,4 +11,9 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+
+    <string name="accountTitle">AccountTitle</string>
+    <string name="accountBalance">accountBalance</string>
+
+
 </resources>
