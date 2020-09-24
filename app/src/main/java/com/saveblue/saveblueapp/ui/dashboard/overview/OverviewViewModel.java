@@ -19,6 +19,7 @@ public class OverviewViewModel extends ViewModel {
 
     private MutableLiveData<List<Account>> accountList;
 
+    // returns the live data list of all accounts
     public LiveData<List<Account>> getAccounts(String id, String jwt) {
         if (accountList == null) {
             accountList = new MutableLiveData<List<Account>>();
@@ -28,18 +29,21 @@ public class OverviewViewModel extends ViewModel {
         return accountList;
     }
 
+    // async api call to get user's accounts
     private void callApiAccounts(String id, String jwt) {
         Call<List<Account>> callAsync = api.getUsersAccounts(jwt, id);
 
         callAsync.enqueue(new Callback<List<Account>>() {
             @Override
             public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
+                // if request was denied
                 if (!response.isSuccessful()) {
                     //Toast.makeText((), "Request Error", Toast.LENGTH_LONG).show();
                     System.out.println("Request Error");
                     return;
                 }
 
+                // on success set the fetched account list
                 accountList.setValue(response.body());
 
             }

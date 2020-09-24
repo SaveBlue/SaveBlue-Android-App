@@ -4,16 +4,52 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.saveblue.saveblueapp.api.SaveBlueAPI;
+import com.saveblue.saveblueapp.api.ServiceGenerator;
+import com.saveblue.saveblueapp.models.User;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ProfileViewModel extends ViewModel {
+    private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
+    private MutableLiveData<User> userMutableLiveData;
 
-    private MutableLiveData<String> mText;
+    // returns the live data with an object containing user's data
+    public LiveData<User> getUser(String id, String jwt) {
+        if(userMutableLiveData == null){
+            userMutableLiveData = new MutableLiveData<>();
+            callApiUser(id, jwt);
+        }
 
-    public ProfileViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is the profile fragment");
+        return userMutableLiveData;
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    // async api call to get user's data
+    private void callApiUser(String id, String jwt) {
+        Call<User> callAsync = api.getUserData(jwt, id);
+
+        callAsync.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                // if request was denied
+                if (!response.isSuccessful()) {
+                    //Toast.makeText((), "Request Error", Toast.LENGTH_LONG).show();
+                    System.out.println("Request Error");
+                    return;
+                }
+
+                // on success set the fetched user's data object
+                userMutableLiveData.setValue(response.body());
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                //Toast.makeText(getApplicationContext(), "No Network Connectivity!", Toast.LENGTH_LONG).show();
+                System.out.println("No Network Connectivity!");
+            }
+        });
     }
 }

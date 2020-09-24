@@ -1,8 +1,6 @@
 package com.saveblue.saveblueapp.ui.dashboard.overview;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.saveblue.saveblueapp.JwtHandler;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.adapters.DashboardAccountAdapter;
 import com.saveblue.saveblueapp.models.Account;
@@ -60,9 +59,10 @@ public class OverviewFragment extends Fragment {
 
     // initialise observer for account list
     public void observerSetup() {
-        //fetch and decode jwt
-        String jwt = getJWTfromSharedPref();
-        String id = getIdFromJWT(jwt);
+        //fetch jwt from dedicated handler class
+        JwtHandler jwtHandler = new JwtHandler(getContext());
+        String jwt = jwtHandler.getJwt();
+        String id = jwtHandler.getId();
 
         overviewViewModel.getAccounts(id, jwt).observe(getViewLifecycleOwner(), new Observer<List<Account>>() {
             @Override
@@ -72,23 +72,4 @@ public class OverviewFragment extends Fragment {
         });
     }
 
-    /**
-     * JWT functions
-     */
-
-    // gets jwt from shared preferences
-    public String getJWTfromSharedPref() {
-        SharedPreferences sharedPref = requireContext().getSharedPreferences("SaveBluePref", 0);
-
-        return sharedPref.getString("JWT", "");
-    }
-
-    // decode id from jwt
-    public String getIdFromJWT(String jwt) {
-
-        String jwtPayload = jwt.split("\\.")[1];
-        String body = new String(Base64.decode(jwtPayload, Base64.URL_SAFE));
-
-        return body.split("\"")[3];
-    }
 }

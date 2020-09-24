@@ -83,8 +83,9 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
                 //store jwt in shared preferences
                 storeJWT(response.body().getToken());
 
-                //redirect to dashboard activity
+                //redirect to dashboard activity started on a new stack
                 Intent intentDashboard = new Intent(getApplicationContext(), DashboardActivity.class);
+                intentDashboard.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentDashboard);
 
             }
