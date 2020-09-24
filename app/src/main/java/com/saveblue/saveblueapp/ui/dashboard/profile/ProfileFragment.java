@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,8 @@ public class ProfileFragment extends Fragment {
     private ProfileViewModel profileViewModel;
     private TextView username;
     private TextView email;
+    private ImageView profilePicture;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
@@ -30,6 +33,7 @@ public class ProfileFragment extends Fragment {
 
         username = root.findViewById(R.id.textViewUsername);
         email = root.findViewById(R.id.textViewEmail);
+        profilePicture = root.findViewById(R.id.profileImage);
 
         return root;
     }
@@ -56,6 +60,8 @@ public class ProfileFragment extends Fragment {
 
                 username.setText(user.getUsername());
                 email.setText(user.getEmail());
+
+                profilePicture.setImageResource(R.drawable.avatar_1);
 
             }
         });
