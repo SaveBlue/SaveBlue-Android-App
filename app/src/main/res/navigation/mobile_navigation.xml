@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_overview">
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_overview"
         android:name="com.saveblue.saveblueapp.ui.dashboard.overview.OverviewFragment"
         android:label="@string/menu_overview"
         tools:layout="@layout/fragment_overview" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_profile"
         android:name="com.saveblue.saveblueapp.ui.dashboard.profile.ProfileFragment"
-        android:label="@string/menu_overview"
+        android:label="@string/menu_profile"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_settings"
         android:name="com.saveblue.saveblueapp.ui.dashboard.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
+        android:label="@string/menu_settings"
         tools:layout="@layout/fragment_slideshow" />
 </navigation>

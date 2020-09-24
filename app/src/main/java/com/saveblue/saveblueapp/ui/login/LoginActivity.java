@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         registerButton.setOnClickListener(v -> showRegisterDialog());
 
 
+        // TODO: where to check input data (login or onCLickListener)
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
