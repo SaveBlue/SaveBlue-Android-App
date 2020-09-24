@@ -1,8 +1,11 @@
-package com.saveblue.saveblueapp.ui;
+package com.saveblue.saveblueapp.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,7 +16,8 @@ import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.LoginUser;
 import com.saveblue.saveblueapp.models.JWT;
 import com.saveblue.saveblueapp.models.RegisterUser;
-import com.saveblue.saveblueapp.models.User;
+import com.saveblue.saveblueapp.ui.DashboardActivity;
+import com.saveblue.saveblueapp.ui.dashboard.DashboardActivity2;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -23,34 +27,33 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity implements RegisterDialog.RegisterDialogListener {
     private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
 
-    private Button loginButton;
-
-    private Button registerButton;
-
-    private EditText usernameEditText;
-
-    private EditText passwordEditText;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        initUI();
+
+    }
+
+    public void initUI() {
         // Find views
-        loginButton = findViewById(R.id.loginButton);
-        registerButton = findViewById(R.id.registerButton);
-        usernameEditText = findViewById(R.id.usernameLogin);
-        passwordEditText = findViewById(R.id.passwordLogin);
+        Button loginButton = findViewById(R.id.loginButton);
+        Button registerButton = findViewById(R.id.registerButton);
+        EditText usernameEditText = findViewById(R.id.usernameLogin);
+        EditText passwordEditText = findViewById(R.id.passwordLogin);
 
         // Set onClickListeners
-        loginButton.setOnClickListener(v -> login(usernameEditText.getText().toString(), passwordEditText.getText().toString()));
         registerButton.setOnClickListener(v -> showRegisterDialog());
 
 
-        //Intent intentAbout = new Intent(this, DashboardActivity.class);
-        //startActivity(intentAbout);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        //callApiUser("5f46455318b52809c8c35c2a");
+                login(usernameEditText.getText().toString(), passwordEditText.getText().toString());
+            }
+        });
     }
 
 
@@ -58,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
      * Login Method
      */
 
-    private void login(String username, String password){
+    private void login(String username, String password) {
 
         LoginUser loginUser = new LoginUser(username, password);
 
@@ -67,13 +70,18 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         callLoginUser.enqueue(new Callback<JWT>() {
             @Override
             public void onResponse(Call<JWT> call, Response<JWT> response) {
-                if (response.isSuccessful()) {
-                    assert response.body() != null;
-                    Toast.makeText(getApplicationContext(), response.body().getToken(), Toast.LENGTH_SHORT).show();
-                }
-                else {
+                if (!response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Wrong username or password", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                //store jwt in shared preferences
+                storeJWT(response.body().getToken());
+
+                //redirect to dashboard activity
+                Intent intentDashboard = new Intent(getApplicationContext(), DashboardActivity2.class);
+                startActivity(intentDashboard);
+
             }
 
             @Override
@@ -89,7 +97,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
      */
 
     // Open Register Dialog
-    private void showRegisterDialog(){
+    private void showRegisterDialog() {
 
         RegisterDialog registerDialog = new RegisterDialog();
         registerDialog.show(getSupportFragmentManager(), "register dialog");
@@ -103,7 +111,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
     }
 
     // Register User
-    public void register(String email, String username, String password){
+    public void register(String email, String username, String password) {
 
         RegisterUser registerUser = new RegisterUser(email, username, password);
 
@@ -116,11 +124,8 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
                     assert response.body() != null;
 
                     // copy data to login fields
-                    usernameEditText.setText(username);
-                    passwordEditText.setText(password);
                     Toast.makeText(getApplicationContext(), "Register", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     Toast.makeText(getApplicationContext(), "Wrong email, username or password", Toast.LENGTH_SHORT).show();
                     // TODO: check what went wrong
                 }
@@ -134,17 +139,30 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
     }
 
     /**
+     * @param jwt
+     */
+
+
+    public void storeJWT(String jwt) {
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("SaveBluePref", 0);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("JWT", jwt);
+        editor.apply();
+    }
+
+    /**
      * TODO: Clean
      */
-    private void callApiUser(String id){
+    /*private void callApiUser(String id) {
         String jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNDY0NTUzMThiNTI4MDljOGMzNWMyYSIsImlhdCI6MTYwMDg2Nzg5MCwiZXhwIjoxNjAwOTU0MjkwfQ.wf-_EkfjEox9neho97gvfIU6WJ_Sz_nLiVbWOQ5KNZw";
 
-        Call<User> callUserAsync = api.getUserData(jwt,id);
+        Call<User> callUserAsync = api.getUserData(jwt, id);
 
         callUserAsync.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Request Error", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -165,5 +183,5 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
                 Toast.makeText(getApplicationContext(), "No Network Connectivity!", Toast.LENGTH_LONG).show();
             }
         });
-    }
+    }*/
 }

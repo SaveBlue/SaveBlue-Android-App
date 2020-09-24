@@ -1,4 +1,4 @@
-package com.saveblue.saveblueapp.ui;
+package com.saveblue.saveblueapp.ui.login;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

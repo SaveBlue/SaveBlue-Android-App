@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Base64;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +39,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         initUI();
 
-        callApiAccounts("5f5004238f0b0545d4b7524b");
+        callApiAccounts(getIdFromJWT(getJWTfromSharedPref()));
 
     }
 
@@ -49,9 +51,8 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void callApiAccounts(String id){
-        String jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNTAwNDIzOGYwYjA1NDVkNGI3NTI0YiIsImlhdCI6MTYwMDg5NTA5OCwiZXhwIjoxNjAwOTgxNDk4fQ.P1uXlS7ksJihXqsRL54DBaRejasoPqBepyJgQRr2v_E";
 
-        Call<List<Account>> callAsync = api.getUsersAccounts(jwt,id);
+        Call<List<Account>> callAsync = api.getUsersAccounts(getJWTfromSharedPref(),id);
 
         callAsync.enqueue(new Callback<List<Account>>() {
             @Override
@@ -72,5 +73,26 @@ public class DashboardActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "No Network Connectivity!", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+
+    /**
+     * JWT functions
+     */
+
+    public String getJWTfromSharedPref(){
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("SaveBluePref", 0);
+
+        return sharedPref.getString("JWT", "");
+    }
+
+    public String getIdFromJWT(String jwt){
+
+        String jwtPayload = jwt.split("\\.")[1];
+        String body = new String(Base64.decode(jwtPayload, Base64.URL_SAFE));
+        System.out.println(body);
+
+        return body.split("\"")[3];
+
     }
 }
