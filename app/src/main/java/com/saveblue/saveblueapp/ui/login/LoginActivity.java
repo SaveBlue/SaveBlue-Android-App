@@ -16,8 +16,7 @@ import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.LoginUser;
 import com.saveblue.saveblueapp.models.JWT;
 import com.saveblue.saveblueapp.models.RegisterUser;
-import com.saveblue.saveblueapp.ui.DashboardActivity;
-import com.saveblue.saveblueapp.ui.dashboard.DashboardActivity2;
+import com.saveblue.saveblueapp.ui.dashboard.DashboardActivity;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -42,6 +41,12 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         Button registerButton = findViewById(R.id.registerButton);
         EditText usernameEditText = findViewById(R.id.usernameLogin);
         EditText passwordEditText = findViewById(R.id.passwordLogin);
+
+
+
+        // TODO remove
+        usernameEditText.setText("Sinane");
+        passwordEditText.setText("Password1");
 
         // Set onClickListeners
         registerButton.setOnClickListener(v -> showRegisterDialog());
@@ -79,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
                 storeJWT(response.body().getToken());
 
                 //redirect to dashboard activity
-                Intent intentDashboard = new Intent(getApplicationContext(), DashboardActivity2.class);
+                Intent intentDashboard = new Intent(getApplicationContext(), DashboardActivity.class);
                 startActivity(intentDashboard);
 
             }
