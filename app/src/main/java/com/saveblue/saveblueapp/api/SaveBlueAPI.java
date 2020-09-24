@@ -1,12 +1,14 @@
 package com.saveblue.saveblueapp.api;
 
 import com.saveblue.saveblueapp.models.Account;
-import com.saveblue.saveblueapp.models.AuthUser;
+import com.saveblue.saveblueapp.models.LoginUser;
 import com.saveblue.saveblueapp.models.JWT;
+import com.saveblue.saveblueapp.models.RegisterUser;
 import com.saveblue.saveblueapp.models.User;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -20,7 +22,11 @@ public interface SaveBlueAPI {
 
     @POST("auth/login")
     Call<JWT>loginUser(
-            @Body AuthUser authUser);
+            @Body LoginUser loginUser);
+
+    @POST("auth/register")
+    Call<ResponseBody> registerUser(
+            @Body RegisterUser registerUser);
 
 
     // User API calls

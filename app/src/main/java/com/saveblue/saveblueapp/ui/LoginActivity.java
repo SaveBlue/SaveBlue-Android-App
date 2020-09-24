@@ -2,35 +2,34 @@ package com.saveblue.saveblueapp.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.api.SaveBlueAPI;
 import com.saveblue.saveblueapp.api.ServiceGenerator;
-import com.saveblue.saveblueapp.models.AuthUser;
+import com.saveblue.saveblueapp.models.LoginUser;
 import com.saveblue.saveblueapp.models.JWT;
+import com.saveblue.saveblueapp.models.RegisterUser;
 import com.saveblue.saveblueapp.models.User;
 
-import org.w3c.dom.Text;
-
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements RegisterDialog.RegisterDialogListener {
     private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
 
     private Button loginButton;
 
-    private EditText username;
+    private Button registerButton;
 
-    private EditText password;
+    private EditText usernameEditText;
+
+    private EditText passwordEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +38,13 @@ public class LoginActivity extends AppCompatActivity {
 
         // Find views
         loginButton = findViewById(R.id.loginButton);
-        username = findViewById(R.id.username);
-        password = findViewById(R.id.password);
+        registerButton = findViewById(R.id.registerButton);
+        usernameEditText = findViewById(R.id.usernameLogin);
+        passwordEditText = findViewById(R.id.passwordLogin);
 
-        // Set onClickListener
-        loginButton.setOnClickListener(v -> login());
+        // Set onClickListeners
+        loginButton.setOnClickListener(v -> login(usernameEditText.getText().toString(), passwordEditText.getText().toString()));
+        registerButton.setOnClickListener(v -> showRegisterDialog());
 
 
         //Intent intentAbout = new Intent(this, DashboardActivity.class);
@@ -52,12 +53,16 @@ public class LoginActivity extends AppCompatActivity {
         //callApiUser("5f46455318b52809c8c35c2a");
     }
 
-    // Login Method
-    private void login(){
 
-        AuthUser authUser = new AuthUser(username.getText().toString(),password.getText().toString());
+    /**
+     * Login Method
+     */
 
-        Call<JWT> callLoginUser = api.loginUser(authUser);
+    private void login(String username, String password){
+
+        LoginUser loginUser = new LoginUser(username, password);
+
+        Call<JWT> callLoginUser = api.loginUser(loginUser);
 
         callLoginUser.enqueue(new Callback<JWT>() {
             @Override
@@ -79,7 +84,58 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Register Methods
+     */
 
+    // Open Register Dialog
+    private void showRegisterDialog(){
+
+        RegisterDialog registerDialog = new RegisterDialog();
+        registerDialog.show(getSupportFragmentManager(), "register dialog");
+    }
+
+    // Override the interface, set in the RegisterDialog class
+    @Override
+    public void sendRegisterData(String emailRegister, String usernameRegister, String passwordRegister) {
+
+        register(emailRegister, usernameRegister, passwordRegister);
+    }
+
+    // Register User
+    public void register(String email, String username, String password){
+
+        RegisterUser registerUser = new RegisterUser(email, username, password);
+
+        Call<ResponseBody> callRegisterUser = api.registerUser(registerUser);
+
+        callRegisterUser.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+
+                    // copy data to login fields
+                    usernameEditText.setText(username);
+                    passwordEditText.setText(password);
+                    Toast.makeText(getApplicationContext(), "Register", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Wrong email, username or password", Toast.LENGTH_SHORT).show();
+                    // TODO: check what went wrong
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * TODO: Clean
+     */
     private void callApiUser(String id){
         String jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNDY0NTUzMThiNTI4MDljOGMzNWMyYSIsImlhdCI6MTYwMDg2Nzg5MCwiZXhwIjoxNjAwOTU0MjkwfQ.wf-_EkfjEox9neho97gvfIU6WJ_Sz_nLiVbWOQ5KNZw";
 
