@@ -1,9 +1,14 @@
 package com.saveblue.saveblueapp.ui.dashboard.overview;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.saveblue.saveblueapp.Logout;
 import com.saveblue.saveblueapp.api.SaveBlueAPI;
 import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.Account;
@@ -14,10 +19,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OverviewViewModel extends ViewModel {
+public class OverviewViewModel extends AndroidViewModel {
     private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
 
     private MutableLiveData<List<Account>> accountList;
+
+    public OverviewViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     // returns the live data list of all accounts
     public LiveData<List<Account>> getAccounts(String id, String jwt) {
@@ -40,6 +49,9 @@ public class OverviewViewModel extends ViewModel {
                 if (!response.isSuccessful()) {
                     //Toast.makeText((), "Request Error", Toast.LENGTH_LONG).show();
                     System.out.println("Request Error");
+
+                    //logout if jwt in not valid any more
+                    Logout.logout(getApplication().getApplicationContext());
                     return;
                 }
 

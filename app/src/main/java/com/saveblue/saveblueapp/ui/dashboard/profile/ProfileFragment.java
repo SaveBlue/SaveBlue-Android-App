@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,8 +16,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.saveblue.saveblueapp.JwtHandler;
+import com.saveblue.saveblueapp.Logout;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.models.User;
+
+import java.util.Objects;
 
 
 public class ProfileFragment extends Fragment {
@@ -34,6 +38,9 @@ public class ProfileFragment extends Fragment {
         username = root.findViewById(R.id.textViewUsername);
         email = root.findViewById(R.id.textViewEmail);
         profilePicture = root.findViewById(R.id.profileImage);
+
+        Button logout = root.findViewById(R.id.LogOutButton);
+        logout.setOnClickListener(v -> Logout.logout(requireContext()));
 
         return root;
     }

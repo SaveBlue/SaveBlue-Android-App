@@ -1,9 +1,14 @@
 package com.saveblue.saveblueapp.ui.dashboard.profile;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.saveblue.saveblueapp.Logout;
 import com.saveblue.saveblueapp.api.SaveBlueAPI;
 import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.User;
@@ -12,9 +17,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfileViewModel extends ViewModel {
+public class ProfileViewModel extends AndroidViewModel {
     private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
     private MutableLiveData<User> userMutableLiveData;
+
+    public ProfileViewModel(@NonNull Application application) {
+        super(application);
+    }
 
     // returns the live data with an object containing user's data
     public LiveData<User> getUser(String id, String jwt) {
@@ -37,6 +46,10 @@ public class ProfileViewModel extends ViewModel {
                 if (!response.isSuccessful()) {
                     //Toast.makeText((), "Request Error", Toast.LENGTH_LONG).show();
                     System.out.println("Request Error");
+
+                    //logout if jwt in not valid any more
+                    Logout.logout(getApplication().getApplicationContext());
+
                     return;
                 }
 
