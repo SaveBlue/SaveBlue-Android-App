@@ -1,15 +1,17 @@
 package com.saveblue.saveblueapp.adapters;
 
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.models.Account;
 
@@ -19,12 +21,12 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
     private List<Account> accountList;
     private Context context;
 
-    public DashboardAccountAdapter(Context context, List<Account> accountListlist){
+    public DashboardAccountAdapter(Context context, List<Account> accountListlist) {
         this.context = context;
         this.accountList = accountListlist;
     }
 
-    public void setAccountsList(List<Account> accountsList){
+    public void setAccountsList(List<Account> accountsList) {
         this.accountList = accountsList;
         notifyDataSetChanged();
     }
@@ -32,29 +34,59 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
     @NonNull
     @Override
     public DashboardAccountAdapter.CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dashboard_account_card, parent, false);
+
+        if(viewType == R.layout.dashboard_account_card)
+           view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dashboard_account_add_button, parent, false);
+
+
         return new CardViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull DashboardAccountAdapter.CardViewHolder holder, int position) {
-        holder.accountTitle.setText(accountList.get(position).getName());
-        holder.accountBalance.setText(accountList.get(position).getCurrentBalance());
+
+       try {
+           if (position == accountList.size()) {
+            holder.addAccountButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "Button Clicked", Toast.LENGTH_LONG).show();
+                }
+            });
+
+           } else {
+
+               holder.accountTitle.setText(accountList.get(position).getName());
+               holder.accountBalance.setText(accountList.get(position).getCurrentBalance());
+           }
+       }
+       catch (Exception e){
+           e.printStackTrace();
+       }
     }
 
     @Override
     public int getItemCount() {
-        return accountList.size();
+        return accountList.size() + 1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == accountList.size()) ? R.layout.dashboard_account_card : R.layout.dashboard_account_add_button;
     }
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         public TextView accountTitle;
         public TextView accountBalance;
+        public FloatingActionButton addAccountButton;
 
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
             accountTitle = itemView.findViewById(R.id.AccountTitle);
             accountBalance = itemView.findViewById(R.id.AccountBalance);
+            addAccountButton = itemView.findViewById(R.id.addAccountButton);
         }
     }
 }
