@@ -38,11 +38,12 @@ import retrofit2.Response;
 public class AddIncomeActivity extends AppCompatActivity {
 
     private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
+    private JwtHandler jwtHandler;
 
     private OverviewViewModel overviewViewModel;
+    private ArrayAdapter<String> spinnerArrayAdapter;
 
     private List<Account> accountList = new ArrayList<>();
-
     private List<String> accountListNames = new ArrayList<>();
 
     @Override
@@ -51,6 +52,8 @@ public class AddIncomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_income);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Add Expense");
+
+        jwtHandler = new JwtHandler(getApplicationContext());
 
         initUI();
     }
@@ -70,35 +73,37 @@ public class AddIncomeActivity extends AppCompatActivity {
         observerSetup();
 
         // Populate spinner
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, accountListNames);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerAccountIncomeAdd.setAdapter(arrayAdapter);
+        spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, accountListNames);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerAccountIncomeAdd.setAdapter(spinnerArrayAdapter);
+
         spinnerAccountIncomeAdd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String tutorialsName = parent.getItemAtPosition(position).toString();
-                Toast.makeText(parent.getContext(), "Selected: " + tutorialsName,Toast.LENGTH_LONG).show();
+                Toast.makeText(parent.getContext(), "Selected: " + tutorialsName, Toast.LENGTH_LONG).show();
             }
+
             @Override
-            public void onNothingSelected(AdapterView <?> parent) {
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
 
 
         // Set onClickListeners
-        buttonAddIncome.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        JwtHandler jwtHandler = new JwtHandler(getApplicationContext());
-                        String jwt = jwtHandler.getJwt();
-                        String userId = jwtHandler.getId();
-                        // String accountId = iz spinnerja
-                        Income newIncome = new Income( spinnerAccountIncomeAdd.getSelectedItem().toString(), userId, editTextNameAddIncome.getText().toString(), editTextDescriptionAddIncome.getText().toString(), editTextDateAddAccount.getText().toString(), Float.parseFloat(editTextAmountAddIncome.getText().toString()));
-                        addIncome(newIncome);
-                    }
+        buttonAddIncome.setOnClickListener(v -> {
+                    String jwt = jwtHandler.getJwt();
+                    String userId = jwtHandler.getId();
+                    String accountId = (accountList.get((int) spinnerAccountIncomeAdd.getSelectedItemId()).getId());
+
+                    //TODO pohendli polja za vnos v newIncome
+
+                    Income newIncome = new Income(accountId, userId, editTextNameAddIncome.getText().toString(), editTextDescriptionAddIncome.getText().toString(), editTextDateAddAccount.getText().toString(), Float.parseFloat(editTextAmountAddIncome.getText().toString()));
+                    //addIncome(newIncome, jwt);
                 }
         );
     }
+
 
     private void observerSetup() {
         //fetch jwt from dedicated handler class
@@ -114,11 +119,13 @@ public class AddIncomeActivity extends AppCompatActivity {
                 for (Account account : newAccountList) {
                     accountListNames.add(account.getName());
                 }
+
+                spinnerArrayAdapter.notifyDataSetChanged();
             }
         });
     }
 
-    private void addIncome(Income newIncome) {
+    private void addIncome(Income newIncome, String jwt) {
 
         Call<ResponseBody> callAddIncome = api.addIncome(newIncome);
 
@@ -146,7 +153,7 @@ public class AddIncomeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == android.R.id.home){
+        if (id == android.R.id.home) {
             finish();
             return true;
         }
