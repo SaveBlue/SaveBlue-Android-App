@@ -3,14 +3,16 @@ package com.saveblue.saveblueapp.ui.dashboard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Menu;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.animations.ViewAnimation;
-import com.saveblue.saveblueapp.ui.dashboard.income_expense.AddIncomeActivity;
-import com.saveblue.saveblueapp.ui.dashboard.income_expense.AddExpenseActivity;
+import com.saveblue.saveblueapp.ui.dashboard.add.AddAccountDialog;
+import com.saveblue.saveblueapp.ui.dashboard.add.AddIncomeActivity;
+import com.saveblue.saveblueapp.ui.dashboard.add.AddExpenseActivity;
+import com.saveblue.saveblueapp.ui.login.RegisterDialog;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -52,17 +54,18 @@ public class DashboardActivity extends AppCompatActivity {
                     ViewAnimation.showOut(findViewById(R.id.fabIncome));
                     ViewAnimation.showOut(findViewById(R.id.fabExpense));
                 }
-                //TODO Lan 2: add Expenses and Incomes Activities
             }
         });
 
+        // Incomes Activity
         fabIncome.setOnClickListener(v -> {
-            Intent intentAddIncome = new Intent(getApplicationContext(), AddExpenseActivity.class);
+            Intent intentAddIncome = new Intent(getApplicationContext(), AddIncomeActivity.class);
             startActivity(intentAddIncome);
         });
 
+        // Expenses Activity
         fabExpense.setOnClickListener(v -> {
-            Intent intentAddExpense = new Intent(getApplicationContext(), AddIncomeActivity.class);
+            Intent intentAddExpense = new Intent(getApplicationContext(), AddExpenseActivity.class);
             startActivity(intentAddExpense);
         });
 
@@ -81,19 +84,16 @@ public class DashboardActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_add_account, menu);
         return true;
-    }
-
-    //TODO Lan 1: Add "+" icon instead of onCreateOptionsMenu NOK
+    }*/
 
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
-
 }

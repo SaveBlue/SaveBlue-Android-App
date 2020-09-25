@@ -35,10 +35,9 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_margin="10dp"
-            android:onClick="addIncome"
-            android:src="@drawable/ic_baseline_arrow_upward_24"
-            android:tint="@color/grey_80"
-            app:backgroundTint="@color/grey_20"
+            android:src="@drawable/ic_add_24"
+            app:tint="@color/white"
+            app:backgroundTint="@color/green"
             app:fabSize="mini"
             app:rippleColor="@color/white" />
 
@@ -47,10 +46,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:onClick="addExpense"
-            android:src="@drawable/ic_baseline_arrow_downward_24"
-            android:tint="@color/grey_80"
-            app:backgroundTint="@color/grey_20"
+            android:src="@drawable/ic_baseline_remove_24"
+            app:tint="@color/white"
+            app:backgroundTint="@color/red"
             app:fabSize="mini"
             app:rippleColor="@color/white" />
 
@@ -59,6 +57,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
+            app:tint="@color/white"
+            app:backgroundTint="@color/colorAccent"
             app:srcCompat="@drawable/ic_baseline_add_24" />
 
     </LinearLayout>

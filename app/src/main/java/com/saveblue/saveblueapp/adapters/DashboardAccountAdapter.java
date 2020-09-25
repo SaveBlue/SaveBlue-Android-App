@@ -5,15 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.models.Account;
+import com.saveblue.saveblueapp.ui.dashboard.add.AddAccountDialog;
 
 import java.util.List;
 
@@ -80,7 +83,7 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         public TextView accountTitle;
         public TextView accountBalance;
-        public FloatingActionButton addAccountButton;
+        public CardView addAccountButton;
 
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);

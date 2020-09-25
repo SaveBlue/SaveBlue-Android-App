@@ -1,37 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".ui.dashboard.add.AddAccountDialog"
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/emailRegister"
+        android:id="@+id/editTextNameAddAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
+        android:hint="Name"
+        android:inputType="text"
         android:layout_margin="4dp" />
 
     <EditText
-        android:id="@+id/usernameRegister"
+        android:id="@+id/editTextBalanceAddAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/emailRegister"
+        android:layout_below="@+id/editTextNameAddAccount"
         android:ems="10"
-        android:hint="Username"
-        android:inputType="textPersonName"
+        android:hint="Balance"
+        android:inputType="numberDecimal"
         android:layout_margin="4dp" />
 
     <EditText
-        android:id="@+id/passwordRegister"
+        android:id="@+id/editTextStartAddAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/usernameRegister"
+        android:layout_below="@+id/editTextBalanceAddAccount"
         android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
+        android:hint="Start of Month"
+        android:inputType="number"
         android:layout_margin="4dp" />
-
 
 </RelativeLayout>

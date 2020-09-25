@@ -1,14 +1,11 @@
-package com.saveblue.saveblueapp.ui.dashboard.income_expense;
+package com.saveblue.saveblueapp.ui.dashboard.add;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,12 +18,9 @@ import com.saveblue.saveblueapp.api.SaveBlueAPI;
 import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.Account;
 import com.saveblue.saveblueapp.models.Income;
-import com.saveblue.saveblueapp.models.JWT;
-import com.saveblue.saveblueapp.ui.dashboard.DashboardActivity;
 import com.saveblue.saveblueapp.ui.dashboard.overview.OverviewViewModel;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,7 +45,7 @@ public class AddIncomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_income);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Add Expense");
+        getSupportActionBar().setTitle("Add Income");
 
         jwtHandler = new JwtHandler(getApplicationContext());
 
@@ -77,18 +71,6 @@ public class AddIncomeActivity extends AppCompatActivity {
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerAccountIncomeAdd.setAdapter(spinnerArrayAdapter);
 
-        spinnerAccountIncomeAdd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String tutorialsName = parent.getItemAtPosition(position).toString();
-                Toast.makeText(parent.getContext(), "Selected: " + tutorialsName, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
 
         // Set onClickListeners
         buttonAddIncome.setOnClickListener(v -> {
@@ -99,7 +81,7 @@ public class AddIncomeActivity extends AppCompatActivity {
                     //TODO pohendli polja za vnos v newIncome
 
                     Income newIncome = new Income(accountId, userId, editTextNameAddIncome.getText().toString(), editTextDescriptionAddIncome.getText().toString(), editTextDateAddAccount.getText().toString(), Float.parseFloat(editTextAmountAddIncome.getText().toString()));
-                    //addIncome(newIncome, jwt);
+                    addIncome(newIncome, jwt);
                 }
         );
     }
@@ -107,7 +89,6 @@ public class AddIncomeActivity extends AppCompatActivity {
 
     private void observerSetup() {
         //fetch jwt from dedicated handler class
-        JwtHandler jwtHandler = new JwtHandler(getApplicationContext());
         String jwt = jwtHandler.getJwt();
         String id = jwtHandler.getId();
 
@@ -127,7 +108,7 @@ public class AddIncomeActivity extends AppCompatActivity {
 
     private void addIncome(Income newIncome, String jwt) {
 
-        Call<ResponseBody> callAddIncome = api.addIncome(newIncome);
+        Call<ResponseBody> callAddIncome = api.addIncome(jwt, newIncome);
 
         callAddIncome.enqueue(new Callback<ResponseBody>() {
             @Override

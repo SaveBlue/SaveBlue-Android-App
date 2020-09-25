@@ -48,5 +48,6 @@ public interface SaveBlueAPI {
 
     @POST("incomes/")
     Call<ResponseBody> addIncome(
+            @Header("x-access-token") String jwt,
             @Body Income income);
 }

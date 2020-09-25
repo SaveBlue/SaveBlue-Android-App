@@ -12,11 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.dashboard.add.AddAccountDialog"></activity>
         <activity
-            android:name=".ui.dashboard.income_expense.AddIncomeActivity"
+            android:name=".ui.dashboard.add.AddIncomeActivity"
             android:parentActivityName=".ui.dashboard.DashboardActivity" />
         <activity
-            android:name=".ui.dashboard.income_expense.AddExpenseActivity"
+            android:name=".ui.dashboard.add.AddExpenseActivity"
             android:parentActivityName=".ui.dashboard.DashboardActivity" />
         <activity
             android:name=".ui.dashboard.DashboardActivity"
