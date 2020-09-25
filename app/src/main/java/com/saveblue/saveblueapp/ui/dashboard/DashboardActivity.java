@@ -6,12 +6,11 @@ import android.view.View;
 import android.view.Menu;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.animations.ViewAnimation;
-import com.saveblue.saveblueapp.ui.dashboard.income_expense.AddExpenseActivity;
 import com.saveblue.saveblueapp.ui.dashboard.income_expense.AddIncomeActivity;
+import com.saveblue.saveblueapp.ui.dashboard.income_expense.AddExpenseActivity;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -58,12 +57,12 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
         fabIncome.setOnClickListener(v -> {
-            Intent intentAddIncome = new Intent(getApplicationContext(), AddIncomeActivity.class);
+            Intent intentAddIncome = new Intent(getApplicationContext(), AddExpenseActivity.class);
             startActivity(intentAddIncome);
         });
 
         fabExpense.setOnClickListener(v -> {
-            Intent intentAddExpense = new Intent(getApplicationContext(), AddExpenseActivity.class);
+            Intent intentAddExpense = new Intent(getApplicationContext(), AddIncomeActivity.class);
             startActivity(intentAddExpense);
         });
 
