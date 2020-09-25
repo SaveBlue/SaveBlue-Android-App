@@ -1,5 +1,6 @@
 package com.saveblue.saveblueapp.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -9,6 +10,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.animations.ViewAnimation;
+import com.saveblue.saveblueapp.ui.dashboard.income_expense.AddExpenseActivity;
+import com.saveblue.saveblueapp.ui.dashboard.income_expense.AddIncomeActivity;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -30,11 +33,14 @@ public class DashboardActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fabIncome = findViewById(R.id.fabIncome);
+        FloatingActionButton fabExpense = findViewById(R.id.fabExpense);
 
         // Handle animations for FAB
         ViewAnimation.init(findViewById(R.id.fabIncome));
         ViewAnimation.init(findViewById(R.id.fabExpense));
 
+        // Set onClickListeners for FABs
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,6 +56,18 @@ public class DashboardActivity extends AppCompatActivity {
                 //TODO Lan 2: add Expenses and Incomes Activities
             }
         });
+
+        fabIncome.setOnClickListener(v -> {
+            Intent intentAddIncome = new Intent(getApplicationContext(), AddIncomeActivity.class);
+            startActivity(intentAddIncome);
+        });
+
+        fabExpense.setOnClickListener(v -> {
+            Intent intentAddExpense = new Intent(getApplicationContext(), AddExpenseActivity.class);
+            startActivity(intentAddExpense);
+        });
+
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -78,4 +96,5 @@ public class DashboardActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
+
 }
