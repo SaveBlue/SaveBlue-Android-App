@@ -16,17 +16,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.models.Account;
+import com.saveblue.saveblueapp.ui.dashboard.DashboardActivity;
 import com.saveblue.saveblueapp.ui.dashboard.add.AddAccountDialog;
+import com.saveblue.saveblueapp.ui.dashboard.add.OnAddAccountListener;
 
 import java.util.List;
 
 public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccountAdapter.CardViewHolder> {
     private List<Account> accountList;
     private Context context;
+    private OnAddAccountListener addAccountListener;
 
-    public DashboardAccountAdapter(Context context, List<Account> accountListlist) {
+    public DashboardAccountAdapter(Context context, List<Account> accountListlist, OnAddAccountListener addAccountListener) {
         this.context = context;
         this.accountList = accountListlist;
+        this.addAccountListener = addAccountListener;
     }
 
     public void setAccountsList(List<Account> accountsList) {
@@ -56,13 +60,15 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, "Button Clicked", Toast.LENGTH_LONG).show();
+
+                    addAccountListener.onClick();
                 }
             });
 
            } else {
 
                holder.accountTitle.setText(accountList.get(position).getName());
-               holder.accountBalance.setText(accountList.get(position).getCurrentBalance());
+               holder.accountBalance.setText(String.valueOf(accountList.get(position).getCurrentBalance()) + " €");
            }
        }
        catch (Exception e){

@@ -12,7 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.dashboard.add.AddAccountDialog"></activity>
         <activity
             android:name=".ui.dashboard.add.AddIncomeActivity"
             android:parentActivityName=".ui.dashboard.DashboardActivity" />

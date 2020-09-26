@@ -6,22 +6,28 @@ public class Account {
 
     private String name;
 
-    private String currentBalance;
+    private float currentBalance;
 
-    private String startOfMonth;
+    private int startOfMonth;
 
     @SerializedName("_id")
     private String id;
+
+    public Account(String name, float currentBalance, int startOfMonth) {
+        this.name = name;
+        this.currentBalance = currentBalance;
+        this.startOfMonth = startOfMonth;
+    }
 
     public String getName() {
         return name;
     }
 
-    public String getCurrentBalance() {
+    public float getCurrentBalance() {
         return currentBalance;
     }
 
-    public String getStartOfMonth() {
+    public int getStartOfMonth() {
         return startOfMonth;
     }
 

@@ -7,13 +7,18 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.saveblue.saveblueapp.JwtHandler;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.animations.ViewAnimation;
+import com.saveblue.saveblueapp.models.Account;
 import com.saveblue.saveblueapp.ui.dashboard.add.AddAccountDialog;
 import com.saveblue.saveblueapp.ui.dashboard.add.AddIncomeActivity;
 import com.saveblue.saveblueapp.ui.dashboard.add.AddExpenseActivity;
+import com.saveblue.saveblueapp.ui.dashboard.overview.OverviewFragment;
+import com.saveblue.saveblueapp.ui.dashboard.overview.OverviewViewModel;
 import com.saveblue.saveblueapp.ui.login.RegisterDialog;
 
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -96,4 +101,7 @@ public class DashboardActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
+
+
+
 }

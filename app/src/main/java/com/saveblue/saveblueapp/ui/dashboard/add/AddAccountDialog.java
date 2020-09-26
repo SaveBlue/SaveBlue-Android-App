@@ -2,8 +2,8 @@ package com.saveblue.saveblueapp.ui.dashboard.add;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.DialogFragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -16,15 +16,17 @@ import android.widget.EditText;
 
 import com.saveblue.saveblueapp.R;
 
-public class AddAccountDialog  extends AppCompatDialogFragment {
+public class AddAccountDialog extends AppCompatDialogFragment {
 
     private EditText editTextNameAddAccount;
-
     private EditText editTextBalanceAddAccount;
-
     private EditText editTextStartAddAccount;
 
     private AddAccountDialogListener addAccountDialogListener;
+
+    public AddAccountDialog(){
+
+    }
 
 
     @NonNull
@@ -34,7 +36,7 @@ public class AddAccountDialog  extends AppCompatDialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View view = inflater.inflate(R.layout.register_dialog, null);
+        View view = inflater.inflate(R.layout.add_account_dialog, null);
 
         builder.setView(view)
                 .setTitle("Add Account")
@@ -48,6 +50,8 @@ public class AddAccountDialog  extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
+                        // TODO handle empty field
+
                         String name = editTextNameAddAccount.getText().toString();
                         float balance = Float.parseFloat(editTextBalanceAddAccount.getText().toString());
                         int  start = Integer.parseInt(editTextStartAddAccount.getText().toString());
@@ -57,7 +61,7 @@ public class AddAccountDialog  extends AppCompatDialogFragment {
                     }
                 });
 
-        editTextNameAddAccount = view.findViewById(R.id.editTextDateAddAccount);
+        editTextNameAddAccount = view.findViewById(R.id.editTextNameAddAccount);
         editTextBalanceAddAccount = view.findViewById(R.id.editTextBalanceAddAccount);
         editTextStartAddAccount = view.findViewById(R.id.editTextStartAddAccount);
 
@@ -69,9 +73,9 @@ public class AddAccountDialog  extends AppCompatDialogFragment {
         super.onAttach(context);
 
         try {
-            addAccountDialogListener = (AddAccountDialogListener) context;
+            addAccountDialogListener = (AddAccountDialogListener) getTargetFragment();
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implement ExampleDialogListener");
+            throw new ClassCastException(context.toString() + "must implement AddAccountDialogListener");
         }
     }
 

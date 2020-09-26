@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.api.SaveBlueAPI;
 import com.saveblue.saveblueapp.api.ServiceGenerator;
@@ -39,7 +40,8 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         // Find views
         Button loginButton = findViewById(R.id.loginButton);
         Button registerButton = findViewById(R.id.registerButton);
-        EditText usernameEditText = findViewById(R.id.usernameLogin);
+        //EditText usernameEditText = findViewById(R.id.usernameLogin);
+        TextInputEditText usernameEditText = findViewById(R.id.usernameLogin);
         EditText passwordEditText = findViewById(R.id.passwordLogin);
 
 
