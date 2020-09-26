@@ -1,6 +1,7 @@
 package com.saveblue.saveblueapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.models.Account;
+import com.saveblue.saveblueapp.ui.accountDetails.AccountDetailsActivity;
 import com.saveblue.saveblueapp.ui.dashboard.DashboardActivity;
 import com.saveblue.saveblueapp.ui.dashboard.add.AddAccountDialog;
 import com.saveblue.saveblueapp.ui.dashboard.add.OnAddAccountListener;
@@ -59,7 +61,6 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
             holder.addAccountButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Button Clicked", Toast.LENGTH_LONG).show();
 
                     addAccountListener.onClick();
                 }
@@ -69,6 +70,14 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
 
                holder.accountTitle.setText(accountList.get(position).getName());
                holder.accountBalance.setText(String.valueOf(accountList.get(position).getCurrentBalance()) + " €");
+               holder.accountDetailsButton.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       Intent accountDetailsIntent = new Intent(context, AccountDetailsActivity.class);
+                       // TODO: put extra
+                       context.startActivity(accountDetailsIntent);
+                   }
+               });
            }
        }
        catch (Exception e){
@@ -90,12 +99,14 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
         public TextView accountTitle;
         public TextView accountBalance;
         public CardView addAccountButton;
+        public CardView accountDetailsButton;
 
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
             accountTitle = itemView.findViewById(R.id.AccountTitle);
             accountBalance = itemView.findViewById(R.id.AccountBalance);
             addAccountButton = itemView.findViewById(R.id.addAccountButton);
+            accountDetailsButton = itemView.findViewById(R.id.accountDetailsButton);
         }
     }
 }

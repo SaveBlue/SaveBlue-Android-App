@@ -13,6 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ui.accountDetails.AccountDetailsActivity"
+            android:label="@string/title_activity_account_details"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".ui.dashboard.add.AddIncomeActivity"
             android:parentActivityName=".ui.dashboard.DashboardActivity" />
         <activity

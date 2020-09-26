@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/accountDetailsButton"
         app:cardCornerRadius="4sp"
         app:cardElevation="2dp"
         android:layout_width="match_parent"
