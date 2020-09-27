@@ -28,11 +28,10 @@
         android:id="@+id/spinnerAccountAddIncome"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
 
     <TextView
         android:id="@+id/textViewAccountAddIncome"

@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         Button registerButton = findViewById(R.id.registerButton);
         //EditText usernameEditText = findViewById(R.id.usernameLogin);
         TextInputEditText usernameEditText = findViewById(R.id.usernameLogin);
-        EditText passwordEditText = findViewById(R.id.passwordLogin);
+        TextInputEditText passwordEditText = findViewById(R.id.passwordLogin);
 
 
 
