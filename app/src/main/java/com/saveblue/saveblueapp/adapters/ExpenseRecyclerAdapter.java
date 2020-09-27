@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -52,9 +53,12 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
             public void onClick(View v) {
                 if( holder.expandable.getVisibility() == View.VISIBLE){
                     holder.expandable.setVisibility(View.GONE);
+                    holder.arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                 }
-                else
+                else{
                     holder.expandable.setVisibility(View.VISIBLE);
+                    holder.arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                }
             }
         });
     }
@@ -72,6 +76,7 @@ public static class CardViewHolder extends RecyclerView.ViewHolder {
     public TextView description;
     public CardView card;
     public LinearLayout expandable;
+    public ImageView arrow;
 
     public CardViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -81,6 +86,7 @@ public static class CardViewHolder extends RecyclerView.ViewHolder {
         description = itemView.findViewById(R.id.ExpenseIncomeDescription);
         card = itemView.findViewById(R.id.cardExpenseIncomeButton);
         expandable = itemView.findViewById(R.id.descriptionView);
+        arrow = itemView.findViewById(R.id.expenseIncomeExpand);
     }
 }
 }

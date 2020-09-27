@@ -22,45 +22,6 @@
 
     <include layout="@layout/content_main" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end|right"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabIncome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_margin="10dp"
-            android:src="@drawable/ic_add_24"
-            app:tint="@color/white"
-            app:backgroundTint="@color/green"
-            app:fabSize="mini"
-            app:rippleColor="@color/white" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabExpense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:src="@drawable/ic_baseline_remove_24"
-            app:tint="@color/white"
-            app:backgroundTint="@color/red"
-            app:fabSize="mini"
-            app:rippleColor="@color/white" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
-            app:tint="@color/white"
-            app:backgroundTint="@color/colorAccent"
-            app:srcCompat="@drawable/ic_baseline_add_24" />
-
-    </LinearLayout>
+    <include layout="@layout/fab" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,5 +1,6 @@
 package com.saveblue.saveblueapp.ui.accountDetails;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.AppBarLayout;
@@ -19,7 +20,10 @@ import android.view.View;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.adapters.SectionsPagerAdapter;
+import com.saveblue.saveblueapp.animations.ViewAnimation;
 import com.saveblue.saveblueapp.models.Account;
+import com.saveblue.saveblueapp.ui.addExpenseIncome.AddExpenseActivity;
+import com.saveblue.saveblueapp.ui.addExpenseIncome.AddIncomeActivity;
 
 public class AccountDetailsActivity extends AppCompatActivity {
 
@@ -34,6 +38,9 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
     private String accountId;
 
+    private boolean rotatedFAB = false;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +49,47 @@ public class AccountDetailsActivity extends AppCompatActivity {
         accountId = getIntent().getStringExtra("accountId");
 
         initUI();
+
+        initFAB();
+    }
+
+    private void initFAB() {
+        //FAB-related
+        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fabIncome = findViewById(R.id.fabIncome);
+        FloatingActionButton fabExpense = findViewById(R.id.fabExpense);
+
+        // Handle animations for FAB
+        ViewAnimation.init(findViewById(R.id.fabIncome));
+        ViewAnimation.init(findViewById(R.id.fabExpense));
+
+        // Set onClickListeners for FABs
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rotatedFAB = ViewAnimation.rotateFab(view,!rotatedFAB);
+                if(rotatedFAB){
+                    // TODO: bug on first touch
+                    ViewAnimation.showIn(findViewById(R.id.fabIncome));
+                    ViewAnimation.showIn(findViewById(R.id.fabExpense));
+                }else{
+                    ViewAnimation.showOut(findViewById(R.id.fabIncome));
+                    ViewAnimation.showOut(findViewById(R.id.fabExpense));
+                }
+            }
+        });
+
+        // Incomes Activity
+        fabIncome.setOnClickListener(v -> {
+            Intent intentAddIncome = new Intent(getApplicationContext(), AddIncomeActivity.class);
+            startActivity(intentAddIncome);
+        });
+
+        // Expenses Activity
+        fabExpense.setOnClickListener(v -> {
+            Intent intentAddExpense = new Intent(getApplicationContext(), AddExpenseActivity.class);
+            startActivity(intentAddExpense);
+        });
     }
 
 

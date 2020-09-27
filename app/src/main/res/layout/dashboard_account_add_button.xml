@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5sp"
-    >
+    android:layout_margin="5sp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/addAccountButton"
@@ -31,7 +30,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_add_circle_outline_24" />
+                app:srcCompat="@drawable/ic_baseline_add_circle_outline_24"
+                app:tint="?attr/colorControlNormal" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
