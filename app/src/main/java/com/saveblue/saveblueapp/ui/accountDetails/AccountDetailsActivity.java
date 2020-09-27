@@ -2,15 +2,18 @@ package com.saveblue.saveblueapp.ui.accountDetails;
 
 import android.os.Bundle;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -43,6 +46,15 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
 
     public void initUI(){
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Account Details");
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
 
         viewPager = findViewById(R.id.view_pager);
         sectionsPagerAdapter = new SectionsPagerAdapter(this, accountId);
@@ -91,5 +103,14 @@ public class AccountDetailsActivity extends AppCompatActivity {
             // Otherwise, select the previous fragment.
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
