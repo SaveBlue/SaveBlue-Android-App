@@ -66,7 +66,7 @@
             <LinearLayout
                 android:id="@+id/descriptionView"
                 android:layout_width="0dp"
-                android:layout_height="22dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -78,6 +78,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Description" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonEditExpenseIncome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
