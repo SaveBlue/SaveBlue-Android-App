@@ -16,8 +16,9 @@
     <string name="accountBalance">accountBalance</string>
     <string name="title_activity_dashboard2">DashboardActivity</string>
     <string name="title_activity_account_details">AccountDetailsActivity</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_1">Overview</string>
+    <string name="tab_text_2">Expenses</string>
+    <string name="tab_text_3">Incomes</string>
 
 
 </resources>
