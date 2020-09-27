@@ -1,4 +1,4 @@
-package com.saveblue.saveblueapp.ui.dashboard.add;
+package com.saveblue.saveblueapp.ui.addExpenseIncome;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;

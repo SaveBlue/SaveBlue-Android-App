@@ -29,4 +29,28 @@ public class Income {
         this.date = date;
         this.amount = amount;
     }
+
+    public String getAccountID() {
+        return accountID;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public float getAmount() {
+        return amount;
+    }
 }

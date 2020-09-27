@@ -1,9 +1,8 @@
-package com.saveblue.saveblueapp.ui.dashboard.add;
+package com.saveblue.saveblueapp.ui.dashboard.overview;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
-import androidx.fragment.app.DialogFragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

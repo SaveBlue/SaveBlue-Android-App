@@ -1,8 +1,12 @@
 package com.saveblue.saveblueapp.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Expense {
 
     // Fields
+    @SerializedName("_id")
+    private String id;
 
     private String accountID;
 
@@ -25,5 +29,29 @@ public class Expense {
         this.description = description;
         this.date = date;
         this.amount = amount;
+    }
+
+    public String getAccountID() {
+        return accountID;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public float getAmount() {
+        return amount;
     }
 }

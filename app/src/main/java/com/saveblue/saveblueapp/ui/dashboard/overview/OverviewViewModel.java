@@ -47,8 +47,8 @@ public class OverviewViewModel extends AndroidViewModel {
         callAsync.enqueue(new Callback<List<Account>>() {
             @Override
             public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
-                // if request was denied
-                if (!response.isSuccessful()) {
+                // if request was denied, ignore call not found
+                if (!response.isSuccessful() && response.code() != 404) {
                     //Toast.makeText((), "Request Error", Toast.LENGTH_LONG).show();
                     System.out.println("Request Error");
 

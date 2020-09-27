@@ -5,22 +5,16 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.models.Account;
 import com.saveblue.saveblueapp.ui.accountDetails.AccountDetailsActivity;
-import com.saveblue.saveblueapp.ui.dashboard.DashboardActivity;
-import com.saveblue.saveblueapp.ui.dashboard.add.AddAccountDialog;
-import com.saveblue.saveblueapp.ui.dashboard.add.OnAddAccountListener;
+import com.saveblue.saveblueapp.ui.dashboard.overview.OnAddAccountListener;
 
 import java.util.List;
 
@@ -74,7 +68,7 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
                    @Override
                    public void onClick(View v) {
                        Intent accountDetailsIntent = new Intent(context, AccountDetailsActivity.class);
-                       // TODO: put extra
+                       accountDetailsIntent.putExtra("accountId", accountList.get(position).getId());
                        context.startActivity(accountDetailsIntent);
                    }
                });

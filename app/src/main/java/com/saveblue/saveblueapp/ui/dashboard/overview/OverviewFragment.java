@@ -7,9 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -20,14 +18,9 @@ import com.saveblue.saveblueapp.JwtHandler;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.adapters.DashboardAccountAdapter;
 import com.saveblue.saveblueapp.models.Account;
-import com.saveblue.saveblueapp.ui.dashboard.DashboardActivity;
-import com.saveblue.saveblueapp.ui.dashboard.add.AddAccountDialog;
-import com.saveblue.saveblueapp.ui.dashboard.add.OnAddAccountListener;
-import com.saveblue.saveblueapp.ui.login.RegisterDialog;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 public class OverviewFragment extends Fragment implements AddAccountDialog.AddAccountDialogListener {
@@ -37,7 +30,6 @@ public class OverviewFragment extends Fragment implements AddAccountDialog.AddAc
     private List<Account> accountList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        overviewViewModel = ViewModelProviders.of(this).get(OverviewViewModel.class);
         View root = inflater.inflate(R.layout.fragment_overview, container, false);
 
         initUI(root);
@@ -80,7 +72,6 @@ public class OverviewFragment extends Fragment implements AddAccountDialog.AddAc
         overviewViewModel.getAccounts(id, jwt).observe(getViewLifecycleOwner(), new Observer<List<Account>>() {
             @Override
             public void onChanged(List<Account> accountList) {
-                System.out.println("aaaaaaaaaaaaaaaaaaaaaaa");
                 dashboardAccountAdapter.setAccountsList(accountList);
             }
         });

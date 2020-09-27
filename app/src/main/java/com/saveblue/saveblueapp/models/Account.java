@@ -1,5 +1,6 @@
 package com.saveblue.saveblueapp.models;
 
+
 import com.google.gson.annotations.SerializedName;
 
 public class Account {
@@ -34,4 +35,5 @@ public class Account {
     public String getId() {
         return id;
     }
+
 }

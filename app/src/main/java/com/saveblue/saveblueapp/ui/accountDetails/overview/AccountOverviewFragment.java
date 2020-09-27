@@ -1,4 +1,4 @@
-package com.saveblue.saveblueapp.ui.accountDetails.ui.main;
+package com.saveblue.saveblueapp.ui.accountDetails.overview;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -1,6 +1,7 @@
 package com.saveblue.saveblueapp.api;
 
 import com.saveblue.saveblueapp.models.Account;
+import com.saveblue.saveblueapp.models.Expense;
 import com.saveblue.saveblueapp.models.Income;
 import com.saveblue.saveblueapp.models.LoginUser;
 import com.saveblue.saveblueapp.models.JWT;
@@ -56,4 +57,13 @@ public interface SaveBlueAPI {
     Call<ResponseBody> addIncome(
             @Header("x-access-token") String jwt,
             @Body Income income);
+
+
+    // Expense API calls
+    @GET("expenses/find/{aid}")
+    Call<List<Expense>> getAccountsExpenses(
+            @Header("x-access-token") String jwt,
+            @Path("aid") String accountID);
+
+
 }
