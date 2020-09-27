@@ -1,6 +1,7 @@
 package com.saveblue.saveblueapp.ui.addExpenseIncome;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -44,8 +45,6 @@ public class AddIncomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_income);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Add Income");
 
         jwtHandler = new JwtHandler(getApplicationContext());
 
@@ -53,6 +52,15 @@ public class AddIncomeActivity extends AppCompatActivity {
     }
 
     private void initUI() {
+        // init toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Add Income");
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         // Set UI elements
         Spinner spinnerAccountIncomeAdd = findViewById(R.id.spinnerAccountAddIncome);
@@ -133,10 +141,8 @@ public class AddIncomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
+        if (item.getItemId() == android.R.id.home) {
             finish();
-            return true;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,6 +1,7 @@
 package com.saveblue.saveblueapp.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,6 +38,12 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
     }
 
     public void initUI() {
+        // init toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        //toolbar.setTitle("Account Details");
+        setSupportActionBar(toolbar);
+
+
         // Find views
         Button loginButton = findViewById(R.id.loginButton);
         Button registerButton = findViewById(R.id.registerButton);

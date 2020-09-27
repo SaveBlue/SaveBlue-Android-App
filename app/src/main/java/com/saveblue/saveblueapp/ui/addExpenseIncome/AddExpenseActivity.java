@@ -1,6 +1,7 @@
 package com.saveblue.saveblueapp.ui.addExpenseIncome;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -15,16 +16,27 @@ public class AddExpenseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expense);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Add Expense");
+
+        initUI();
     }
+
+    public void initUI(){
+        // init toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Add Expense");
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
-            return true;
         }
         return super.onOptionsItemSelected(item);
     }
