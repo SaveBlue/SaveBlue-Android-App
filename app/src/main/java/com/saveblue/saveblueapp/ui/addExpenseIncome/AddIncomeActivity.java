@@ -22,6 +22,8 @@ import com.saveblue.saveblueapp.models.Account;
 import com.saveblue.saveblueapp.models.Income;
 import com.saveblue.saveblueapp.ui.dashboard.overview.OverviewViewModel;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +43,6 @@ public class AddIncomeActivity extends AppCompatActivity {
     private List<Account> accountList = new ArrayList<>();
     private List<String> accountListNames = new ArrayList<>();
 
-    private String task;
     private String incomeID;
 
 
@@ -58,7 +59,7 @@ public class AddIncomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_income);
 
         jwtHandler = new JwtHandler(getApplicationContext());
-        task = getIntent().getStringExtra("Task");
+        String task = getIntent().getStringExtra("Task");
 
         initUIElements();
 
@@ -84,7 +85,7 @@ public class AddIncomeActivity extends AppCompatActivity {
         editTextAmountAddIncome = findViewById(R.id.editTextAmountAddIncome);
 
         // Populate spinner
-        spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, accountListNames);
+        spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, accountListNames);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerAccountIncomeAdd.setAdapter(spinnerArrayAdapter);
     }
@@ -167,17 +168,14 @@ public class AddIncomeActivity extends AppCompatActivity {
         String jwt = jwtHandler.getJwt();
         String id = jwtHandler.getId();
 
-        overviewViewModel.getAccounts(id, jwt).observe(this, new Observer<List<Account>>() {
-            @Override
-            public void onChanged(List<Account> newAccountList) {
-                accountList = newAccountList;
+        overviewViewModel.getAccounts(id, jwt).observe(this, newAccountList -> {
+            accountList = newAccountList;
 
-                for (Account account : newAccountList) {
-                    accountListNames.add(account.getName());
-                }
-
-                spinnerArrayAdapter.notifyDataSetChanged();
+            for (Account account : newAccountList) {
+                accountListNames.add(account.getName());
             }
+
+            spinnerArrayAdapter.notifyDataSetChanged();
         });
     }
 
@@ -206,7 +204,7 @@ public class AddIncomeActivity extends AppCompatActivity {
 
         callAddIncome.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Not successful", Toast.LENGTH_SHORT).show();
                     return;
@@ -219,7 +217,7 @@ public class AddIncomeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
                 Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
             }
         });
@@ -232,12 +230,13 @@ public class AddIncomeActivity extends AppCompatActivity {
 
         callGetIncome.enqueue(new Callback<Income>() {
             @Override
-            public void onResponse(Call<Income> call, Response<Income> response) {
+            public void onResponse(@NotNull Call<Income> call, @NotNull Response<Income> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Not successful", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Income income = response.body();
+                assert income != null;
 
                 //fill UI elements from fetched income;
                 editTextNameAddIncome.setText(income.getName());
@@ -250,7 +249,7 @@ public class AddIncomeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Income> call, Throwable t) {
+            public void onFailure(@NotNull Call<Income> call, @NotNull Throwable t) {
                 Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
             }
@@ -262,7 +261,7 @@ public class AddIncomeActivity extends AppCompatActivity {
 
         callUpdateIncome.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Not successful", Toast.LENGTH_SHORT).show();
                     return;
@@ -275,7 +274,7 @@ public class AddIncomeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
                 Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
             }
         });
@@ -286,7 +285,7 @@ public class AddIncomeActivity extends AppCompatActivity {
 
         callDeleteIncome.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Not successful", Toast.LENGTH_SHORT).show();
                     return;
@@ -299,7 +298,7 @@ public class AddIncomeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
                 Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
             }
         });
