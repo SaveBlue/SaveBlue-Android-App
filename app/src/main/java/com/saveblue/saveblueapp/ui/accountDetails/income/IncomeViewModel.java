@@ -13,6 +13,7 @@ import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.Expense;
 import com.saveblue.saveblueapp.models.Income;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -57,9 +58,11 @@ public class IncomeViewModel extends AndroidViewModel {
                     return;
                 }
 
-                // skip setting list if call not found
-                if(response.code() == 404)
+                // if call not found set empty list
+                if(response.code() == 404) {
+                    incomeList.setValue(new ArrayList<>());
                     return;
+                }
 
                 // on success set the fetched incomes list
                 incomeList.setValue(response.body());

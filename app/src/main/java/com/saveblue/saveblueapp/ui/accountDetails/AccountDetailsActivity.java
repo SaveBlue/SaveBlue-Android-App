@@ -82,12 +82,14 @@ public class AccountDetailsActivity extends AppCompatActivity {
         // Incomes Activity
         fabIncome.setOnClickListener(v -> {
             Intent intentAddIncome = new Intent(getApplicationContext(), AddIncomeActivity.class);
+            intentAddIncome.putExtra("Task", "ADD");
             startActivity(intentAddIncome);
         });
 
         // Expenses Activity
         fabExpense.setOnClickListener(v -> {
             Intent intentAddExpense = new Intent(getApplicationContext(), AddExpenseActivity.class);
+            intentAddExpense.putExtra("Task", "ADD");
             startActivity(intentAddExpense);
         });
     }

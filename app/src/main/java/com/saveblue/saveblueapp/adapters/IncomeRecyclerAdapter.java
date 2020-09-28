@@ -1,6 +1,7 @@
 package com.saveblue.saveblueapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.VpnService;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.models.Income;
+import com.saveblue.saveblueapp.ui.addExpenseIncome.AddIncomeActivity;
 
 import java.util.List;
 
@@ -64,7 +66,10 @@ public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAd
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intentEditIncome = new Intent(context, AddIncomeActivity.class);
+                intentEditIncome.putExtra("Task", "EDIT");
+                intentEditIncome.putExtra("IncomeID", incomeList.get(position).getId());
+                context.startActivity(intentEditIncome);
             }
         });
     }

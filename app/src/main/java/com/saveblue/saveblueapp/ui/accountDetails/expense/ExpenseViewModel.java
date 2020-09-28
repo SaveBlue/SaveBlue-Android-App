@@ -12,6 +12,7 @@ import com.saveblue.saveblueapp.api.SaveBlueAPI;
 import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.Expense;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -56,9 +57,11 @@ public class ExpenseViewModel extends AndroidViewModel {
                     return;
                 }
 
-                // skip setting list if call not found
-                if(response.code() == 404)
+                // if call not found set empty list
+                if (response.code() == 404) {
+                    expenseList.setValue(new ArrayList<>());
                     return;
+                }
 
                 // on success set the fetched account list
                 expenseList.setValue(response.body());
