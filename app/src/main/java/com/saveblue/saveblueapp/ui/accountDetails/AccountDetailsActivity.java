@@ -83,6 +83,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
         fabIncome.setOnClickListener(v -> {
             Intent intentAddIncome = new Intent(getApplicationContext(), AddIncomeActivity.class);
             intentAddIncome.putExtra("Task", "ADD");
+            intentAddIncome.putExtra("CallingActivity", "Details");
+            intentAddIncome.putExtra("BaseAccountID", accountId);
             startActivity(intentAddIncome);
         });
 
@@ -90,6 +92,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
         fabExpense.setOnClickListener(v -> {
             Intent intentAddExpense = new Intent(getApplicationContext(), AddExpenseActivity.class);
             intentAddExpense.putExtra("Task", "ADD");
+            intentAddExpense.putExtra("CallingActivity", "Details");
+            intentAddExpense.putExtra("BaseAccountID", accountId);
             startActivity(intentAddExpense);
         });
     }

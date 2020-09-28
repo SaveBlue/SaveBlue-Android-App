@@ -1,5 +1,6 @@
 package com.saveblue.saveblueapp.ui.addExpenseIncome;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.saveblue.saveblueapp.JwtHandler;
@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -44,6 +45,7 @@ public class AddIncomeActivity extends AppCompatActivity {
     private List<String> accountListNames = new ArrayList<>();
 
     private String incomeID;
+    String task;
 
 
     // UI elements for easier work
@@ -59,14 +61,18 @@ public class AddIncomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_income);
 
         jwtHandler = new JwtHandler(getApplicationContext());
-        String task = getIntent().getStringExtra("Task");
+
+        // handle intent from calling activity
+        Intent receivedIntent = getIntent();
+        task = receivedIntent.getStringExtra("Task");
 
         initUIElements();
 
         assert task != null;
         if (task.equals("ADD")) {
             initUIAdd();
-        } else {
+        }
+        else {
             incomeID = getIntent().getStringExtra("IncomeID");
             initUIEdit();
         }
@@ -74,6 +80,7 @@ public class AddIncomeActivity extends AppCompatActivity {
         // Get user's accounts
         overviewViewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
         observerSetup();
+
     }
 
     private void initUIElements(){
@@ -149,8 +156,7 @@ public class AddIncomeActivity extends AppCompatActivity {
 
         buttonDeleteIncome.setOnClickListener(v -> deleteIncome(incomeID, jwtHandler.getJwt()));
 
-        // fetch income data and fill UI elements
-        getIncome(incomeID, jwtHandler.getJwt());
+
 
     }
 
@@ -176,6 +182,17 @@ public class AddIncomeActivity extends AppCompatActivity {
             }
 
             spinnerArrayAdapter.notifyDataSetChanged();
+
+            // set spinner to current account if called from account details activity
+            if(Objects.equals(getIntent().getStringExtra("CallingActivity"), "Details") && task.equals("ADD")) {
+                setSpinnerToRightAccount(getIntent().getStringExtra("BaseAccountID"));
+            }
+
+            if(task.equals("EDIT")){
+                // fetch income data and fill UI elements
+                getIncome(incomeID, jwtHandler.getJwt());
+            }
+
         });
     }
 

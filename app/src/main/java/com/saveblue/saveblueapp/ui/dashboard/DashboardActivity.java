@@ -78,6 +78,7 @@ public class DashboardActivity extends AppCompatActivity {
         fabIncome.setOnClickListener(v -> {
             Intent intentAddIncome = new Intent(getApplicationContext(), AddIncomeActivity.class);
             intentAddIncome.putExtra("Task", "ADD");
+            intentAddIncome.putExtra("CallingActivity", "Dashboard");
             startActivity(intentAddIncome);
         });
 
@@ -85,6 +86,7 @@ public class DashboardActivity extends AppCompatActivity {
         fabExpense.setOnClickListener(v -> {
             Intent intentAddExpense = new Intent(getApplicationContext(), AddExpenseActivity.class);
             intentAddExpense.putExtra("Task", "ADD");
+            intentAddExpense.putExtra("CallingActivity", "Dashboard");
             startActivity(intentAddExpense);
         });
     }
