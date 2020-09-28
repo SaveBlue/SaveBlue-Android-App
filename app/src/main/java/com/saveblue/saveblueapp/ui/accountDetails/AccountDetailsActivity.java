@@ -124,21 +124,20 @@ public class AccountDetailsActivity extends AppCompatActivity {
                     String titleIncomes = "Incomes";
                     tab.setText(titleIncomes.toUpperCase());
                     break;
+
+                case 3:
+                    String titleBudgets = "Budgets/Goals";
+                    tab.setText(titleBudgets.toUpperCase());
+                    break;
+
+                /*case 4:
+                    String titleGoals = "Goals";
+                    tab.setText(titleGoals.toUpperCase());
+                    break;*/
             }
 
         }).attach();
 
-
-        // TODO : Lan change
-        FloatingActionButton fab = findViewById(R.id.fab);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
    @Override

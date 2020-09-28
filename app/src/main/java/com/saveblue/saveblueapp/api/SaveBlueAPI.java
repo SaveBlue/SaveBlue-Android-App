@@ -58,6 +58,11 @@ public interface SaveBlueAPI {
             @Header("x-access-token") String jwt,
             @Body Income income);
 
+    @GET("incomes/find/{aid}")
+    Call<List<Income>> getAccountsIncomes(
+            @Header("x-access-token") String jwt,
+            @Path("aid") String accountID);
+
 
     // Expense API calls
     @GET("expenses/find/{aid}")

@@ -1,4 +1,4 @@
-package com.saveblue.saveblueapp.ui.accountDetails.expense;
+package com.saveblue.saveblueapp.ui.accountDetails.income;
 
 import android.app.Application;
 
@@ -11,6 +11,7 @@ import com.saveblue.saveblueapp.Logout;
 import com.saveblue.saveblueapp.api.SaveBlueAPI;
 import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.Expense;
+import com.saveblue.saveblueapp.models.Income;
 
 import java.util.List;
 
@@ -18,34 +19,34 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ExpenseViewModel extends AndroidViewModel {
+public class IncomeViewModel extends AndroidViewModel {
 
     private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
-    private MutableLiveData<List<Expense>> expenseList;
+    private MutableLiveData<List<Income>> incomeList;
 
 
-    public ExpenseViewModel(@NonNull Application application) {
+    public IncomeViewModel(@NonNull Application application) {
         super(application);
     }
 
-    // returns the live data list of all accounts
-    public LiveData<List<Expense>> getExpenses(String accountID, String jwt) {
-        if (expenseList == null) {
-            expenseList = new MutableLiveData<>();
+    // returns the live data list of all incomes
+    public LiveData<List<Income>> getIncomes(String accountID, String jwt) {
+        if (incomeList == null) {
+            incomeList = new MutableLiveData<>();
+
         }
+        callApiGetIncomes(accountID, jwt);
 
-        callApiGetExpenses(accountID, jwt);
-
-        return expenseList;
+        return incomeList;
     }
 
-    // async api call to get user's accounts
-    private void callApiGetExpenses(String id, String jwt) {
-        Call<List<Expense>> callAsync = api.getAccountsExpenses(jwt, id);
+    // async api call to get user's account incomes
+    private void callApiGetIncomes(String id, String jwt) {
+        Call<List<Income>> callAsync = api.getAccountsIncomes(jwt, id);
 
-        callAsync.enqueue(new Callback<List<Expense>>() {
+        callAsync.enqueue(new Callback<List<Income>>() {
             @Override
-            public void onResponse(Call<List<Expense>> call, Response<List<Expense>> response) {
+            public void onResponse(Call<List<Income>> call, Response<List<Income>> response) {
                 // if request was denied, ignore call not found
                 if (!response.isSuccessful() && response.code() != 404) {
                     //Toast.makeText((), "Request Error", Toast.LENGTH_LONG).show();
@@ -60,19 +61,18 @@ public class ExpenseViewModel extends AndroidViewModel {
                 if(response.code() == 404)
                     return;
 
-                // on success set the fetched account list
-                expenseList.setValue(response.body());
+                // on success set the fetched incomes list
+                incomeList.setValue(response.body());
 
 
             }
 
             @Override
-            public void onFailure(Call<List<Expense>> call, Throwable t) {
+            public void onFailure(Call<List<Income>> call, Throwable t) {
                 //Toast.makeText(getApplicationContext(), "No Network Connectivity!", Toast.LENGTH_LONG).show();
                 System.out.println("No Network Connectivity!");
             }
         });
     }
-
 
 }

@@ -7,6 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.saveblue.saveblueapp.models.Account;
 import com.saveblue.saveblueapp.ui.accountDetails.expense.ExpenseFragment;
+import com.saveblue.saveblueapp.ui.accountDetails.income.IncomeFragment;
 import com.saveblue.saveblueapp.ui.accountDetails.overview.AccountOverviewFragment;
 import com.saveblue.saveblueapp.ui.accountDetails.ui.ToDELETE.ExpenseIncomeFragment;
 
@@ -32,6 +33,9 @@ public class SectionsPagerAdapter extends FragmentStateAdapter {
             case 1:
                 return new ExpenseFragment(accountId);
 
+            case 2:
+                return new IncomeFragment(accountId);
+
             default:
                 return ExpenseIncomeFragment.newInstance(position + 1);
         }
@@ -39,6 +43,6 @@ public class SectionsPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 4;
     }
 }

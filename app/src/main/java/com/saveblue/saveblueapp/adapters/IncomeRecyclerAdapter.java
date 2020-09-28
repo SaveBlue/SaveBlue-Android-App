@@ -1,10 +1,11 @@
 package com.saveblue.saveblueapp.adapters;
 
 import android.content.Context;
+import android.net.VpnService;
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,22 +15,21 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.saveblue.saveblueapp.R;
-import com.saveblue.saveblueapp.models.Expense;
+import com.saveblue.saveblueapp.models.Income;
 
 import java.util.List;
 
-public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecyclerAdapter.CardViewHolder> {
-
-    private List<Expense> expenseList;
+public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAdapter.CardViewHolder>{
+    private List<Income> incomeList;
     private Context context;
 
-    public ExpenseRecyclerAdapter(Context context, List<Expense> expenseList) {
+    public IncomeRecyclerAdapter(Context context, List<Income> incomeList) {
         this.context = context;
-        this.expenseList = expenseList;
+        this.incomeList = incomeList;
     }
 
-    public void setExpenseList(List<Expense> expenseList) {
-        this.expenseList = expenseList;
+    public void setIncomeList(List<Income> incomeList) {
+        this.incomeList = incomeList;
         notifyDataSetChanged();
     }
 
@@ -43,10 +43,10 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
 
-        holder.name.setText(expenseList.get(position).getName());
-        holder.description.setText(expenseList.get(position).getDescription());
-        holder.date.setText(expenseList.get(position).getDate());
-        holder.amount.setText(String.valueOf(expenseList.get(position).getAmount()) + " €");
+        holder.name.setText(incomeList.get(position).getName());
+        holder.description.setText(incomeList.get(position).getDescription());
+        holder.date.setText(incomeList.get(position).getDate());
+        holder.amount.setText(String.valueOf(incomeList.get(position).getAmount()) + " €");
 
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,12 +60,19 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
                 }
             }
         });
+
+        holder.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
 
     @Override
     public int getItemCount() {
-        return expenseList.size();
+        return incomeList.size();
     }
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
@@ -76,6 +83,7 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
         public CardView card;
         public LinearLayout expandable;
         public ImageView arrow;
+        public Button editButton;
 
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,6 +94,7 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
             card = itemView.findViewById(R.id.cardExpenseIncomeButton);
             expandable = itemView.findViewById(R.id.descriptionView);
             arrow = itemView.findViewById(R.id.expenseIncomeExpand);
+            editButton = itemView.findViewById(R.id.buttonEditExpenseIncome);
         }
     }
 }
