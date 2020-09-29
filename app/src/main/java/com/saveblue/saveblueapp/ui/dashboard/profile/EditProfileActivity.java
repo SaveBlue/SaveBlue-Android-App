@@ -1,6 +1,7 @@
 package com.saveblue.saveblueapp.ui.dashboard.profile;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -87,6 +88,9 @@ public class EditProfileActivity extends AppCompatActivity {
         layout1.setHint("Username");
         layout2.setHint("Email");
         confirmButton.setText("Edit Profile");
+
+        editText1.setInputType(InputType.TYPE_CLASS_TEXT);
+        editText2.setInputType(InputType.TYPE_CLASS_TEXT);
 
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
