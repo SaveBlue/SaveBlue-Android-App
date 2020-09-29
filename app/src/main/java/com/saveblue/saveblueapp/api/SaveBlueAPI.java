@@ -45,6 +45,12 @@ public interface SaveBlueAPI {
             @Header("x-access-token") String jwt,
             @Path("id") String userID);
 
+    @PUT("users/{id}")
+    Call<ResponseBody> editUserData(
+            @Header("x-access-token") String jwt,
+            @Path("id") String userID,
+            @Body User user);
+
     //-------------------------------------------------------
     // Account API calls
     //-------------------------------------------------------

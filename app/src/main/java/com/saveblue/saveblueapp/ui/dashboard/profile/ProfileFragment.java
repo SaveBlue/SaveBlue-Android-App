@@ -1,5 +1,6 @@
 package com.saveblue.saveblueapp.ui.dashboard.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.saveblue.saveblueapp.JwtHandler;
 import com.saveblue.saveblueapp.Logout;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.models.User;
+import com.saveblue.saveblueapp.ui.addExpenseIncome.AddIncomeActivity;
 
 import java.util.Objects;
 
@@ -41,6 +43,22 @@ public class ProfileFragment extends Fragment {
 
         Button logout = root.findViewById(R.id.LogOutButton);
         logout.setOnClickListener(v -> Logout.logout(requireContext()));
+
+
+        // edit profile activity setup process
+        Intent editProfileIntent = new Intent(getContext(), EditProfileActivity.class);
+
+        Button editProfile = root.findViewById(R.id.editProfile);
+        editProfile.setOnClickListener(v -> {
+            editProfileIntent.putExtra("Task", "EDIT");
+            startActivity(editProfileIntent);
+        });
+
+        Button changePassword = root.findViewById(R.id.changePassword);
+        changePassword.setOnClickListener(v -> {
+            editProfileIntent.putExtra("Task", "PASS");
+            startActivity(editProfileIntent);
+        });
 
         return root;
     }
@@ -74,4 +92,10 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        JwtHandler jwtHandler = new JwtHandler(getContext());
+        profileViewModel.getUser(jwtHandler.getId(),jwtHandler.getJwt());
+    }
 }

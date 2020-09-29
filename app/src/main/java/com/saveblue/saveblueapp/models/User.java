@@ -8,9 +8,14 @@ public class User {
 
     private String email;
 
+    private String password;
+
     @SerializedName("_id")
     private String id;
 
+
+    // Constructor
+    public User() {}
 
     // Getters
     public String getId() {
@@ -40,4 +45,7 @@ public class User {
         this.id = id;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

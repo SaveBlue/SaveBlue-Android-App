@@ -29,14 +29,14 @@ public class ProfileViewModel extends AndroidViewModel {
     public LiveData<User> getUser(String id, String jwt) {
         if(userMutableLiveData == null){
             userMutableLiveData = new MutableLiveData<>();
-            callApiUser(id, jwt);
         }
+        callApiGetUser(id, jwt);
 
         return userMutableLiveData;
     }
 
     // async api call to get user's data
-    private void callApiUser(String id, String jwt) {
+    private void callApiGetUser(String id, String jwt) {
         Call<User> callAsync = api.getUserData(jwt, id);
 
         callAsync.enqueue(new Callback<User>() {
@@ -65,4 +65,4 @@ public class ProfileViewModel extends AndroidViewModel {
             }
         });
     }
-}
+    }
