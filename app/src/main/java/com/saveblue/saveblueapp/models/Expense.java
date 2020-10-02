@@ -54,4 +54,6 @@ public class Expense {
     public float getAmount() {
         return amount;
     }
+
+    public String getId() { return id; }
 }

@@ -52,7 +52,7 @@ public class AddIncomeActivity extends AppCompatActivity {
     Spinner spinnerAccountIncomeAdd;
     EditText editTextNameAddIncome;
     EditText editTextDescriptionAddIncome;
-    EditText editTextDateAddAccount;
+    EditText editTextDateAddIncome;
     EditText editTextAmountAddIncome;
 
     @Override
@@ -88,7 +88,7 @@ public class AddIncomeActivity extends AppCompatActivity {
         spinnerAccountIncomeAdd = findViewById(R.id.spinnerAccountAddIncome);
         editTextNameAddIncome = findViewById(R.id.editTextNameAddIncome);
         editTextDescriptionAddIncome = findViewById(R.id.editTextDescriptionAddIncome);
-        editTextDateAddAccount = findViewById(R.id.editTextDateAddAccount);
+        editTextDateAddIncome = findViewById(R.id.editTextDateAddIncome);
         editTextAmountAddIncome = findViewById(R.id.editTextAmountAddIncome);
 
         // Populate spinner
@@ -118,7 +118,7 @@ public class AddIncomeActivity extends AppCompatActivity {
 
                     //TODO pohendli polja za vnos v newIncome
 
-                    Income newIncome = new Income(accountId, userId, editTextNameAddIncome.getText().toString(), editTextDescriptionAddIncome.getText().toString(), editTextDateAddAccount.getText().toString(), Float.parseFloat(editTextAmountAddIncome.getText().toString()));
+                    Income newIncome = new Income(accountId, userId, editTextNameAddIncome.getText().toString(), editTextDescriptionAddIncome.getText().toString(), editTextDateAddIncome.getText().toString(), Float.parseFloat(editTextAmountAddIncome.getText().toString()));
                     addIncome(newIncome, jwt);
                 }
         );
@@ -149,7 +149,7 @@ public class AddIncomeActivity extends AppCompatActivity {
 
                     //TODO pohendli polja za vnos v newIncome
 
-                    Income editedIncome = new Income(accountId, userId, editTextNameAddIncome.getText().toString(), editTextDescriptionAddIncome.getText().toString(), editTextDateAddAccount.getText().toString(), Float.parseFloat(editTextAmountAddIncome.getText().toString()));
+                    Income editedIncome = new Income(accountId, userId, editTextNameAddIncome.getText().toString(), editTextDescriptionAddIncome.getText().toString(), editTextDateAddIncome.getText().toString(), Float.parseFloat(editTextAmountAddIncome.getText().toString()));
                     updateIncome(incomeID, editedIncome, jwtHandler.getJwt());
                 }
         );
@@ -258,7 +258,7 @@ public class AddIncomeActivity extends AppCompatActivity {
                 //fill UI elements from fetched income;
                 editTextNameAddIncome.setText(income.getName());
                 editTextDescriptionAddIncome.setText(income.getDescription());
-                editTextDateAddAccount.setText(income.getDate());
+                editTextDateAddIncome.setText(income.getDate());
                 editTextAmountAddIncome.setText(String.valueOf(income.getAmount()));
 
                 setSpinnerToRightAccount(income.getAccountID());

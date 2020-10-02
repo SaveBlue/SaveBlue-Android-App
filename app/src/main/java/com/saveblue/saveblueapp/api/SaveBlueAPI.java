@@ -102,10 +102,29 @@ public interface SaveBlueAPI {
     // Expense API calls
     //-------------------------------------------------------
 
+    @POST("expenses/")
+    Call<ResponseBody> addExpense(
+            @Header("x-access-token") String jwt,
+            @Body Expense expense);
+
     @GET("expenses/find/{aid}")
     Call<List<Expense>> getAccountsExpenses(
             @Header("x-access-token") String jwt,
-            @Path("aid") String accountID);
+            @Path("aid") String expenseID);
 
+    @GET("expenses/{id}")
+    Call<Expense> getExpense(
+            @Header("x-access-token") String jwt,
+            @Path("id") String expenseID);
 
+    @PUT("expenses/{id}")
+    Call<ResponseBody> editExpense(
+            @Header("x-access-token") String jwt,
+            @Path("id") String expenseID,
+            @Body Expense expense);
+
+    @DELETE("expenses/{id}")
+    Call<ResponseBody> deleteExpense(
+            @Header("x-access-token") String jwt,
+            @Path("id") String expenseID);
 }

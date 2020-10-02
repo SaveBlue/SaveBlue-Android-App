@@ -28,7 +28,6 @@ public class ExpenseFragment extends Fragment {
     private ExpenseViewModel expenseViewModel;
     private ExpenseRecyclerAdapter expenseRecyclerAdapter;
     private List<Expense> expenseList = new ArrayList<>();
-    private JwtHandler jwtHandler;
 
     private String accountID;
 
@@ -38,19 +37,10 @@ public class ExpenseFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_expense, container, false);
-        jwtHandler = new JwtHandler(getContext());
 
         initUI(root);
 
         return root;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        String jwt = jwtHandler.getJwt();
-        expenseViewModel.getExpenses(accountID, jwt);
     }
 
     // initialise ui elements
@@ -73,9 +63,19 @@ public class ExpenseFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        JwtHandler jwtHandler = new JwtHandler(getContext());
+        String jwt = jwtHandler.getJwt();
+        expenseViewModel.getExpenses(accountID, jwt);
+    }
+
     // initialise observer for account list
     public void observerSetup() {
         //fetch jwt from dedicated handler class
+        JwtHandler jwtHandler = new JwtHandler(getContext());
         String jwt = jwtHandler.getJwt();
 
         expenseViewModel.getExpenses(accountID, jwt).observe(getViewLifecycleOwner(), new Observer<List<Expense>>() {

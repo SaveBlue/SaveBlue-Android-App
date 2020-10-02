@@ -98,7 +98,7 @@ public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAd
             description = itemView.findViewById(R.id.ExpenseIncomeDescription);
             card = itemView.findViewById(R.id.cardExpenseIncomeButton);
             expandable = itemView.findViewById(R.id.descriptionView);
-            arrow = itemView.findViewById(R.id.expenseIncomeExpand);
+            arrow = itemView.findViewById(R.id.expenseExpenseExpand);
             editButton = itemView.findViewById(R.id.buttonEditExpenseIncome);
         }
     }

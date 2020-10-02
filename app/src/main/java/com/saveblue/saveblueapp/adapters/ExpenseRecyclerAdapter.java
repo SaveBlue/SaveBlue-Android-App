@@ -1,10 +1,12 @@
 package com.saveblue.saveblueapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.models.Expense;
+import com.saveblue.saveblueapp.ui.addExpenseIncome.AddExpenseActivity;
+import com.saveblue.saveblueapp.ui.addExpenseIncome.AddIncomeActivity;
 
 import java.util.List;
 
@@ -60,6 +64,16 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
                 }
             }
         });
+
+        holder.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentEditExpense = new Intent(context, AddExpenseActivity.class);
+                intentEditExpense.putExtra("Task", "EDIT");
+                intentEditExpense.putExtra("ExpenseID", expenseList.get(position).getId());
+                context.startActivity(intentEditExpense);
+            }
+        });
     }
 
 
@@ -76,6 +90,7 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
         public CardView card;
         public LinearLayout expandable;
         public ImageView arrow;
+        public Button editButton;
 
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -85,7 +100,8 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
             description = itemView.findViewById(R.id.ExpenseIncomeDescription);
             card = itemView.findViewById(R.id.cardExpenseIncomeButton);
             expandable = itemView.findViewById(R.id.descriptionView);
-            arrow = itemView.findViewById(R.id.expenseIncomeExpand);
+            arrow = itemView.findViewById(R.id.expenseExpenseExpand);
+            editButton = itemView.findViewById(R.id.buttonEditExpenseIncome);
         }
     }
 }

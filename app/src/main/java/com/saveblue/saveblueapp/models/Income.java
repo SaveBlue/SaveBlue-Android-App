@@ -57,7 +57,5 @@ public class Income {
         return amount;
     }
 
-    public String getId() {
-        return id;
-    }
+    public String getId() { return id; }
 }

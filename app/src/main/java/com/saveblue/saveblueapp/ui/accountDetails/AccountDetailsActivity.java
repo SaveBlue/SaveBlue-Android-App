@@ -101,6 +101,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
     public void initUI(){
         Toolbar toolbar = findViewById(R.id.toolbar);
+        // TODO: set title to account name
         toolbar.setTitle("Account Details");
         setSupportActionBar(toolbar);
 
@@ -131,6 +132,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
                     tab.setText(titleIncomes.toUpperCase());
                     break;
 
+                    // TODO: remove
                 case 3:
                     String titleBudgets = "Budgets/Goals";
                     tab.setText(titleBudgets.toUpperCase());
