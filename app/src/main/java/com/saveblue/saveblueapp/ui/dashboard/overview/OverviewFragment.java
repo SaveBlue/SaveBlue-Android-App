@@ -92,7 +92,7 @@ public class OverviewFragment extends Fragment implements AddAccountDialog.AddAc
     public void showAddAccountDialog(){
         AddAccountDialog addAccountDialog = new AddAccountDialog();
         addAccountDialog.setTargetFragment(OverviewFragment.this, 420);
-        addAccountDialog.show(getFragmentManager(), "add account dialog");
+        addAccountDialog.show(getParentFragmentManager(), "add account dialog");
     }
 
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -13,6 +14,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.saveblue.saveblueapp.R;
+import com.saveblue.saveblueapp.ui.dashboard.overview.AddAccountDialog;
+import com.saveblue.saveblueapp.ui.dashboard.overview.OverviewFragment;
 
 public class AccountOverviewFragment extends Fragment {
     @Override
@@ -21,11 +24,26 @@ public class AccountOverviewFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_account_overview, container, false);
 
+        initUI(root);
+
         initArrowButton(root);
 
         return root;
 
 
+    }
+
+    private void initUI(View view) {
+
+        Button deleteAccount = view.findViewById(R.id.buttonDeleteAccount);
+        deleteAccount.setOnClickListener(v -> {
+            showDeleteAccountDialog();
+        });
+
+        Button editAccount = view.findViewById(R.id.buttonEditAccount);
+        editAccount.setOnClickListener(v -> {
+            showEditAccountDialog();
+        });
     }
 
     private void initArrowButton(View view) {
@@ -46,6 +64,18 @@ public class AccountOverviewFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public void showDeleteAccountDialog(){
+        DeleteAccountDialog deleteAccountDialog = new DeleteAccountDialog();
+        deleteAccountDialog.setTargetFragment(AccountOverviewFragment.this, 420);
+        deleteAccountDialog.show(getParentFragmentManager(), "remove account dialog");
+    }
+
+    private void showEditAccountDialog() {
+        EditAccountDialog editAccountDialog = new EditAccountDialog();
+        editAccountDialog.setTargetFragment(AccountOverviewFragment.this,421);
+        editAccountDialog.show(getParentFragmentManager(),"edit account dialog");
     }
     // TODO: card for account info and edit button to open a dialog
 }
