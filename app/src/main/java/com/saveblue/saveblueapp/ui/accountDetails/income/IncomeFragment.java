@@ -68,8 +68,6 @@ public class IncomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaa");
-
         JwtHandler jwtHandler = new JwtHandler(getContext());
         String jwt = jwtHandler.getJwt();
         incomeViewModel.getIncomes(accountID, jwt);

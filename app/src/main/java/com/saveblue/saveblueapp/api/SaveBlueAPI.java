@@ -61,6 +61,11 @@ public interface SaveBlueAPI {
             @Header("x-access-token") String jwt,
             @Path("uid") String userID);
 
+    @GET("accounts/find/{id}")
+    Call<Account> getAccount(
+            @Header("x-access-token") String jwt,
+            @Path("id") String accountID);
+
     @POST("accounts/{uid}")
     Call<List<Account>> addNewAccount(
             @Header("x-access-token") String jwt,

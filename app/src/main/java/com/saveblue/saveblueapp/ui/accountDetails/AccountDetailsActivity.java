@@ -14,14 +14,20 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.adapters.SectionsPagerAdapter;
 import com.saveblue.saveblueapp.animations.ViewAnimation;
 import com.saveblue.saveblueapp.models.Account;
+import com.saveblue.saveblueapp.ui.accountDetails.overview.AccountOverviewFragment;
+import com.saveblue.saveblueapp.ui.accountDetails.overview.DeleteAccountDialog;
+import com.saveblue.saveblueapp.ui.accountDetails.overview.EditAccountDialog;
 import com.saveblue.saveblueapp.ui.addExpenseIncome.AddExpenseActivity;
 import com.saveblue.saveblueapp.ui.addExpenseIncome.AddIncomeActivity;
 
@@ -101,13 +107,15 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
     public void initUI(){
         Toolbar toolbar = findViewById(R.id.toolbar);
-        // TODO: set title to account name
-        toolbar.setTitle("Account Details");
+        toolbar.setTitle(getIntent().getStringExtra("accountName"));
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
+
+            // back button
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         }
 
 
@@ -161,10 +169,34 @@ public class AccountDetailsActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_account_details, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+
+        int id = item.getItemId();
+
+        // Back button
+        if (id == android.R.id.home) {
             finish();
         }
+
+        // Edit button
+        if (id == R.id.action_item_edit_account){
+            EditAccountDialog editAccountDialog = new EditAccountDialog();
+            editAccountDialog.show(getSupportFragmentManager(),"edit account dialog");
+        }
+
+        if (id == R.id.item_delete_account){
+            DeleteAccountDialog deleteAccountDialog = new DeleteAccountDialog();
+            deleteAccountDialog.show(getSupportFragmentManager(), "remove account dialog");
+        }
+
         return super.onOptionsItemSelected(item);
     }
+
 }

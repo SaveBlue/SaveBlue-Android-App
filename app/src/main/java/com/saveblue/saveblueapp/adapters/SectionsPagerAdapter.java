@@ -28,7 +28,7 @@ public class SectionsPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position){
             case 0:
-                return new AccountOverviewFragment();
+                return new AccountOverviewFragment(accountId);
 
             case 1:
                 return new ExpenseFragment(accountId);
@@ -43,6 +43,6 @@ public class SectionsPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 4;
+        return 3;
     }
 }

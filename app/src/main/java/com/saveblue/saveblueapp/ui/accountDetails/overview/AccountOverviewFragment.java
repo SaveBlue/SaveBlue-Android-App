@@ -2,48 +2,104 @@ package com.saveblue.saveblueapp.ui.accountDetails.overview;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.saveblue.saveblueapp.JwtHandler;
 import com.saveblue.saveblueapp.R;
+import com.saveblue.saveblueapp.models.Account;
+import com.saveblue.saveblueapp.models.Income;
+import com.saveblue.saveblueapp.ui.accountDetails.income.IncomeViewModel;
 import com.saveblue.saveblueapp.ui.dashboard.overview.AddAccountDialog;
 import com.saveblue.saveblueapp.ui.dashboard.overview.OverviewFragment;
 
+import java.util.List;
+
 public class AccountOverviewFragment extends Fragment {
+
+    private AccountOverviewViewModel accountOverviewViewModel;
+    private Account account;
+
+    private TextView availableBalnce;
+    private TextView currentBalnce;
+
+    private String accountID;
+
+    public AccountOverviewFragment(String accountID) {
+        this.accountID = accountID;
+    }
+
+    JwtHandler jwtHandler;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_account_overview, container, false);
 
+        jwtHandler = new JwtHandler(getContext());
+
         initUI(root);
 
         initArrowButton(root);
 
         return root;
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // initialise viewmodel
+        accountOverviewViewModel = new ViewModelProvider(this).get(AccountOverviewViewModel.class);
+        observerSetup();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        String jwt = jwtHandler.getJwt();
+        accountOverviewViewModel.getAccount(accountID, jwt);
+    }
+
+    // initialise observer for account list
+    public void observerSetup() {
+        //fetch jwt from dedicated handler class
+        String jwt = jwtHandler.getJwt();
+
+
+        accountOverviewViewModel.getAccount(accountID, jwt).observe(getViewLifecycleOwner(), new Observer<Account>() {
+            @Override
+            public void onChanged(Account account) {
+                // TODO: set available
+                availableBalnce.setText(String.valueOf(account.getCurrentBalance()) + " €");
+                currentBalnce.setText(String.valueOf(account.getCurrentBalance())+ " €");
+            }
+        });
 
     }
 
     private void initUI(View view) {
 
-        Button deleteAccount = view.findViewById(R.id.buttonDeleteAccount);
-        deleteAccount.setOnClickListener(v -> {
-            showDeleteAccountDialog();
-        });
-
-        Button editAccount = view.findViewById(R.id.buttonEditAccount);
-        editAccount.setOnClickListener(v -> {
-            showEditAccountDialog();
-        });
+        // Init text views
+        availableBalnce = view.findViewById(R.id.availableBalance);
+        currentBalnce = view.findViewById(R.id.currentBalance);
     }
 
     private void initArrowButton(View view) {
@@ -66,16 +122,5 @@ public class AccountOverviewFragment extends Fragment {
         });
     }
 
-    public void showDeleteAccountDialog(){
-        DeleteAccountDialog deleteAccountDialog = new DeleteAccountDialog();
-        deleteAccountDialog.setTargetFragment(AccountOverviewFragment.this, 420);
-        deleteAccountDialog.show(getParentFragmentManager(), "remove account dialog");
-    }
-
-    private void showEditAccountDialog() {
-        EditAccountDialog editAccountDialog = new EditAccountDialog();
-        editAccountDialog.setTargetFragment(AccountOverviewFragment.this,421);
-        editAccountDialog.show(getParentFragmentManager(),"edit account dialog");
-    }
     // TODO: card for account info and edit button to open a dialog
 }
