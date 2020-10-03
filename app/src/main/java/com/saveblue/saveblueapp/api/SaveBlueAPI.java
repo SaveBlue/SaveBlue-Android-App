@@ -72,6 +72,12 @@ public interface SaveBlueAPI {
             @Path("uid") String userID,
             @Body Account account);
 
+    @PUT("accounts/{id}")
+    Call<ResponseBody> editAccount(
+            @Header("x-access-token") String jwt,
+            @Path("id") String accountID,
+            @Body Account account);
+
     //-------------------------------------------------------
     // Income API calls
     //-------------------------------------------------------
