@@ -27,10 +27,13 @@ public class OverviewFragment extends Fragment implements AddAccountDialog.AddAc
 
     private OverviewViewModel overviewViewModel;
     private DashboardAccountAdapter dashboardAccountAdapter;
+    private JwtHandler jwtHandler;
     private List<Account> accountList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_overview, container, false);
+
+        jwtHandler = new JwtHandler(getContext());
 
         initUI(root);
 
@@ -62,10 +65,20 @@ public class OverviewFragment extends Fragment implements AddAccountDialog.AddAc
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //fetch jwt from dedicated handler class
+        String jwt = jwtHandler.getJwt();
+        String id = jwtHandler.getId();
+
+        overviewViewModel.getAccounts(id, jwt);
+    }
+
     // initialise observer for account list
     public void observerSetup() {
         //fetch jwt from dedicated handler class
-        JwtHandler jwtHandler = new JwtHandler(getContext());
         String jwt = jwtHandler.getJwt();
         String id = jwtHandler.getId();
 
@@ -80,12 +93,12 @@ public class OverviewFragment extends Fragment implements AddAccountDialog.AddAc
 
     //dialog
     @Override
-    public void sendNewAccountData(String accountName, float accountBalance, int accountStart) {
+    public void sendNewAccountData(String accountName, int accountStart) {
         JwtHandler jwtHandler = new JwtHandler(getContext());
         String jwt = jwtHandler.getJwt();
         String userId = jwtHandler.getId();
 
-        overviewViewModel.addNewAccount(jwt, userId, new Account(accountName, accountBalance, accountStart));
+        overviewViewModel.addNewAccount(jwt, userId, new Account(accountName, accountStart));
     }
 
 

@@ -69,7 +69,6 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
                    public void onClick(View v) {
                        Intent accountDetailsIntent = new Intent(context, AccountDetailsActivity.class);
                        accountDetailsIntent.putExtra("accountId", accountList.get(position).getId());
-                       accountDetailsIntent.putExtra("accountName", accountList.get(position).getName());
                        context.startActivity(accountDetailsIntent);
                    }
                });

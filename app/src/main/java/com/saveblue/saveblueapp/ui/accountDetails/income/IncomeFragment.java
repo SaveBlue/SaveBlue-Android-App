@@ -73,7 +73,7 @@ public class IncomeFragment extends Fragment {
         incomeViewModel.getIncomes(accountID, jwt);
     }
 
-    // initialise observer for account list
+    // initialise observer for income list
     public void observerSetup() {
         //fetch jwt from dedicated handler class
         JwtHandler jwtHandler = new JwtHandler(getContext());

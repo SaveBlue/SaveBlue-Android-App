@@ -34,8 +34,8 @@ public class OverviewViewModel extends AndroidViewModel {
     public LiveData<List<Account>> getAccounts(String id, String jwt) {
         if (accountList == null) {
             accountList = new MutableLiveData<List<Account>>();
-            callApiAccounts(id, jwt);
         }
+        callApiAccounts(id, jwt);
 
         return accountList;
     }

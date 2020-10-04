@@ -98,4 +98,5 @@ public class ProfileFragment extends Fragment {
         JwtHandler jwtHandler = new JwtHandler(getContext());
         profileViewModel.getUser(jwtHandler.getId(),jwtHandler.getJwt());
     }
+
 }

@@ -14,9 +14,8 @@ public class Account {
     @SerializedName("_id")
     private String id;
 
-    public Account(String name, float currentBalance, int startOfMonth) {
+    public Account(String name, int startOfMonth) {
         this.name = name;
-        this.currentBalance = currentBalance;
         this.startOfMonth = startOfMonth;
     }
 

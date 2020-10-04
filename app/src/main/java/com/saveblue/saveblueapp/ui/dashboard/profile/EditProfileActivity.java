@@ -124,9 +124,9 @@ public class EditProfileActivity extends AppCompatActivity {
         JwtHandler jwtHandler = new JwtHandler(getApplicationContext());
 
 
-        Call<ResponseBody> callUpdateIncome = api.editUserData(jwtHandler.getJwt(), jwtHandler.getId(), user);
+        Call<ResponseBody> callUpdateUser = api.editUserData(jwtHandler.getJwt(), jwtHandler.getId(), user);
 
-        callUpdateIncome.enqueue(new Callback<ResponseBody>() {
+        callUpdateUser.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
                 if (!response.isSuccessful()) {

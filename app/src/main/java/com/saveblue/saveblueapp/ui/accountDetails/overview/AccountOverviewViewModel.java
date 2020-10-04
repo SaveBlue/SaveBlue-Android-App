@@ -60,7 +60,7 @@ public class AccountOverviewViewModel extends AndroidViewModel {
 
                 // if call not found set empty list
                 if(response.code() == 404) {
-                    account.setValue(new Account("",0,1));
+                    account.setValue(new Account("",1));
                     return;
                 }
 

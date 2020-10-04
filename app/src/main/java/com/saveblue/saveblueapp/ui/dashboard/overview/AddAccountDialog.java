@@ -18,7 +18,6 @@ import com.saveblue.saveblueapp.R;
 public class AddAccountDialog extends AppCompatDialogFragment {
 
     private EditText editTextNameAddAccount;
-    private EditText editTextBalanceAddAccount;
     private EditText editTextStartAddAccount;
 
     private AddAccountDialogListener addAccountDialogListener;
@@ -52,16 +51,14 @@ public class AddAccountDialog extends AppCompatDialogFragment {
                         // TODO handle empty field
 
                         String name = editTextNameAddAccount.getText().toString();
-                        float balance = Float.parseFloat(editTextBalanceAddAccount.getText().toString());
                         int  start = Integer.parseInt(editTextStartAddAccount.getText().toString());
 
                         // Send user register data to activity
-                        addAccountDialogListener.sendNewAccountData(name,balance,start);
+                        addAccountDialogListener.sendNewAccountData(name,start);
                     }
                 });
 
         editTextNameAddAccount = view.findViewById(R.id.editTextNameAddAccount);
-        editTextBalanceAddAccount = view.findViewById(R.id.editTextBalanceAddAccount);
         editTextStartAddAccount = view.findViewById(R.id.editTextStartAddAccount);
 
         return builder.create();
@@ -79,6 +76,6 @@ public class AddAccountDialog extends AppCompatDialogFragment {
     }
 
     public interface AddAccountDialogListener{
-        void sendNewAccountData (String accountName, float accountBalance, int accountStart);
+        void sendNewAccountData (String accountName, int accountStart);
     }
 }

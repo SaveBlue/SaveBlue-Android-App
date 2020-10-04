@@ -11,6 +11,9 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -21,15 +24,23 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.saveblue.saveblueapp.JwtHandler;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.adapters.SectionsPagerAdapter;
 import com.saveblue.saveblueapp.animations.ViewAnimation;
 import com.saveblue.saveblueapp.models.Account;
+import com.saveblue.saveblueapp.models.Income;
 import com.saveblue.saveblueapp.ui.accountDetails.overview.AccountOverviewFragment;
+import com.saveblue.saveblueapp.ui.accountDetails.overview.AccountOverviewViewModel;
 import com.saveblue.saveblueapp.ui.accountDetails.overview.DeleteAccountDialog;
 import com.saveblue.saveblueapp.ui.accountDetails.overview.EditAccountDialog;
 import com.saveblue.saveblueapp.ui.addExpenseIncome.AddExpenseActivity;
 import com.saveblue.saveblueapp.ui.addExpenseIncome.AddIncomeActivity;
+import com.saveblue.saveblueapp.ui.dashboard.overview.OverviewViewModel;
+import com.saveblue.saveblueapp.ui.dashboard.profile.EditProfileActivity;
+
+import java.util.List;
+import java.util.Objects;
 
 public class AccountDetailsActivity extends AppCompatActivity {
 
@@ -37,6 +48,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
      * and next wizard steps.
      */
     private ViewPager2 viewPager;
+    private Toolbar toolbar;
+    private AccountOverviewViewModel accountOverviewViewModel;
 
     //The pager adapter, which provides the pages to the view pager widget.
     private FragmentStateAdapter sectionsPagerAdapter;
@@ -45,6 +58,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
     private String accountId;
 
     private boolean rotatedFAB = false;
+    private JwtHandler jwtHandler;
 
 
     @Override
@@ -54,9 +68,14 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
         accountId = getIntent().getStringExtra("accountId");
 
+        accountOverviewViewModel = new ViewModelProvider(this).get(AccountOverviewViewModel.class);
+        jwtHandler = new JwtHandler(getApplicationContext());
+
         initUI();
 
         initFAB();
+
+        observerSetup();
     }
 
     private void initFAB() {
@@ -106,8 +125,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
 
     public void initUI(){
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(getIntent().getStringExtra("accountName"));
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Account Details");
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
@@ -156,7 +175,24 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
     }
 
-   @Override
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        accountOverviewViewModel.getAccount(accountId, jwtHandler.getJwt());
+    }
+
+    // initialise observer for account list
+    public void observerSetup() {
+        accountOverviewViewModel.getAccount(accountId, jwtHandler.getJwt()).observe(this, new Observer<Account>() {
+            @Override
+            public void onChanged(Account account) {
+                toolbar.setTitle(account.getName());
+            }
+        });
+    }
+
+    @Override
     public void onBackPressed() {
         if (viewPager.getCurrentItem() == 0) {
             // If the user is currently looking at the first fragment, allow the system to handle the
@@ -187,8 +223,9 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
         // Edit button
         if (id == R.id.action_item_edit_account){
-            EditAccountDialog editAccountDialog = new EditAccountDialog();
-            editAccountDialog.show(getSupportFragmentManager(),"edit account dialog");
+            Intent editAccountIntent = new Intent(getApplicationContext(), EditAccountActivity.class);
+            editAccountIntent.putExtra("accountID", accountId);
+            startActivity(editAccountIntent);
         }
 
         if (id == R.id.item_delete_account){
