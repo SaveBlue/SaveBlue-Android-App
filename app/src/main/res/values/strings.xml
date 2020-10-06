@@ -19,8 +19,8 @@
     <string name="tab_text_1">Overview</string>
     <string name="tab_text_2">Expenses</string>
     <string name="tab_text_3">Incomes</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 
 
 </resources>

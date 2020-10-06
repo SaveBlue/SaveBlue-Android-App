@@ -35,7 +35,6 @@ public class IncomeFragment extends Fragment {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: rename fragment
         View root = inflater.inflate(R.layout.fragment_income, container, false);
 
         initUI(root);
@@ -47,7 +46,6 @@ public class IncomeFragment extends Fragment {
     public void initUI(View view) {
 
         // initialise recycler view and its adapter
-        // TODO: rename
         RecyclerView recyclerView = view.findViewById(R.id.expenseRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         incomeRecyclerAdapter = new IncomeRecyclerAdapter(getContext(), incomeList);

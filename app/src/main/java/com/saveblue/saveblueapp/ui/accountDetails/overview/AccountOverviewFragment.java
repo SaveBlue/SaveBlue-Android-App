@@ -122,5 +122,4 @@ public class AccountOverviewFragment extends Fragment {
         });
     }
 
-    // TODO: card for account info and edit button to open a dialog
 }
