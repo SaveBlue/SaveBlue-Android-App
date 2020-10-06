@@ -38,10 +38,10 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
     @Override
     public DashboardAccountAdapter.CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dashboard_account_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_dashboard_account, parent, false);
 
-        if(viewType == R.layout.dashboard_account_card)
-           view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dashboard_account_add_button, parent, false);
+        if(viewType == R.layout.card_dashboard_account)
+           view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_dashboard_account_add_button, parent, false);
 
 
         return new CardViewHolder(view);
@@ -86,7 +86,7 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
 
     @Override
     public int getItemViewType(int position) {
-        return (position == accountList.size()) ? R.layout.dashboard_account_card : R.layout.dashboard_account_add_button;
+        return (position == accountList.size()) ? R.layout.card_dashboard_account : R.layout.card_dashboard_account_add_button;
     }
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {

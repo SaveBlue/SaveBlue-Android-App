@@ -8,8 +8,4 @@
         android:title="Edit"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/item_delete_account"
-        android:title="Delete Account" />
-
 </menu>

@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -158,7 +157,6 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
      * @param jwt
      */
 
-
     public void storeJWT(String jwt) {
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("SaveBluePref", 0);
 
@@ -167,37 +165,4 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         editor.apply();
     }
 
-    /**
-     * TODO: Clean
-     */
-    /*private void callApiUser(String id) {
-        String jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNDY0NTUzMThiNTI4MDljOGMzNWMyYSIsImlhdCI6MTYwMDg2Nzg5MCwiZXhwIjoxNjAwOTU0MjkwfQ.wf-_EkfjEox9neho97gvfIU6WJ_Sz_nLiVbWOQ5KNZw";
-
-        Call<User> callUserAsync = api.getUserData(jwt, id);
-
-        callUserAsync.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Request Error", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                User user = response.body();
-
-                //TextView t1 = findViewById(R.id.textView1);
-                //TextView t2 = findViewById(R.id.textView2);
-
-                //t1.setText(user.getUsername());
-                //t2.setText(user.getEmail());
-
-
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "No Network Connectivity!", Toast.LENGTH_LONG).show();
-            }
-        });
-    }*/
 }

@@ -5,11 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.saveblue.saveblueapp.models.Account;
 import com.saveblue.saveblueapp.ui.accountDetails.expense.ExpenseFragment;
 import com.saveblue.saveblueapp.ui.accountDetails.income.IncomeFragment;
 import com.saveblue.saveblueapp.ui.accountDetails.overview.AccountOverviewFragment;
-import com.saveblue.saveblueapp.ui.accountDetails.ui.ToDELETE.ExpenseIncomeFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -37,7 +35,7 @@ public class SectionsPagerAdapter extends FragmentStateAdapter {
                 return new IncomeFragment(accountId);
 
             default:
-                return ExpenseIncomeFragment.newInstance(position + 1);
+                return null;
         }
     }
 

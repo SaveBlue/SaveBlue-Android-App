@@ -34,7 +34,7 @@ public class AddAccountDialog extends AppCompatDialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View view = inflater.inflate(R.layout.add_account_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_add_account, null);
 
         builder.setView(view)
                 .setTitle("Add Account")

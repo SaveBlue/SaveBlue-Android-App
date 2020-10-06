@@ -3,6 +3,7 @@ package com.saveblue.saveblueapp.ui.accountDetails;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,10 @@ import com.saveblue.saveblueapp.api.SaveBlueAPI;
 import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.Account;
 import com.saveblue.saveblueapp.models.User;
+import com.saveblue.saveblueapp.ui.accountDetails.overview.DeleteAccountDialog;
+import com.saveblue.saveblueapp.ui.dashboard.DashboardActivity;
+import com.saveblue.saveblueapp.ui.dashboard.overview.AddAccountDialog;
+import com.saveblue.saveblueapp.ui.dashboard.overview.OverviewFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EditAccountActivity extends AppCompatActivity {
+public class EditAccountActivity extends AppCompatActivity implements DeleteAccountDialog.DeleteAccountListener {
     private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
     private JwtHandler jwtHandler;
 
@@ -65,6 +70,9 @@ public class EditAccountActivity extends AppCompatActivity {
             }
         });
 
+        Button deleteButton = findViewById(R.id.DeleteButton);
+        deleteButton.setOnClickListener(v -> showDeleteAccountDialog());
+
         callApiGetAccount(getIntent().getStringExtra("accountID"),jwtHandler.getJwt());
 
     }
@@ -75,6 +83,20 @@ public class EditAccountActivity extends AppCompatActivity {
 
         return false;
     }
+
+
+    //delete dialog handle
+    @Override
+    public void deleteAccountConfirm(){
+        callApiDeleteAccount();
+    }
+
+
+    public void showDeleteAccountDialog(){
+        DeleteAccountDialog deleteAccountDialog = new DeleteAccountDialog();
+        deleteAccountDialog.show(getSupportFragmentManager(), "delete dialog");
+    }
+
 
 
     // --------------------------------------------------------
@@ -112,7 +134,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
         callAsync.enqueue(new Callback<Account>() {
             @Override
-            public void onResponse(Call<Account> call, Response<Account> response) {
+            public void onResponse(@NotNull Call<Account> call, @NotNull Response<Account> response) {
                 // if request was denied, ignore call not found
                 if (!response.isSuccessful()) {
                     //Toast.makeText((), "Request Error", Toast.LENGTH_LONG).show();
@@ -126,6 +148,7 @@ public class EditAccountActivity extends AppCompatActivity {
                 Account receivedAccount = response.body();
 
                 // on success set the fetched account data
+                assert receivedAccount != null;
                 toolbar.setTitle("Edit Account: " + receivedAccount.getName());
                 accountName.setText(receivedAccount.getName());
                 startOfMonth.setText(String.valueOf(receivedAccount.getStartOfMonth()));
@@ -135,9 +158,37 @@ public class EditAccountActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Account> call, Throwable t) {
+            public void onFailure(@NotNull Call<Account> call, @NotNull Throwable t) {
                 //Toast.makeText(getApplicationContext(), "No Network Connectivity!", Toast.LENGTH_LONG).show();
                 System.out.println("No Network Connectivity!");
+            }
+        });
+    }
+
+    private void callApiDeleteAccount() {
+        String accountID = getIntent().getStringExtra("accountID");
+        Call<ResponseBody> callUpdateAccount = api.deleteAccount(jwtHandler.getJwt(), accountID);
+
+        callUpdateAccount.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Not successful", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Display toast and close activity
+                Toast.makeText(getApplicationContext(), "Account deleted", Toast.LENGTH_SHORT).show();
+                Intent deletedAccountIntent = new Intent(getApplicationContext(), DashboardActivity.class);
+                deletedAccountIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(deletedAccountIntent);
+
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
+                Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
             }
         });
     }

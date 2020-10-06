@@ -3,15 +3,11 @@ package com.saveblue.saveblueapp.ui.accountDetails;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -20,8 +16,6 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.saveblue.saveblueapp.JwtHandler;
@@ -29,18 +23,10 @@ import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.adapters.SectionsPagerAdapter;
 import com.saveblue.saveblueapp.animations.ViewAnimation;
 import com.saveblue.saveblueapp.models.Account;
-import com.saveblue.saveblueapp.models.Income;
-import com.saveblue.saveblueapp.ui.accountDetails.overview.AccountOverviewFragment;
 import com.saveblue.saveblueapp.ui.accountDetails.overview.AccountOverviewViewModel;
 import com.saveblue.saveblueapp.ui.accountDetails.overview.DeleteAccountDialog;
-import com.saveblue.saveblueapp.ui.accountDetails.overview.EditAccountDialog;
 import com.saveblue.saveblueapp.ui.addExpenseIncome.AddExpenseActivity;
 import com.saveblue.saveblueapp.ui.addExpenseIncome.AddIncomeActivity;
-import com.saveblue.saveblueapp.ui.dashboard.overview.OverviewViewModel;
-import com.saveblue.saveblueapp.ui.dashboard.profile.EditProfileActivity;
-
-import java.util.List;
-import java.util.Objects;
 
 public class AccountDetailsActivity extends AppCompatActivity {
 
@@ -159,16 +145,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
                     tab.setText(titleIncomes.toUpperCase());
                     break;
 
-                    // TODO: remove
-                case 3:
-                    String titleBudgets = "Budgets/Goals";
-                    tab.setText(titleBudgets.toUpperCase());
-                    break;
-
-                /*case 4:
-                    String titleGoals = "Goals";
-                    tab.setText(titleGoals.toUpperCase());
-                    break;*/
             }
 
         }).attach();
@@ -228,10 +204,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
             startActivity(editAccountIntent);
         }
 
-        if (id == R.id.item_delete_account){
-            DeleteAccountDialog deleteAccountDialog = new DeleteAccountDialog();
-            deleteAccountDialog.show(getSupportFragmentManager(), "remove account dialog");
-        }
 
         return super.onOptionsItemSelected(item);
     }

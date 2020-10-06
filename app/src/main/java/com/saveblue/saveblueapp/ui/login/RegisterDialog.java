@@ -33,7 +33,7 @@ public class RegisterDialog  extends AppCompatDialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View view = inflater.inflate(R.layout.register_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_register, null);
 
         builder.setView(view)
                 .setTitle("Register")

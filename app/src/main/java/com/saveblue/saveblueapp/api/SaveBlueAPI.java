@@ -78,6 +78,11 @@ public interface SaveBlueAPI {
             @Path("id") String accountID,
             @Body Account account);
 
+    @DELETE("accounts/{id}")
+    Call<ResponseBody> deleteAccount(
+            @Header("x-access-token") String jwt,
+            @Path("id") String accountID);
+
     //-------------------------------------------------------
     // Income API calls
     //-------------------------------------------------------
