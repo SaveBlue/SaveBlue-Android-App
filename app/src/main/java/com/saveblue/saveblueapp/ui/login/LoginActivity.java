@@ -33,14 +33,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity implements RegisterDialog.RegisterDialogListener {
+public class LoginActivity extends AppCompatActivity /*implements RegisterDialog.RegisterDialogListener*/ {
     private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
 
-    EditText usernameEditText;
-    TextInputLayout usernameLayout;
+    private EditText usernameEditText;
+    private TextInputLayout usernameLayout;
 
-    EditText passwordEditText;
-    TextInputLayout passwordLayout;
+    private EditText passwordEditText;
+    private TextInputLayout passwordLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +74,8 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
 
 
         // TODO remove
-        /*usernameEditText.setText("Sinane");
-        passwordEditText.setText("Password1");*/
+        usernameEditText.setText("Sinane");
+        passwordEditText.setText("Password1");
 
         // Set onClickListeners
         registerButton.setOnClickListener(v -> showRegisterDialog());
@@ -187,7 +187,9 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
 
             @Override
             public void onFailure(Call<JWT> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.constraintLayout), "Can't connect to server :(", Snackbar.LENGTH_LONG)
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             }
         });
     }
@@ -200,16 +202,20 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
     // Open Register Dialog
     private void showRegisterDialog() {
 
-        RegisterDialog registerDialog = new RegisterDialog();
-        registerDialog.show(getSupportFragmentManager(), "register dialog");
+        RegisterDialog.display(getSupportFragmentManager());
+
+       /* RegisterDialog registerDialog = new RegisterDialog();
+        registerDialog.show(getSupportFragmentManager(), "register dialog");*/
+
+
     }
 
-    // Override the interface, set in the RegisterDialog class
+    /*// Override the interface, set in the RegisterDialog class
     @Override
     public void sendRegisterData(String emailRegister, String usernameRegister, String passwordRegister) {
 
         register(emailRegister, usernameRegister, passwordRegister);
-    }
+    }*/
 
     // Register User
     public void register(String email, String username, String password) {

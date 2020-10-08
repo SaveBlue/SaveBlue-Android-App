@@ -47,13 +47,9 @@ public class EditProfileActivity extends AppCompatActivity {
     }
     public void initToolbar(String text){
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(v -> finish());
         toolbar.setTitle(text);
-        setSupportActionBar(toolbar);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_close_24);
-        }
     }
 
     public void initUIPass(){
@@ -109,12 +105,6 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish(); // close this activity as oppose to navigating up
-
-        return false;
-    }
 
     // --------------------------------------------------------
     // API calls
