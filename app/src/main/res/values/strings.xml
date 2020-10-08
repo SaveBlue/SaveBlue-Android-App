@@ -28,6 +28,7 @@
     <string name="retypePassword">Retype password</string>
     <string name="register">Register</string>
     <string name="fieldError">Required Field!</string>
+    <string name="matchError">Passwords don\'t Match!</string>
 
 
 

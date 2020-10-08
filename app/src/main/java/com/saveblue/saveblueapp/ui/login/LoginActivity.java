@@ -33,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity /*implements RegisterDialog.RegisterDialogListener*/ {
+public class LoginActivity extends AppCompatActivity implements RegisterDialog.RegisterDialogListener {
     private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
 
     private EditText usernameEditText;
@@ -139,15 +139,11 @@ public class LoginActivity extends AppCompatActivity /*implements RegisterDialog
         if(Objects.requireNonNull(usernameEditText.getText()).length() == 0){
             usernameLayout.setError(getString(R.string.fieldError));
             detectedError = true;
-        }else{
-            usernameLayout.setError(null);
         }
 
         if(Objects.requireNonNull(passwordEditText.getText()).length() == 0){
             passwordLayout.setError(getString(R.string.fieldError));
             detectedError = true;
-        }else{
-            passwordLayout.setError(null);
         }
 
         return !detectedError;
@@ -203,19 +199,18 @@ public class LoginActivity extends AppCompatActivity /*implements RegisterDialog
     private void showRegisterDialog() {
 
         RegisterDialog.display(getSupportFragmentManager());
-
-       /* RegisterDialog registerDialog = new RegisterDialog();
-        registerDialog.show(getSupportFragmentManager(), "register dialog");*/
-
-
     }
 
-    /*// Override the interface, set in the RegisterDialog class
+    // Override the interface, set in the RegisterDialog class
     @Override
     public void sendRegisterData(String emailRegister, String usernameRegister, String passwordRegister) {
 
+        /*System.out.println(emailRegister);
+        System.out.println(usernameRegister);
+        System.out.println(passwordRegister);*/
+
         register(emailRegister, usernameRegister, passwordRegister);
-    }*/
+    }
 
     // Register User
     public void register(String email, String username, String password) {
@@ -227,15 +222,15 @@ public class LoginActivity extends AppCompatActivity /*implements RegisterDialog
         callRegisterUser.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    assert response.body() != null;
-
-                    // copy data to login fields
-                    Toast.makeText(getApplicationContext(), "Register", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Wrong email, username or password", Toast.LENGTH_SHORT).show();
-                    // TODO: check what went wrong
+                if (!response.isSuccessful()) {
+                    //Toast.makeText(getApplicationContext(), "Wrong username or password", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.constraintLayout), "Error registering :(", Snackbar.LENGTH_LONG)
+                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+                    return;
                 }
+
+                Snackbar.make(findViewById(R.id.constraintLayout), "Account registered :D", Snackbar.LENGTH_LONG)
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             }
 
             @Override
