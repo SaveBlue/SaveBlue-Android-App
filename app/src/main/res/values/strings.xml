@@ -20,6 +20,12 @@
     <string name="tab_text_2">Expenses</string>
     <string name="tab_text_3">Incomes</string>
 
+    <!-- login activity strings -->
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="fieldError">Required Field!</string>
 
 
 
