@@ -3,7 +3,6 @@ package com.saveblue.saveblueapp.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.models.Expense;
 import com.saveblue.saveblueapp.ui.addExpenseIncome.AddExpenseActivity;
-import com.saveblue.saveblueapp.ui.addExpenseIncome.AddIncomeActivity;
 
 import java.util.List;
 
@@ -99,8 +97,8 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
             date = itemView.findViewById(R.id.ExpenseIncomeDate);
             description = itemView.findViewById(R.id.ExpenseIncomeDescription);
             card = itemView.findViewById(R.id.cardExpenseIncomeButton);
-            expandable = itemView.findViewById(R.id.descriptionView);
-            arrow = itemView.findViewById(R.id.expenseExpenseExpand);
+            expandable = itemView.findViewById(R.id.buttonView);
+            arrow = itemView.findViewById(R.id.profileArrow);
             editButton = itemView.findViewById(R.id.buttonEditExpenseIncome);
         }
     }

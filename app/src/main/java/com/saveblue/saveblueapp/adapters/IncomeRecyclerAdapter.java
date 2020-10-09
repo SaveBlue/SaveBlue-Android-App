@@ -2,7 +2,6 @@ package com.saveblue.saveblueapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.VpnService;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,8 +96,8 @@ public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAd
             date = itemView.findViewById(R.id.ExpenseIncomeDate);
             description = itemView.findViewById(R.id.ExpenseIncomeDescription);
             card = itemView.findViewById(R.id.cardExpenseIncomeButton);
-            expandable = itemView.findViewById(R.id.descriptionView);
-            arrow = itemView.findViewById(R.id.expenseExpenseExpand);
+            expandable = itemView.findViewById(R.id.buttonView);
+            arrow = itemView.findViewById(R.id.profileArrow);
             editButton = itemView.findViewById(R.id.buttonEditExpenseIncome);
         }
     }

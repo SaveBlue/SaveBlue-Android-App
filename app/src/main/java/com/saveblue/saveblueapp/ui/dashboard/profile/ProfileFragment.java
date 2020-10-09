@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -59,6 +61,23 @@ public class ProfileFragment extends Fragment {
             editProfileIntent.putExtra("Task", "PASS");
             startActivity(editProfileIntent);
         });
+
+
+        /*CardView card = root.findViewById(R.id.cardProfile);
+        ConstraintLayout expandable = root.findViewById(R.id.buttonView);
+        ImageView arrow = root.findViewById(R.id.profileArrow);
+        card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (expandable.getVisibility() == View.VISIBLE) {
+                    expandable.setVisibility(View.GONE);
+                    arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                } else {
+                    expandable.setVisibility(View.VISIBLE);
+                    arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                }
+            }
+        });*/
 
         return root;
     }
