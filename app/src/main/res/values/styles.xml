@@ -25,17 +25,22 @@
         <item name="cornerSize">8dp</item>
     </style>
 
-    <style name="AppTheme.FullScreenDialog" parent="Theme.MaterialComponents.DayNight.Dialog">
+    <style name="AppTheme.FullScreenDialog" parent="Theme.MaterialComponents.Light.Dialog">
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="actionMenuTextColor">@color/colorAccent</item>
+
+        <item name="textInputStyle">@style/TextInputLayoutTheme</item>
     </style>
 
-    <style name="TextInputLayoutTheme" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+
+    <style name="TextInputLayoutTheme" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="boxBackgroundColor">@null</item>
+        <item name="boxStrokeColor">@color/colorAccent</item>
+        <item name="hintTextColor">@color/colorAccent</item>
 
     </style>
 

@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="120dp"
         android:layout_marginStart="150dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="150dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/SaveBlueTitle"
@@ -37,41 +37,26 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
 
-    <TextView
-        android:id="@+id/loginText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/login"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SaveBlueTitle" />
-
-
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usernameLoginLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="80dp"
         android:hint="@string/username"
-        app:startIconDrawable="@drawable/ic_baseline_person_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginText">
+        app:layout_constraintTop_toBottomOf="@+id/SaveBlueTitle"
+        app:startIconDrawable="@drawable/ic_baseline_person_24">
 
         <EditText
 
             android:id="@+id/usernameLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            />
+            android:inputType="textPersonName" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,7 +93,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="80dp"
         android:text="@string/login"
         android:textColor="@color/white"
@@ -119,16 +104,19 @@
 
     <Button
         android:id="@+id/registerButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
         android:text="@string/register"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        style="@style/Widget.MaterialComponents.Button.TextButton"/>
+        app:layout_constraintTop_toBottomOf="@+id/loginButton"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

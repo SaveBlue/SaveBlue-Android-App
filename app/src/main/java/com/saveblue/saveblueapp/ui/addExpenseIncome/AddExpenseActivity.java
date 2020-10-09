@@ -158,7 +158,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     private void initUIEdit() {
         // init toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Edit Expense");
+        toolbar.setTitle("Update Expense");
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
