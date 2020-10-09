@@ -30,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -238,6 +239,22 @@ public class AddExpenseActivity extends AppCompatActivity {
         return false;
     }
 
+    public String parseMongoTimestamp(String timestamp){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" , Locale.getDefault());
+        SimpleDateFormat df2 = new SimpleDateFormat("dd-MMM-yyyy" , Locale.getDefault());
+        try {
+            Date mongoDate = df.parse(timestamp);
+
+            return df2.format(mongoDate);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "No Date";
+    }
+
+
     // --------------------------------------------------------
     // API calls
     // ---------------------------------------------------------
@@ -287,7 +304,7 @@ public class AddExpenseActivity extends AppCompatActivity {
                 editTextDescriptionAddExpense.setText(expense.getDescription());
                 editTextAmount.setText(String.valueOf(expense.getAmount()));
 
-                textDate.setText(expense.getDate());
+                textDate.setText(parseMongoTimestamp(expense.getDate()));
 
                 setSpinnerToRightAccount(expense.getAccountID());
 
