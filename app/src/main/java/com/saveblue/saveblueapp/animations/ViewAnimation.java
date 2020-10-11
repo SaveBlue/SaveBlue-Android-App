@@ -44,7 +44,7 @@ public class ViewAnimation {
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        v.setVisibility(View.GONE);
+                        v.setVisibility(View.INVISIBLE);
                         super.onAnimationEnd(animation);
                     }
                 }).alpha(0f)
@@ -52,7 +52,7 @@ public class ViewAnimation {
     }
 
     public static void init(final View v) {
-        v.setVisibility(View.GONE);
+        v.setVisibility(View.INVISIBLE);
         v.setTranslationY(v.getHeight());
         v.setAlpha(0f);
     }
