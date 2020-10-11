@@ -168,7 +168,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         // setup buttons
         Button buttonEditExpense = findViewById(R.id.buttonAddExpense);
-        buttonEditExpense.setText("Edit Expense");
+        buttonEditExpense.setText("Update Expense");
 
         Button buttonDeleteExpense = findViewById(R.id.buttonDeleteExpense);
         buttonDeleteExpense.setVisibility(View.VISIBLE);

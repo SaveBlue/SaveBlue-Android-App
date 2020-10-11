@@ -1,34 +1,29 @@
 package com.saveblue.saveblueapp.ui.login;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.api.SaveBlueAPI;
 import com.saveblue.saveblueapp.api.ServiceGenerator;
-import com.saveblue.saveblueapp.models.LoginUser;
 import com.saveblue.saveblueapp.models.JWT;
-import com.saveblue.saveblueapp.models.RegisterUser;
+import com.saveblue.saveblueapp.models.LoginUser;
 import com.saveblue.saveblueapp.ui.dashboard.DashboardActivity;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,17 +47,10 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
     }
 
     public void initUI() {
-        // init toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        //toolbar.setTitle("Account Details");
-        setSupportActionBar(toolbar);
-
 
         // Find views
         Button loginButton = findViewById(R.id.loginButton);
         Button registerButton = findViewById(R.id.registerButton);
-        //EditText usernameEditText = findViewById(R.id.usernameLogin);
-
 
 
         usernameEditText = findViewById(R.id.usernameLogin);
@@ -72,26 +60,25 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         passwordLayout = findViewById(R.id.passwordLoginLayout);
 
 
-
         // TODO remove
         usernameEditText.setText("Sinane");
         passwordEditText.setText("Password1");
+
 
         // Set onClickListeners
         registerButton.setOnClickListener(v -> showRegisterDialog());
 
 
-        // TODO: where to check input data (login or onCLickListener)
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(handleInputFields())
-                    login(usernameEditText.getText().toString(), passwordEditText.getText().toString());
-            }
+        loginButton.setOnClickListener(v -> {
+            if (handleInputFields())
+                login(usernameEditText.getText().toString(), passwordEditText.getText().toString());
         });
 
-        // text change listeners
+
+        // --------------------------------------------------------
+        // Text field handling
+        // ---------------------------------------------------------
+
         usernameEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -99,9 +86,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(Objects.requireNonNull(usernameEditText.getText()).length() == 0){
-                    usernameLayout.setError(getString(R.string.fieldError));
-                }else{
+                if (Objects.requireNonNull(usernameEditText.getText()).length() > 0) {
                     usernameLayout.setError(null);
                 }
             }
@@ -119,9 +104,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(Objects.requireNonNull(passwordEditText.getText()).length() == 0){
-                    passwordLayout.setError(getString(R.string.fieldError));
-                }else{
+                if (Objects.requireNonNull(passwordEditText.getText()).length() > 0) {
                     passwordLayout.setError(null);
                 }
             }
@@ -133,15 +116,15 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         });
     }
 
-    private boolean handleInputFields(){
+    private boolean handleInputFields() {
         boolean detectedError = false;
 
-        if(Objects.requireNonNull(usernameEditText.getText()).length() == 0){
+        if (Objects.requireNonNull(usernameEditText.getText()).length() == 0) {
             usernameLayout.setError(getString(R.string.fieldError));
             detectedError = true;
         }
 
-        if(Objects.requireNonNull(passwordEditText.getText()).length() == 0){
+        if (Objects.requireNonNull(passwordEditText.getText()).length() == 0) {
             passwordLayout.setError(getString(R.string.fieldError));
             detectedError = true;
         }
@@ -162,7 +145,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
 
         callLoginUser.enqueue(new Callback<JWT>() {
             @Override
-            public void onResponse(Call<JWT> call, Response<JWT> response) {
+            public void onResponse(@NotNull Call<JWT> call, @NotNull Response<JWT> response) {
                 if (!response.isSuccessful()) {
                     //Toast.makeText(getApplicationContext(), "Wrong username or password", Toast.LENGTH_SHORT).show();
                     Snackbar.make(findViewById(R.id.constraintLayout), "Wrong username or password", Snackbar.LENGTH_LONG)
@@ -182,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
             }
 
             @Override
-            public void onFailure(Call<JWT> call, Throwable t) {
+            public void onFailure(@NotNull Call<JWT> call, @NotNull Throwable t) {
                 //Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
                 Snackbar.make(findViewById(R.id.constraintLayout), "Can't connect to server :(", Snackbar.LENGTH_LONG)
                         .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
@@ -203,46 +186,15 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
 
     // Override the interface, set in the RegisterDialog class
     @Override
-    public void sendRegisterData(String emailRegister, String usernameRegister, String passwordRegister) {
+    public void sendRegisterData(String usernameRegister, String passwordRegister) {
 
-        /*System.out.println(emailRegister);
-        System.out.println(usernameRegister);
-        System.out.println(passwordRegister);*/
+        Snackbar.make(findViewById(R.id.constraintLayout), "Account registered :D", Snackbar.LENGTH_LONG)
+                .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
 
-        register(emailRegister, usernameRegister, passwordRegister);
+        usernameEditText.setText(usernameRegister);
+        passwordEditText.setText(passwordRegister);
+
     }
-
-    // Register User
-    public void register(String email, String username, String password) {
-
-        RegisterUser registerUser = new RegisterUser(email, username, password);
-
-        Call<ResponseBody> callRegisterUser = api.registerUser(registerUser);
-
-        callRegisterUser.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (!response.isSuccessful()) {
-                    //Toast.makeText(getApplicationContext(), "Wrong username or password", Toast.LENGTH_SHORT).show();
-                    Snackbar.make(findViewById(R.id.constraintLayout), "Error registering :(", Snackbar.LENGTH_LONG)
-                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-                    return;
-                }
-
-                Snackbar.make(findViewById(R.id.constraintLayout), "Account registered :D", Snackbar.LENGTH_LONG)
-                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    /**
-     * @param jwt
-     */
 
     public void storeJWT(String jwt) {
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("SaveBluePref", 0);

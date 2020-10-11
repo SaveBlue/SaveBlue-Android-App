@@ -137,7 +137,7 @@ public class AddIncomeActivity extends AppCompatActivity {
 
         // setup buttons
         Button buttonEditIncome = findViewById(R.id.buttonAddIncome);
-        buttonEditIncome.setText("Edit Income");
+        buttonEditIncome.setText("Update Income");
 
         Button buttonDeleteIncome = findViewById(R.id.buttonDeleteIncome);
         buttonDeleteIncome.setVisibility(View.VISIBLE);
