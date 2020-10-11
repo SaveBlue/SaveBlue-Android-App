@@ -29,6 +29,7 @@
     <string name="register">Register</string>
     <string name="fieldError">Required Field!</string>
     <string name="matchError">Passwords don\'t Match!</string>
+    <string name="emailError">Email should be like x@x.x!</string>
 
 
 
