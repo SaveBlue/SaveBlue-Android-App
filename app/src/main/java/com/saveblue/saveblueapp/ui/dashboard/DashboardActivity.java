@@ -64,7 +64,6 @@ public class DashboardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 rotatedFAB = ViewAnimation.rotateFab(view,!rotatedFAB);
                 if(rotatedFAB){
-                    // TODO: bug on first touch
                     ViewAnimation.showIn(findViewById(R.id.fabIncome));
                     ViewAnimation.showIn(findViewById(R.id.fabExpense));
                 }else{
