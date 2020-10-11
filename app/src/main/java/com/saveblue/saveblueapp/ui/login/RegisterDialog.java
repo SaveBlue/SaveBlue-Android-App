@@ -328,7 +328,8 @@ public class RegisterDialog extends DialogFragment {
 
             @Override
             public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
-                Toast.makeText(getContext(), "Other Error", Toast.LENGTH_SHORT).show();
+                Snackbar.make(snackbarLayout, "Can't connect to server :(", Snackbar.LENGTH_LONG)
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             }
         });
     }
