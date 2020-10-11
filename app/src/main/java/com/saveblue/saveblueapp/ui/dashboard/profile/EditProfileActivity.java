@@ -114,7 +114,7 @@ public class EditProfileActivity extends AppCompatActivity {
         // rename fields
         layout1.setHint("Username");
         layout2.setHint("Email");
-        confirmButton.setText("Edit Profile");
+        confirmButton.setText("Update Profile");
 
         editText1.setInputType(InputType.TYPE_CLASS_TEXT);
         editText2.setInputType(InputType.TYPE_CLASS_TEXT);
