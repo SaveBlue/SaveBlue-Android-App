@@ -12,13 +12,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.models.Income;
 import com.saveblue.saveblueapp.ui.addExpenseIncome.AddIncomeActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAdapter.CardViewHolder>{
     private List<Income> incomeList;
@@ -46,7 +50,7 @@ public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAd
 
         holder.name.setText(incomeList.get(position).getName());
         holder.description.setText(incomeList.get(position).getDescription());
-        holder.date.setText(incomeList.get(position).getDate());
+        holder.date.setText(parseMongoTimestamp(incomeList.get(position).getDate()));
         holder.amount.setText(String.valueOf(incomeList.get(position).getAmount()) + " €");
 
         holder.card.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +89,7 @@ public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAd
         public TextView date;
         public TextView description;
         public CardView card;
-        public LinearLayout expandable;
+        public ConstraintLayout expandable;
         public ImageView arrow;
         public Button editButton;
 
@@ -96,9 +100,24 @@ public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAd
             date = itemView.findViewById(R.id.ExpenseIncomeDate);
             description = itemView.findViewById(R.id.ExpenseIncomeDescription);
             card = itemView.findViewById(R.id.cardExpenseIncomeButton);
-            expandable = itemView.findViewById(R.id.buttonView);
+            expandable = itemView.findViewById(R.id.cardInfo);
             arrow = itemView.findViewById(R.id.profileArrow);
             editButton = itemView.findViewById(R.id.buttonEditExpenseIncome);
         }
+    }
+
+    public String parseMongoTimestamp(String timestamp){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" , Locale.getDefault());
+        SimpleDateFormat df2 = new SimpleDateFormat("dd-MMM-yyyy" , Locale.getDefault());
+        try {
+            Date mongoDate = df.parse(timestamp);
+
+            return df2.format(mongoDate);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "No Date";
     }
 }
