@@ -20,6 +20,7 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.saveblue.saveblueapp.JwtHandler;
 import com.saveblue.saveblueapp.R;
+import com.saveblue.saveblueapp.TimestampHandler;
 import com.saveblue.saveblueapp.api.SaveBlueAPI;
 import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.Account;
@@ -147,7 +148,7 @@ public class AddExpenseActivity extends AppCompatActivity {
                     String accountId = (accountList.get((int) spinnerAccount.getSelectedItemId()).getId());
 
                     //TODO pohendli polja za vnos v newExpense
-                    String date2Api = new Date(textDate.getText().toString()).toString();
+                    String date2Api = TimestampHandler.parse2Mongo(textDate.getText().toString());
 
                     Expense newExpense = new Expense(accountId, userId, editTextNameAddExpense.getText().toString(), editTextDescriptionAddExpense.getText().toString(), date2Api, Float.parseFloat(editTextAmount.getText().toString()));
                     addExpense(newExpense, jwt);
@@ -179,8 +180,9 @@ public class AddExpenseActivity extends AppCompatActivity {
                     String accountId = (accountList.get((int) spinnerAccount.getSelectedItemId()).getId());
 
                     //TODO pohendli polja za vnos v newExpense
+                    String date2Api = TimestampHandler.parse2Mongo(textDate.getText().toString());
 
-            Expense editedExpense = new Expense(accountId, userId, editTextNameAddExpense.getText().toString(), editTextDescriptionAddExpense.getText().toString(), textDate.getText().toString(), Float.parseFloat(editTextAmount.getText().toString()));
+            Expense editedExpense = new Expense(accountId, userId, editTextNameAddExpense.getText().toString(), editTextDescriptionAddExpense.getText().toString(), date2Api, Float.parseFloat(editTextAmount.getText().toString()));
                     updateExpense(expenseID, editedExpense, jwtHandler.getJwt());
                 }
         );
@@ -239,22 +241,6 @@ public class AddExpenseActivity extends AppCompatActivity {
         return false;
     }
 
-    public String parseMongoTimestamp(String timestamp){
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" , Locale.getDefault());
-        SimpleDateFormat df2 = new SimpleDateFormat("dd-MMM-yyyy" , Locale.getDefault());
-        try {
-            Date mongoDate = df.parse(timestamp);
-
-            return df2.format(mongoDate);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return "No Date";
-    }
-
-
     // --------------------------------------------------------
     // API calls
     // ---------------------------------------------------------
@@ -304,7 +290,7 @@ public class AddExpenseActivity extends AppCompatActivity {
                 editTextDescriptionAddExpense.setText(expense.getDescription());
                 editTextAmount.setText(String.valueOf(expense.getAmount()));
 
-                textDate.setText(parseMongoTimestamp(expense.getDate()));
+                textDate.setText(TimestampHandler.parseMongoTimestamp(expense.getDate()));
 
                 setSpinnerToRightAccount(expense.getAccountID());
 

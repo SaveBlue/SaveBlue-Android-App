@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.saveblue.saveblueapp.JwtHandler;
 import com.saveblue.saveblueapp.R;
+import com.saveblue.saveblueapp.TimestampHandler;
 import com.saveblue.saveblueapp.api.SaveBlueAPI;
 import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.Account;
@@ -117,8 +118,9 @@ public class AddIncomeActivity extends AppCompatActivity {
                     String accountId = (accountList.get((int) spinnerAccountIncomeAdd.getSelectedItemId()).getId());
 
                     //TODO pohendli polja za vnos v newIncome
+                    String date2Api = TimestampHandler.parse2Mongo( editTextDateAddIncome.getText().toString());
 
-                    Income newIncome = new Income(accountId, userId, editTextNameAddIncome.getText().toString(), editTextDescriptionAddIncome.getText().toString(), editTextDateAddIncome.getText().toString(), Float.parseFloat(editTextAmountAddIncome.getText().toString()));
+                    Income newIncome = new Income(accountId, userId, editTextNameAddIncome.getText().toString(), editTextDescriptionAddIncome.getText().toString(),date2Api, Float.parseFloat(editTextAmountAddIncome.getText().toString()));
                     addIncome(newIncome, jwt);
                 }
         );
@@ -148,8 +150,10 @@ public class AddIncomeActivity extends AppCompatActivity {
                     String accountId = (accountList.get((int) spinnerAccountIncomeAdd.getSelectedItemId()).getId());
 
                     //TODO pohendli polja za vnos v newIncome
+                    String date2Api = TimestampHandler.parse2Mongo( editTextDateAddIncome.getText().toString());
 
-                    Income editedIncome = new Income(accountId, userId, editTextNameAddIncome.getText().toString(), editTextDescriptionAddIncome.getText().toString(), editTextDateAddIncome.getText().toString(), Float.parseFloat(editTextAmountAddIncome.getText().toString()));
+
+            Income editedIncome = new Income(accountId, userId, editTextNameAddIncome.getText().toString(), editTextDescriptionAddIncome.getText().toString(), date2Api, Float.parseFloat(editTextAmountAddIncome.getText().toString()));
                     updateIncome(incomeID, editedIncome, jwtHandler.getJwt());
                 }
         );
