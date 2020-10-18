@@ -81,6 +81,7 @@ public class RegisterDialog extends DialogFragment {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
             Objects.requireNonNull(dialog.getWindow()).setLayout(width, height);
+            Objects.requireNonNull(dialog.getWindow()).setWindowAnimations(R.style.AppTheme_SlideAnimation);
         }
     }
 
