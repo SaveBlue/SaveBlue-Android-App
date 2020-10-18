@@ -34,7 +34,7 @@ public class AccountOverviewFragment extends Fragment {
     private AccountOverviewViewModel accountOverviewViewModel;
     private Account account;
 
-    private TextView availableBalnce;
+    private TextView availableBalance;
     private TextView totalBalance;
 
     private String accountID;
@@ -88,7 +88,7 @@ public class AccountOverviewFragment extends Fragment {
             @Override
             public void onChanged(Account account) {
                 // TODO: set available
-                availableBalnce.setText(String.valueOf(account.getTotalBalance()) + " €");
+                availableBalance.setText(String.valueOf(account.getTotalBalance()) + " €");
                 totalBalance.setText(String.valueOf(account.getTotalBalance())+ " €");
             }
         });
@@ -98,7 +98,7 @@ public class AccountOverviewFragment extends Fragment {
     private void initUI(View view) {
 
         // Init text views
-        availableBalnce = view.findViewById(R.id.availableBalance);
+        availableBalance = view.findViewById(R.id.availableBalance);
         totalBalance = view.findViewById(R.id.totalBalance);
     }
 

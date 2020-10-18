@@ -28,9 +28,9 @@
             android:layout_height="wrap_content">
 
             <FrameLayout
-                android:id="@+id/imageView"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:id="@+id/availableBalanceIcon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
@@ -50,7 +50,7 @@
             </FrameLayout>
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/availableBalanceText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -58,8 +58,27 @@
                 android:layout_marginBottom="16dp"
                 android:text="Available Balance"
                 android:textSize="24sp"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/availableBalanceIcon"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/accountStartText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Start of Month: "
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/availableBalanceIcon"
+                app:layout_constraintTop_toBottomOf="@id/availableBalanceText" />
+
+            <TextView
+                android:id="@+id/accountStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/accountStartText"
+                app:layout_constraintTop_toBottomOf="@id/availableBalanceText" />
 
 
             <!--<ImageView
@@ -82,14 +101,14 @@
                 android:background="#eeeeee"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView">
+                app:layout_constraintTop_toBottomOf="@id/availableBalanceIcon">
 
                 <TextView
                     android:id="@+id/availableBalance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="16dp"
                     android:text="1000.00€"
                     android:textSize="72sp"
                     android:textStyle="bold" />
@@ -113,43 +132,11 @@
                     android:layout_marginTop="0dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="16dp"
                     android:text="(Total Balance)"
                     android:textSize="12sp" />
 
             </RelativeLayout>
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/accountDetails"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
-
-                <TextView
-                    android:id="@+id/accountStartText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Start of Month: "
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/accountStart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toEndOf="@+id/accountStartText"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
