@@ -63,7 +63,7 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
            } else {
 
                holder.accountTitle.setText(accountList.get(position).getName());
-               holder.accountBalance.setText(String.valueOf(accountList.get(position).getCurrentBalance()) + " €");
+               holder.accountBalance.setText(String.valueOf(accountList.get(position).getTotalBalance()) + " €");
                holder.accountDetailsButton.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View v) {

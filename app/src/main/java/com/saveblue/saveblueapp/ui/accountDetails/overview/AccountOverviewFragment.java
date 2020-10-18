@@ -35,7 +35,7 @@ public class AccountOverviewFragment extends Fragment {
     private Account account;
 
     private TextView availableBalnce;
-    private TextView currentBalnce;
+    private TextView totalBalance;
 
     private String accountID;
 
@@ -55,7 +55,7 @@ public class AccountOverviewFragment extends Fragment {
 
         initUI(root);
 
-        initArrowButton(root);
+        //initArrowButton(root);
 
         return root;
     }
@@ -88,8 +88,8 @@ public class AccountOverviewFragment extends Fragment {
             @Override
             public void onChanged(Account account) {
                 // TODO: set available
-                availableBalnce.setText(String.valueOf(account.getCurrentBalance()) + " €");
-                currentBalnce.setText(String.valueOf(account.getCurrentBalance())+ " €");
+                availableBalnce.setText(String.valueOf(account.getTotalBalance()) + " €");
+                totalBalance.setText(String.valueOf(account.getTotalBalance())+ " €");
             }
         });
 
@@ -99,10 +99,10 @@ public class AccountOverviewFragment extends Fragment {
 
         // Init text views
         availableBalnce = view.findViewById(R.id.availableBalance);
-        currentBalnce = view.findViewById(R.id.currentBalance);
+        totalBalance = view.findViewById(R.id.totalBalance);
     }
 
-    private void initArrowButton(View view) {
+    /*private void initArrowButton(View view) {
 
         ConstraintLayout accountDetails = view.findViewById(R.id.accountDetails);
         CardView cardView = view.findViewById(R.id.cardAccountDetails);
@@ -120,6 +120,6 @@ public class AccountOverviewFragment extends Fragment {
                 }
             }
         });
-    }
+    }*/
 
 }

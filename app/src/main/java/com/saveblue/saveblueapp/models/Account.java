@@ -7,7 +7,7 @@ public class Account {
 
     private String name;
 
-    private float currentBalance;
+    private float totalBalance;
 
     private int startOfMonth;
 
@@ -23,8 +23,8 @@ public class Account {
         return name;
     }
 
-    public float getCurrentBalance() {
-        return currentBalance;
+    public float getTotalBalance() {
+        return totalBalance;
     }
 
     public int getStartOfMonth() {
