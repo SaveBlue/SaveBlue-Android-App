@@ -1,7 +1,9 @@
 package com.saveblue.saveblueapp.adapters;
 
+import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.Intent;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.saveblue.saveblueapp.R;
+import com.saveblue.saveblueapp.TimestampHandler;
+import com.saveblue.saveblueapp.animations.AdapterAnimations;
+import com.saveblue.saveblueapp.animations.ViewAnimation;
 import com.saveblue.saveblueapp.models.Expense;
 import com.saveblue.saveblueapp.ui.addExpenseIncome.AddExpenseActivity;
 
@@ -51,7 +56,7 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
 
         holder.name.setText(expenseList.get(position).getName());
         holder.description.setText(expenseList.get(position).getDescription());
-        holder.date.setText(parseMongoTimestamp(expenseList.get(position).getDate()));
+        holder.date.setText(TimestampHandler.parseMongoTimestamp(expenseList.get(position).getDate()));
         holder.amount.setText(String.valueOf(expenseList.get(position).getAmount()) + " €");
 
         holder.card.setOnClickListener(new View.OnClickListener() {
@@ -59,10 +64,10 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
             public void onClick(View v) {
                 if (holder.expandable.getVisibility() == View.VISIBLE) {
                     holder.expandable.setVisibility(View.GONE);
-                    holder.arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                    AdapterAnimations.toggleArrow(holder.arrow, false);
                 } else {
                     holder.expandable.setVisibility(View.VISIBLE);
-                    holder.arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                    AdapterAnimations.toggleArrow(holder.arrow, true);
                 }
             }
         });
@@ -84,7 +89,7 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
         return expenseList.size();
     }
 
-    public static class CardViewHolder extends RecyclerView.ViewHolder {
+    public  class CardViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
         public TextView amount;
         public TextView date;
@@ -100,25 +105,16 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
             amount = itemView.findViewById(R.id.ExpenseIncomeAmount);
             date = itemView.findViewById(R.id.ExpenseIncomeDate);
             description = itemView.findViewById(R.id.ExpenseIncomeDescription);
-            card = itemView.findViewById(R.id.cardExpenseIncomeButton);
+            card = itemView.findViewById(R.id.cardExpenseIncome);
             expandable = itemView.findViewById(R.id.cardDetails);
             arrow = itemView.findViewById(R.id.profileArrow);
             editButton = itemView.findViewById(R.id.buttonEditExpenseIncome);
-        }
-    }
 
-    public String parseMongoTimestamp(String timestamp){
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" , Locale.getDefault());
-        SimpleDateFormat df2 = new SimpleDateFormat("dd-MMM-yyyy" , Locale.getDefault());
-        try {
-            Date mongoDate = df.parse(timestamp);
-
-            return df2.format(mongoDate);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            // required for transition animation
+            LayoutTransition layoutTransition = card.getLayoutTransition();
+            layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
         }
 
-        return "No Date";
     }
+
 }

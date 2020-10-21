@@ -1,5 +1,6 @@
 package com.saveblue.saveblueapp.adapters;
 
+import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.saveblue.saveblueapp.R;
+import com.saveblue.saveblueapp.TimestampHandler;
+import com.saveblue.saveblueapp.animations.AdapterAnimations;
 import com.saveblue.saveblueapp.models.Income;
 import com.saveblue.saveblueapp.ui.addExpenseIncome.AddIncomeActivity;
 
@@ -50,7 +53,7 @@ public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAd
 
         holder.name.setText(incomeList.get(position).getName());
         holder.description.setText(incomeList.get(position).getDescription());
-        holder.date.setText(parseMongoTimestamp(incomeList.get(position).getDate()));
+        holder.date.setText(TimestampHandler.parseMongoTimestamp(incomeList.get(position).getDate()));
         holder.amount.setText(String.valueOf(incomeList.get(position).getAmount()) + " €");
 
         holder.card.setOnClickListener(new View.OnClickListener() {
@@ -58,10 +61,10 @@ public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAd
             public void onClick(View v) {
                 if (holder.expandable.getVisibility() == View.VISIBLE) {
                     holder.expandable.setVisibility(View.GONE);
-                    holder.arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                    AdapterAnimations.toggleArrow(holder.arrow, false);
                 } else {
                     holder.expandable.setVisibility(View.VISIBLE);
-                    holder.arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                    AdapterAnimations.toggleArrow(holder.arrow, false);
                 }
             }
         });
@@ -99,25 +102,15 @@ public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAd
             amount = itemView.findViewById(R.id.ExpenseIncomeAmount);
             date = itemView.findViewById(R.id.ExpenseIncomeDate);
             description = itemView.findViewById(R.id.ExpenseIncomeDescription);
-            card = itemView.findViewById(R.id.cardExpenseIncomeButton);
+            card = itemView.findViewById(R.id.cardExpenseIncome);
             expandable = itemView.findViewById(R.id.cardDetails);
             arrow = itemView.findViewById(R.id.profileArrow);
             editButton = itemView.findViewById(R.id.buttonEditExpenseIncome);
+
+            // required for transition animation
+            LayoutTransition layoutTransition = card.getLayoutTransition();
+            layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
         }
     }
 
-    public String parseMongoTimestamp(String timestamp){
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" , Locale.getDefault());
-        SimpleDateFormat df2 = new SimpleDateFormat("dd-MMM-yyyy" , Locale.getDefault());
-        try {
-            Date mongoDate = df.parse(timestamp);
-
-            return df2.format(mongoDate);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return "No Date";
-    }
 }
