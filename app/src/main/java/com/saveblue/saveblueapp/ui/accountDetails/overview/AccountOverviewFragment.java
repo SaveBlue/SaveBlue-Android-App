@@ -36,6 +36,7 @@ public class AccountOverviewFragment extends Fragment {
 
     private TextView availableBalance;
     private TextView totalBalance;
+    private TextView startOfMonth;
 
     private String accountID;
 
@@ -78,6 +79,14 @@ public class AccountOverviewFragment extends Fragment {
         accountOverviewViewModel.getAccount(accountID, jwt);
     }
 
+    private void initUI(View view) {
+
+        // Init text views
+        availableBalance = view.findViewById(R.id.availableBalance);
+        totalBalance = view.findViewById(R.id.totalBalance);
+        startOfMonth = view.findViewById(R.id.accountStart);
+    }
+
     // initialise observer for account list
     public void observerSetup() {
         //fetch jwt from dedicated handler class
@@ -90,16 +99,11 @@ public class AccountOverviewFragment extends Fragment {
                 // TODO: set available
                 availableBalance.setText(String.valueOf(account.getTotalBalance()) + " €");
                 totalBalance.setText(String.valueOf(account.getTotalBalance())+ " €");
+                startOfMonth.setText(String.valueOf(account.getStartOfMonth()));
+
             }
         });
 
-    }
-
-    private void initUI(View view) {
-
-        // Init text views
-        availableBalance = view.findViewById(R.id.availableBalance);
-        totalBalance = view.findViewById(R.id.totalBalance);
     }
 
     /*private void initArrowButton(View view) {

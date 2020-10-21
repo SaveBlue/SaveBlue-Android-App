@@ -75,7 +75,7 @@
                 android:id="@+id/accountStart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="7"
+                android:text="1"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/accountStartText"
                 app:layout_constraintTop_toBottomOf="@id/availableBalanceText" />
