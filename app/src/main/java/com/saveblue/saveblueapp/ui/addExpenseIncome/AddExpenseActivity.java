@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.textfield.TextInputLayout;
 import com.saveblue.saveblueapp.JwtHandler;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.TimestampHandler;
@@ -57,17 +60,22 @@ public class AddExpenseActivity extends AppCompatActivity {
     private final List<String> accountListNames = new ArrayList<>();
 
     private String expenseID;
-    String task;
+    private String task;
 
     // UI elements for easier work
-    EditText editTextAmount;
-    TextView textDate;
+    private EditText editTextAmount;
+    private TextView textDate;
 
-    Spinner spinnerAccount;
-    Spinner catSpinner1;
-    Spinner catSpinner2;
-    EditText editTextNameAddExpense;
-    EditText editTextDescriptionAddExpense;
+    private Spinner spinnerAccount;
+    private Spinner catSpinner1;
+    private Spinner catSpinner2;
+    private EditText editTextNameAddExpense;
+    private EditText descriptionEditText;
+    private TextInputLayout amountLayout;
+    private TextView catSpinner1Error;
+
+
+    // TODO: remove name edit text
 
 
     @Override
@@ -101,17 +109,38 @@ public class AddExpenseActivity extends AppCompatActivity {
         spinnerAccount = findViewById(R.id.spinnerAccountAddExpense);
         catSpinner1 = findViewById(R.id.catSpinner1);
         catSpinner2 = findViewById(R.id.catSpinner2);
+        catSpinner1Error = findViewById(R.id.catSpinner1Error);
 
         // TODO fix
         editTextNameAddExpense = findViewById(R.id.editTextNameAddIncome);
-        editTextDescriptionAddExpense = findViewById(R.id.editTextDescriptionAddIncome);
+        descriptionEditText = findViewById(R.id.descriptionEditText);
 
         textDate = findViewById(R.id.date);
         editTextAmount = findViewById(R.id.amount);
+        amountLayout = findViewById(R.id.amountLayout);
+
+
+        editTextAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (Objects.requireNonNull(editTextAmount.getText()).length() > 0) {
+                    amountLayout.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
 
         // Populate spinner
-        spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, accountListNames);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerArrayAdapter = new ArrayAdapter<>(this,  R.layout.dropdown_menu_item, accountListNames);
+        spinnerArrayAdapter.setDropDownViewResource( R.layout.dropdown_menu_item);
         spinnerAccount.setAdapter(spinnerArrayAdapter);
 
         // setup date operations
@@ -161,10 +190,12 @@ public class AddExpenseActivity extends AppCompatActivity {
 
                     case 1:
                         categories2 = res.getStringArray(R.array.categories21);
+                        catSpinner1Error.setVisibility(View.GONE);
                         break;
 
                     case 2:
                         categories2 = res.getStringArray(R.array.categories22);
+                        catSpinner1Error.setVisibility(View.GONE);
                         break;
                 }
 
@@ -197,15 +228,22 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         // Set onClickListeners
         buttonAddExpense.setOnClickListener(v -> {
-                    String jwt = jwtHandler.getJwt();
-                    String userId = jwtHandler.getId();
-                    String accountId = (accountList.get((int) spinnerAccount.getSelectedItemId()).getId());
-
                     //TODO pohendli polja za vnos v newExpense
-                    String date2Api = TimestampHandler.parse2Mongo(textDate.getText().toString());
 
-                    Expense newExpense = new Expense(accountId, userId, editTextNameAddExpense.getText().toString(), editTextDescriptionAddExpense.getText().toString(), date2Api, Float.parseFloat(editTextAmount.getText().toString()));
-                    addExpense(newExpense, jwt);
+                    if(handleInputFields()){
+                        String jwt = jwtHandler.getJwt();
+                        String userId = jwtHandler.getId();
+                        String accountId = (accountList.get((int) spinnerAccount.getSelectedItemId()).getId());
+
+                        Toast.makeText(getApplicationContext(), "Add clicked", Toast.LENGTH_SHORT).show();
+                        String description = descriptionEditText.getText().length() == 0 ?  "" : descriptionEditText.getText().toString();
+                        String date2Api = TimestampHandler.parse2Mongo(textDate.getText().toString());
+
+
+                        //Expense newExpense = new Expense(accountId, userId, editTextNameAddExpense.getText().toString(), description, date2Api, Float.parseFloat(editTextAmount.getText().toString()));
+                        //addExpense(newExpense, jwt);
+                    }
+
                 }
         );
     }
@@ -235,8 +273,9 @@ public class AddExpenseActivity extends AppCompatActivity {
 
                     //TODO pohendli polja za vnos v newExpense
                     String date2Api = TimestampHandler.parse2Mongo(textDate.getText().toString());
+                    String description = "";
 
-                    Expense editedExpense = new Expense(accountId, userId, editTextNameAddExpense.getText().toString(), editTextDescriptionAddExpense.getText().toString(), date2Api, Float.parseFloat(editTextAmount.getText().toString()));
+                    Expense editedExpense = new Expense(accountId, userId, "name", description, date2Api, Float.parseFloat(editTextAmount.getText().toString()));
                     updateExpense(expenseID, editedExpense, jwtHandler.getJwt());
                 }
         );
@@ -244,6 +283,23 @@ public class AddExpenseActivity extends AppCompatActivity {
         buttonDeleteExpense.setOnClickListener(v -> deleteExpense(expenseID, jwtHandler.getJwt()));
 
     }
+
+    private boolean handleInputFields() {
+        boolean detectedError = false;
+
+        if (Objects.requireNonNull(editTextAmount.getText()).length() == 0) {
+            amountLayout.setError(getString(R.string.fieldError));
+            detectedError = true;
+        }
+
+        if(catSpinner1.getSelectedItemId() == 0){
+            catSpinner1Error.setVisibility(View.VISIBLE);
+            detectedError = true;
+        }
+
+        return !detectedError;
+    }
+
 
     public void setSpinnerToRightAccount(String baseAccountID) {
         for (int i = 0; i < accountList.size(); i++) {
@@ -325,7 +381,6 @@ public class AddExpenseActivity extends AppCompatActivity {
     }
 
     private void getExpense(String expenseID, String jwt) {
-        System.out.println("----------------------------------");
 
         Call<Expense> callGetExpense = api.getExpense(jwt, expenseID);
 
@@ -341,7 +396,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
                 //fill UI elements from fetched income;
                 editTextNameAddExpense.setText(expense.getName());
-                editTextDescriptionAddExpense.setText(expense.getDescription());
+                descriptionEditText.setText(expense.getDescription());
                 editTextAmount.setText(String.valueOf(expense.getAmount()));
 
                 textDate.setText(TimestampHandler.parseMongoTimestamp(expense.getDate()));
