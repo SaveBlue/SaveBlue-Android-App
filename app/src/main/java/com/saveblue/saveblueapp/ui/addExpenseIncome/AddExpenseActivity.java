@@ -1,10 +1,12 @@
 package com.saveblue.saveblueapp.ui.addExpenseIncome;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,9 +31,7 @@ import com.saveblue.saveblueapp.ui.dashboard.overview.OverviewViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,9 +50,11 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     private OverviewViewModel overviewViewModel;
     private ArrayAdapter<String> spinnerArrayAdapter;
+    private ArrayAdapter<String> spinnerCategoryAdapter1;
+    private ArrayAdapter<String> spinnerCategoryAdapter2;
 
     private List<Account> accountList = new ArrayList<>();
-    private List<String> accountListNames = new ArrayList<>();
+    private final List<String> accountListNames = new ArrayList<>();
 
     private String expenseID;
     String task;
@@ -62,6 +64,8 @@ public class AddExpenseActivity extends AppCompatActivity {
     TextView textDate;
 
     Spinner spinnerAccount;
+    Spinner catSpinner1;
+    Spinner catSpinner2;
     EditText editTextNameAddExpense;
     EditText editTextDescriptionAddExpense;
 
@@ -95,6 +99,8 @@ public class AddExpenseActivity extends AppCompatActivity {
     private void initUIElements() {
         // Set UI elements
         spinnerAccount = findViewById(R.id.spinnerAccountAddExpense);
+        catSpinner1 = findViewById(R.id.catSpinner1);
+        catSpinner2 = findViewById(R.id.catSpinner2);
 
         // TODO fix
         editTextNameAddExpense = findViewById(R.id.editTextNameAddIncome);
@@ -126,6 +132,54 @@ public class AddExpenseActivity extends AppCompatActivity {
         // display date picker on icon click
         Button dateButton = findViewById(R.id.dateButton);
         dateButton.setOnClickListener(v -> datePicker.show(getSupportFragmentManager(), "Select date of Expense"));
+
+
+        initCategorySelector();
+
+    }
+
+    private void initCategorySelector() {
+        Resources res = getResources();
+        String[] categories1 = res.getStringArray(R.array.categories1);
+
+        spinnerCategoryAdapter1 = new ArrayAdapter<>(getApplicationContext(), R.layout.dropdown_menu_item, categories1);
+        spinnerCategoryAdapter1.setDropDownViewResource(R.layout.dropdown_menu_item);
+        catSpinner1.setAdapter(spinnerCategoryAdapter1);
+
+
+        catSpinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String[] categories2 = res.getStringArray(R.array.categories2);
+
+                catSpinner2.setEnabled(true);
+
+                switch (position) {
+                    case 0:
+                        catSpinner2.setEnabled(false);
+                        break;
+
+                    case 1:
+                        categories2 = res.getStringArray(R.array.categories21);
+                        break;
+
+                    case 2:
+                        categories2 = res.getStringArray(R.array.categories22);
+                        break;
+                }
+
+                spinnerCategoryAdapter2 = new ArrayAdapter<>(getApplicationContext(), R.layout.dropdown_menu_item, categories2);
+                spinnerCategoryAdapter2.setDropDownViewResource(R.layout.dropdown_menu_item);
+                catSpinner2.setAdapter(spinnerCategoryAdapter2);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
     }
 
     private void initUIAdd() {
@@ -182,7 +236,7 @@ public class AddExpenseActivity extends AppCompatActivity {
                     //TODO pohendli polja za vnos v newExpense
                     String date2Api = TimestampHandler.parse2Mongo(textDate.getText().toString());
 
-            Expense editedExpense = new Expense(accountId, userId, editTextNameAddExpense.getText().toString(), editTextDescriptionAddExpense.getText().toString(), date2Api, Float.parseFloat(editTextAmount.getText().toString()));
+                    Expense editedExpense = new Expense(accountId, userId, editTextNameAddExpense.getText().toString(), editTextDescriptionAddExpense.getText().toString(), date2Api, Float.parseFloat(editTextAmount.getText().toString()));
                     updateExpense(expenseID, editedExpense, jwtHandler.getJwt());
                 }
         );

@@ -42,7 +42,16 @@
         <item name="boxStrokeColor">@color/colorAccent</item>
         <item name="hintTextColor">@color/colorAccent</item>
 
+
     </style>
+
+    <style name="ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
+        <item name="boxBackgroundColor">@null</item>
+        <item name="boxStrokeColor">@color/colorAccent</item>
+        <item name="hintTextColor">@color/colorAccent</item>
+
+    </style>
+
 
     <!-- Dialog animations-->
     <style name="AppTheme.SlideAnimation">

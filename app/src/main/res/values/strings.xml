@@ -34,5 +34,32 @@
     <string name="registerEmailError">Email already taken!</string>
 
 
+    <!-- categories string arrays -->
+    <string-array name="categories1">
+        <item>Primary Category</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="categories2">
+        <item>Select primary category first!</item>
+    </string-array>
+
+
+
+    <string-array name="categories21">
+        <item>21</item>
+        <item>21</item>
+    </string-array>
+
+    <string-array name="categories22">
+        <item>22</item>
+        <item>22</item>
+    </string-array>
+
+    <string-array name="categories23">
+        <item>23</item>
+        <item>23</item>
+    </string-array>
 
 </resources>
