@@ -239,6 +239,13 @@ public class AddExpenseActivity extends AppCompatActivity {
                         String description = descriptionEditText.getText().length() == 0 ?  "" : descriptionEditText.getText().toString();
                         String date2Api = TimestampHandler.parse2Mongo(textDate.getText().toString());
 
+                        System.out.println("-------------------------------");
+                        String cat1 = catSpinner1.getSelectedItem().toString();
+                        String cat2 = catSpinner2.getSelectedItem().toString();
+                        System.out.println(cat1);
+                        System.out.println(cat2);
+                        System.out.println("-------------------------------");
+
 
                         //Expense newExpense = new Expense(accountId, userId, editTextNameAddExpense.getText().toString(), description, date2Api, Float.parseFloat(editTextAmount.getText().toString()));
                         //addExpense(newExpense, jwt);
@@ -395,7 +402,7 @@ public class AddExpenseActivity extends AppCompatActivity {
                 assert expense != null;
 
                 //fill UI elements from fetched income;
-                editTextNameAddExpense.setText(expense.getName());
+                //editTextNameAddExpense.setText(expense.getName());
                 descriptionEditText.setText(expense.getDescription());
                 editTextAmount.setText(String.valueOf(expense.getAmount()));
 
