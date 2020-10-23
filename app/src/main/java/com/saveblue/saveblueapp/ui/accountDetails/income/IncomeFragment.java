@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +31,8 @@ public class IncomeFragment extends Fragment {
 
     private String accountID;
 
+    private TextView noIncomes;
+
     public IncomeFragment(String accountID) {
         this.accountID = accountID;
     }
@@ -50,6 +53,9 @@ public class IncomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         incomeRecyclerAdapter = new IncomeRecyclerAdapter(getContext(), incomeList);
         recyclerView.setAdapter(incomeRecyclerAdapter);
+
+        // init "no incomes" text
+        noIncomes = view.findViewById(R.id.no_incomes);
     }
 
     @Override
@@ -82,6 +88,14 @@ public class IncomeFragment extends Fragment {
             @Override
             public void onChanged(List<Income> incomeList) {
                 incomeRecyclerAdapter.setIncomeList(incomeList);
+
+                // Show/hide "no incomes" text
+                if (incomeRecyclerAdapter.getItemCount()>0){
+                    noIncomes.setVisibility(View.GONE);
+                }
+                else{
+                    noIncomes.setVisibility(View.VISIBLE);
+                }
             }
         });
     }

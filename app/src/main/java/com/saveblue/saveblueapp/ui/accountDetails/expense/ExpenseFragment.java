@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.saveblue.saveblueapp.JwtHandler;
 import com.saveblue.saveblueapp.R;
@@ -30,6 +31,8 @@ public class ExpenseFragment extends Fragment {
     private List<Expense> expenseList = new ArrayList<>();
 
     private String accountID;
+
+    private TextView noExpenses;
 
     public ExpenseFragment(String accountID) {
         this.accountID = accountID;
@@ -51,6 +54,9 @@ public class ExpenseFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         expenseRecyclerAdapter = new ExpenseRecyclerAdapter(getContext(), expenseList);
         recyclerView.setAdapter(expenseRecyclerAdapter);
+
+        // init "no expenses" text
+        noExpenses = view.findViewById(R.id.no_expenses);
     }
 
     @Override
@@ -82,6 +88,14 @@ public class ExpenseFragment extends Fragment {
             @Override
             public void onChanged(List<Expense> expenseList) {
                 expenseRecyclerAdapter.setExpenseList(expenseList);
+
+                // Show/hide "no incomes" text
+                if (expenseRecyclerAdapter.getItemCount()>0){
+                    noExpenses.setVisibility(View.GONE);
+                }
+                else{
+                    noExpenses.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
