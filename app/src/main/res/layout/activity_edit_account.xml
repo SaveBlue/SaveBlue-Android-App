@@ -25,62 +25,78 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayout1"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/layoutAccountName"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="80dp"
-        android:hint="Name"
+        android:hint="Account Name"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout">
+        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout"
+        app:startIconDrawable="@drawable/ic_baseline_euro_symbol_24">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
 
-            android:id="@+id/inputField1"
+            android:id="@+id/accountName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"/>
+            android:inputType="textCapSentences" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayout2"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
+    <ImageView
+        android:id="@+id/dateIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="90dp"
+        app:layout_constraintBottom_toBottomOf="@+id/startOfMonthPicker"
+        app:layout_constraintEnd_toStartOf="@+id/startOfMonthText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutAccountName"
+        app:srcCompat="@drawable/ic_baseline_calendar_today_24"
+        app:tint="?attr/colorControlNormal" />
+
+    <TextView
+        android:id="@+id/startOfMonthText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/start_of_month"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/startOfMonthPicker"
+        app:layout_constraintStart_toEndOf="@+id/dateIcon"
+        app:layout_constraintTop_toBottomOf="@+id/layoutAccountName" />
+
+    <NumberPicker
+        android:id="@+id/startOfMonthPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="80dp"
-        android:hint="Start of Month"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputLayout1">
-
-        <com.google.android.material.textfield.TextInputEditText
-
-            android:id="@+id/inputField2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@+id/layoutAccountName" />
 
     <Button
-        android:id="@+id/confirmButton"
+        android:id="@+id/editAccountButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="320dp"
         android:layout_marginEnd="80dp"
+        android:layout_marginBottom="160dp"
         android:text="Update Account"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutStartOfMonth" />
 
     <Button
-        android:id="@+id/DeleteButton"
+        android:id="@+id/deleteButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
@@ -91,6 +107,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmButton" />
+        app:layout_constraintTop_toBottomOf="@+id/editAccountButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

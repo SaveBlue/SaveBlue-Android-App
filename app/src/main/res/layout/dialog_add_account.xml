@@ -53,30 +53,37 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layoutStartOfMonth"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="80dp"
-        android:hint="Start of Month"
-        app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+    <ImageView
+        android:id="@+id/dateIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="90dp"
+        app:layout_constraintBottom_toBottomOf="@+id/startOfMonthPicker"
+        app:layout_constraintEnd_toStartOf="@+id/startOfMonthText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutAccountName"
-        app:startIconDrawable="@drawable/ic_baseline_calendar_today_24">
+        app:srcCompat="@drawable/ic_baseline_calendar_today_24"
+        app:tint="?attr/colorControlNormal" />
 
-        <EditText
+    <TextView
+        android:id="@+id/startOfMonthText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/start_of_month"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/startOfMonthPicker"
+        app:layout_constraintStart_toEndOf="@+id/dateIcon"
+        app:layout_constraintTop_toBottomOf="@+id/layoutAccountName" />
 
-            android:id="@+id/startOfMonth"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number" />
+    <NumberPicker
+        android:id="@+id/startOfMonthPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
 
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutAccountName" />
 
     <Button
         android:id="@+id/createAccountButton"

@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -50,8 +51,7 @@ public class AddAccountDialog extends DialogFragment {
     private EditText accountName;
     private TextInputLayout accountNameLayout;
 
-    private EditText startOfMonth;
-    private TextInputLayout startOfMonthLayout;
+    private NumberPicker startOfMonthPicker;
 
     private Button button;
 
@@ -108,8 +108,9 @@ public class AddAccountDialog extends DialogFragment {
         accountName = view.findViewById(R.id.accountName);
         accountNameLayout = view.findViewById(R.id.layoutAccountName);
 
-        startOfMonth = view.findViewById(R.id.startOfMonth);
-        startOfMonthLayout = view.findViewById(R.id.layoutStartOfMonth);
+        startOfMonthPicker = view.findViewById(R.id.startOfMonthPicker);
+        startOfMonthPicker.setMaxValue(31);
+        startOfMonthPicker.setMinValue(1);
 
         button = view.findViewById(R.id.createAccountButton);
         button.setOnClickListener(v -> {
@@ -123,7 +124,7 @@ public class AddAccountDialog extends DialogFragment {
 
     private void sendNewAccountData() {
         String accountNameStr = accountName.getText().toString();
-        int startOfMonthInt = Integer.parseInt(startOfMonth.getText().toString());
+        int startOfMonthInt = startOfMonthPicker.getValue();
 
         // Send user register data to activity
         addAccountDialogListener.sendNewAccountData(accountNameStr,startOfMonthInt);
@@ -151,12 +152,6 @@ public class AddAccountDialog extends DialogFragment {
             detectedError = true;
         }
 
-
-        if (Objects.requireNonNull(startOfMonth.getText()).length() == 0) {
-            startOfMonthLayout.setError(getString(R.string.fieldError));
-            detectedError = true;
-        }
-
         return !detectedError;
     }
 
@@ -172,26 +167,6 @@ public class AddAccountDialog extends DialogFragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (Objects.requireNonNull(accountName.getText()).length() > 0) {
                     accountNameLayout.setError(null);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-
-        startOfMonth.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (Objects.requireNonNull(startOfMonth.getText()).length() > 0) {
-                    startOfMonthLayout.setError(null);
                 }
             }
 

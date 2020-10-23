@@ -67,6 +67,7 @@
     <string name="deleteDialogMessage">Delete the account and all its content?</string>
     <string name="deleteDialogYes">Yes</string>
     <string name="deleteDialogNo">No</string>
+    <string name="start_of_month">Start of Month</string>
 
     <!-- categories string arrays -->
     <string-array name="categories1">

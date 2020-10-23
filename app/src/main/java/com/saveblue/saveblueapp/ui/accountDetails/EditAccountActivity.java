@@ -5,11 +5,15 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.saveblue.saveblueapp.JwtHandler;
 import com.saveblue.saveblueapp.Logout;
 import com.saveblue.saveblueapp.R;
@@ -24,6 +28,8 @@ import com.saveblue.saveblueapp.ui.dashboard.overview.OverviewFragment;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,8 +40,11 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
     private JwtHandler jwtHandler;
 
     private Toolbar toolbar;
+
     private EditText accountName;
-    private EditText startOfMonth;
+    private TextInputLayout accountNameLayout;
+
+    private NumberPicker startOfMonthPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,20 +66,23 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_close_24);
         }
 
-        accountName = findViewById(R.id.inputField1);
-        startOfMonth = findViewById(R.id.inputField2);
+        accountName = findViewById(R.id.accountName);
+        accountNameLayout = findViewById(R.id.layoutAccountName);
 
-        Button button = findViewById(R.id.confirmButton);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        startOfMonthPicker = findViewById(R.id.startOfMonthPicker);
+        startOfMonthPicker.setMaxValue(31);
+        startOfMonthPicker.setMinValue(1);
 
-
-                callApiUpdateAccount(new Account(accountName.getText().toString(), Integer.parseInt(String.valueOf(startOfMonth.getText()))));
+        Button button = findViewById(R.id.editAccountButton);
+        button.setOnClickListener(v -> {
+            if (handleInputFields()) {
+                callApiUpdateAccount(new Account(accountName.getText().toString(), Integer.parseInt(String.valueOf(startOfMonthPicker.getValue()))));
             }
         });
 
-        Button deleteButton = findViewById(R.id.DeleteButton);
+        setTextListeners();
+
+        Button deleteButton = findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(v -> showDeleteAccountDialog());
 
         callApiGetAccount(getIntent().getStringExtra("accountID"),jwtHandler.getJwt());
@@ -95,6 +107,44 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
     public void showDeleteAccountDialog(){
         DeleteAccountDialog deleteAccountDialog = new DeleteAccountDialog();
         deleteAccountDialog.show(getSupportFragmentManager(), "delete dialog");
+    }
+
+    // --------------------------------------------------------
+    // Text field handling
+    // ---------------------------------------------------------
+
+    private boolean handleInputFields() {
+        boolean detectedError = false;
+
+        if (Objects.requireNonNull(accountName.getText()).length() == 0) {
+            accountNameLayout.setError(getString(R.string.fieldError));
+            detectedError = true;
+        }
+
+        return !detectedError;
+    }
+
+    private void setTextListeners() {
+
+        accountName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (Objects.requireNonNull(accountName.getText()).length() > 0) {
+                    accountNameLayout.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
 
@@ -140,8 +190,8 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
                     //Toast.makeText((), "Request Error", Toast.LENGTH_LONG).show();
                     System.out.println("Request Error");
 
-                    //logout if jwt in not valid any more
-                    Logout.logout(getApplication().getApplicationContext());
+                    //logout if jwt is not valid any more
+                    Logout.logout(getApplication().getApplicationContext(),0);
                     return;
                 }
 
@@ -151,7 +201,7 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
                 assert receivedAccount != null;
                 toolbar.setTitle("Edit Account: " + receivedAccount.getName());
                 accountName.setText(receivedAccount.getName());
-                startOfMonth.setText(String.valueOf(receivedAccount.getStartOfMonth()));
+                startOfMonthPicker.setValue(receivedAccount.getStartOfMonth());
 
 
 

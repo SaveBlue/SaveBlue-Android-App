@@ -54,7 +54,7 @@ public class IncomeViewModel extends AndroidViewModel {
                     System.out.println("Request Error");
 
                     //logout if jwt in not valid any more
-                    Logout.logout(getApplication().getApplicationContext());
+                    Logout.logout(getApplication().getApplicationContext(),1);
                     return;
                 }
 
