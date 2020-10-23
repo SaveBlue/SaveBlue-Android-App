@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_bar_layout"
-        app:startIconDrawable="@drawable/ic_baseline_euro_symbol_24">
+        app:startIconDrawable="@drawable/ic_saveblue_logo_outline">
 
         <EditText
 

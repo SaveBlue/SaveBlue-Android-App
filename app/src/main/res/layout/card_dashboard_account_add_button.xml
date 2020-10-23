@@ -32,7 +32,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:background="#eeeeee"
+                android:background="@drawable/side_nav_bar"
                 >
 
                 <ImageView
@@ -44,7 +44,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_margin="8dp"
-                    app:tint="?attr/colorControlNormal"
+                    app:tint="@color/white"
                     app:srcCompat="@drawable/ic_baseline_add_circle_outline_24" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

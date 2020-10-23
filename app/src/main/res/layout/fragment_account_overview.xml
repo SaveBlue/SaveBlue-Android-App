@@ -42,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="4dp"
-                    app:tint="?attr/colorControlNormal"
+                    app:tint="@color/white"
                     android:src="@drawable/ic_baseline_euro_symbol_24"
                     />
 
@@ -98,7 +98,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="#eeeeee"
+                android:background="@drawable/side_nav_bar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/availableBalanceIcon">
@@ -111,7 +111,8 @@
                     android:layout_marginTop="16dp"
                     android:text="1000.00€"
                     android:textSize="72sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/white"/>
 
                 <TextView
                     android:id="@+id/totalBalance"

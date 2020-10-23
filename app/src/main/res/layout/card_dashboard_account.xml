@@ -32,7 +32,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:background="#eeeeee"
+                android:background="@drawable/side_nav_bar"
                 >
 
                 <ImageView
@@ -44,8 +44,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_account_balance_wallet_24"
-                    app:tint="?attr/colorControlNormal" />
+                    app:srcCompat="@drawable/ic_saveblue_logo_outline"
+                    app:tint="@color/white" />
                 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
