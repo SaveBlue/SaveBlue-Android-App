@@ -3,66 +3,209 @@ package com.saveblue.saveblueapp.ui.dashboard.overview;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 import com.saveblue.saveblueapp.R;
+import com.saveblue.saveblueapp.api.SaveBlueAPI;
+import com.saveblue.saveblueapp.api.ServiceGenerator;
+import com.saveblue.saveblueapp.models.Account;
+import com.saveblue.saveblueapp.models.RegisterUser;
+import com.saveblue.saveblueapp.ui.login.RegisterDialog;
 
-public class AddAccountDialog extends AppCompatDialogFragment {
+import org.jetbrains.annotations.NotNull;
 
-    private EditText editTextNameAddAccount;
-    private EditText editTextStartAddAccount;
+import java.util.Objects;
+import java.util.regex.Pattern;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class AddAccountDialog extends DialogFragment {
+
+    private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
+    private ConstraintLayout snackbarLayout;
+
+    private EditText accountName;
+    private TextInputLayout accountNameLayout;
+
+    private EditText startOfMonth;
+    private TextInputLayout startOfMonthLayout;
+
+    private Button button;
+
+    private Toolbar toolbar;
 
     private AddAccountDialogListener addAccountDialogListener;
 
-    public AddAccountDialog(){
-
+    public static AddAccountDialog display(FragmentManager fragmentManager) {
+        AddAccountDialog addAccountDialog = new AddAccountDialog();
+        addAccountDialog.show(fragmentManager, "addAccountDialog");
+        return addAccountDialog;
     }
 
-
-    @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-
-        View view = inflater.inflate(R.layout.dialog_add_account, null);
-
-        builder.setView(view)
-                .setTitle("Add Account")
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        // TODO handle empty field
-
-                        String name = editTextNameAddAccount.getText().toString();
-                        int  start = Integer.parseInt(editTextStartAddAccount.getText().toString());
-
-                        // Send user register data to activity
-                        addAccountDialogListener.sendNewAccountData(name,start);
-                    }
-                });
-
-        editTextNameAddAccount = view.findViewById(R.id.editTextNameAddAccount);
-        editTextStartAddAccount = view.findViewById(R.id.editTextStartAddAccount);
-
-        return builder.create();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            Objects.requireNonNull(dialog.getWindow()).setLayout(width, height);
+            Objects.requireNonNull(dialog.getWindow()).setWindowAnimations(R.style.AppTheme_SlideAnimation);
+        }
+    }
+
+    @Override
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.dialog_add_account, container, false);
+
+        toolbar = view.findViewById(R.id.toolbar);
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NotNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        toolbar.setNavigationOnClickListener(v -> dismiss());
+        toolbar.setTitle("Create Account");
+
+        snackbarLayout = view.findViewById(R.id.constraintLayout);
+
+        initUI(view);
+    }
+
+    private void initUI(View view) {
+        accountName = view.findViewById(R.id.accountName);
+        accountNameLayout = view.findViewById(R.id.layoutAccountName);
+
+        startOfMonth = view.findViewById(R.id.startOfMonth);
+        startOfMonthLayout = view.findViewById(R.id.layoutStartOfMonth);
+
+        button = view.findViewById(R.id.createAccountButton);
+        button.setOnClickListener(v -> {
+            if (handleInputFields()) {
+                sendNewAccountData();
+            }
+        });
+
+        setTextListeners();
+    }
+
+    private void sendNewAccountData() {
+        String accountNameStr = accountName.getText().toString();
+        int startOfMonthInt = Integer.parseInt(startOfMonth.getText().toString());
+
+        // Send user register data to activity
+        addAccountDialogListener.sendNewAccountData(accountNameStr,startOfMonthInt);
+        dismiss();
+    }
+
+    /*private void sendToActivity() {
+        String usernameStr = accountName.getText().toString();
+        int startOfMonthInt = Integer.parseInt(startOfMonth.getText().toString());
+
+        // Send new account data to fragment and dismiss the dialog
+        addAccountDialogListener.sendNewAccountData(usernameStr, startOfMonthInt);
+        dismiss();
+    }*/
+
+    // --------------------------------------------------------
+    // Text field handling
+    // ---------------------------------------------------------
+
+    private boolean handleInputFields() {
+        boolean detectedError = false;
+
+        if (Objects.requireNonNull(accountName.getText()).length() == 0) {
+            accountNameLayout.setError(getString(R.string.fieldError));
+            detectedError = true;
+        }
+
+
+        if (Objects.requireNonNull(startOfMonth.getText()).length() == 0) {
+            startOfMonthLayout.setError(getString(R.string.fieldError));
+            detectedError = true;
+        }
+
+        return !detectedError;
+    }
+
+    private void setTextListeners() {
+
+        accountName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (Objects.requireNonNull(accountName.getText()).length() > 0) {
+                    accountNameLayout.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        startOfMonth.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (Objects.requireNonNull(startOfMonth.getText()).length() > 0) {
+                    startOfMonthLayout.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+    }
+
+    // --------------------------------------------------------
+    // Dialog methods to send to Activity
+    // ---------------------------------------------------------
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -75,7 +218,9 @@ public class AddAccountDialog extends AppCompatDialogFragment {
         }
     }
 
-    public interface AddAccountDialogListener{
-        void sendNewAccountData (String accountName, int accountStart);
+    public interface AddAccountDialogListener {
+        void sendNewAccountData(String accountName, int startOfMonth);
     }
+
+
 }

@@ -1,29 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.overview.AddAccountDialog"
-    android:padding="16dp">
+    style="TextInputLayoutTheme"
+    android:id="@+id/constraintLayout"
 
-    <EditText
-        android:id="@+id/editTextNameAddAccount"
+    >
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Name"
-        android:inputType="text"
-        android:layout_margin="4dp" />
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:navigationIcon="@drawable/ic_baseline_close_24"
+            app:popupTheme="@style/Theme.MaterialComponents.DayNight.Dialog" />
 
-    <EditText
-        android:id="@+id/editTextStartAddAccount"
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutAccountName"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editTextNameAddAccount"
-        android:ems="10"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="80dp"
+        android:hint="Account Name"
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout"
+        app:startIconDrawable="@drawable/ic_baseline_euro_symbol_24">
+
+        <EditText
+
+            android:id="@+id/accountName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutStartOfMonth"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="80dp"
         android:hint="Start of Month"
-        android:inputType="number"
-        android:layout_margin="4dp" />
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutAccountName"
+        app:startIconDrawable="@drawable/ic_baseline_calendar_today_24">
 
-</RelativeLayout>
+        <EditText
+
+            android:id="@+id/startOfMonth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/createAccountButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="320dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="160dp"
+        android:text="Create Account"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutStartOfMonth" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
