@@ -33,7 +33,6 @@ public class DashboardActivity extends AppCompatActivity {
 
         initFAB();
 
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -48,6 +47,7 @@ public class DashboardActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+    // initialise floating action button
     private void initFAB() {
         //FAB-related
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -62,11 +62,11 @@ public class DashboardActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rotatedFAB = ViewAnimation.rotateFab(view,!rotatedFAB);
-                if(rotatedFAB){
+                rotatedFAB = ViewAnimation.rotateFab(view, !rotatedFAB);
+                if (rotatedFAB) {
                     ViewAnimation.showIn(findViewById(R.id.fabIncome));
                     ViewAnimation.showIn(findViewById(R.id.fabExpense));
-                }else{
+                } else {
                     ViewAnimation.showOut(findViewById(R.id.fabIncome));
                     ViewAnimation.showOut(findViewById(R.id.fabExpense));
                 }
@@ -90,19 +90,13 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_account, menu);
-        return true;
-    }*/
 
+    // handles navigation
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
-
 
 
 }

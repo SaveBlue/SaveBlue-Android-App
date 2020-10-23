@@ -12,6 +12,8 @@ import com.saveblue.saveblueapp.api.SaveBlueAPI;
 import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.Expense;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ import retrofit2.Response;
 
 public class ExpenseViewModel extends AndroidViewModel {
 
-    private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
+    private final SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
     private MutableLiveData<List<Expense>> expenseList;
 
 
@@ -46,14 +48,11 @@ public class ExpenseViewModel extends AndroidViewModel {
 
         callAsync.enqueue(new Callback<List<Expense>>() {
             @Override
-            public void onResponse(Call<List<Expense>> call, Response<List<Expense>> response) {
+            public void onResponse(@NotNull Call<List<Expense>> call, @NotNull Response<List<Expense>> response) {
                 // if request was denied, ignore call not found
                 if (!response.isSuccessful() && response.code() != 404) {
-                    //Toast.makeText((), "Request Error", Toast.LENGTH_LONG).show();
-                    System.out.println("Request Error");
-
                     //logout if jwt in not valid any more
-                    Logout.logout(getApplication().getApplicationContext());
+                    Logout.logout(getApplication().getApplicationContext(), 1);
                     return;
                 }
 
@@ -70,7 +69,7 @@ public class ExpenseViewModel extends AndroidViewModel {
             }
 
             @Override
-            public void onFailure(Call<List<Expense>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<Expense>> call, @NotNull Throwable t) {
                 //Toast.makeText(getApplicationContext(), "No Network Connectivity!", Toast.LENGTH_LONG).show();
                 System.out.println("No Network Connectivity!");
             }

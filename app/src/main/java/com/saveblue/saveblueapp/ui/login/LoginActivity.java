@@ -29,7 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements RegisterDialog.RegisterDialogListener {
-    private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
+    private final SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
 
     private EditText usernameEditText;
     private TextInputLayout usernameLayout;
@@ -46,6 +46,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
 
     }
 
+    // initialize ui elements
     public void initUI() {
 
         // Find views
@@ -67,8 +68,6 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
 
         // Set onClickListeners
         registerButton.setOnClickListener(v -> showRegisterDialog());
-
-
         loginButton.setOnClickListener(v -> {
             if (handleInputFields())
                 login(usernameEditText.getText().toString(), passwordEditText.getText().toString());
@@ -79,6 +78,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         // Text field handling
         // ---------------------------------------------------------
 
+        //clearing of error messages under text fields
         usernameEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -116,6 +116,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         });
     }
 
+    // on login click check for input field correctness
     private boolean handleInputFields() {
         boolean detectedError = false;
 
@@ -133,10 +134,11 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
     }
 
 
-    /**
-     * Login Method
-     */
+    // --------------------------------------------------------
+    // API calls
+    // ---------------------------------------------------------
 
+    // logs in the user and saves jwt in shared preferences
     private void login(String username, String password) {
 
         LoginUser loginUser = new LoginUser(username, password);
@@ -147,8 +149,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
             @Override
             public void onResponse(@NotNull Call<JWT> call, @NotNull Response<JWT> response) {
                 if (!response.isSuccessful()) {
-                    //Toast.makeText(getApplicationContext(), "Wrong username or password", Toast.LENGTH_SHORT).show();
-                    Snackbar.make(findViewById(R.id.constraintLayout), "Wrong username or password", Snackbar.LENGTH_LONG)
+                    Snackbar.make(findViewById(R.id.constraintLayout), getString(R.string.loginMessage), Snackbar.LENGTH_LONG)
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
 
                     return;
@@ -167,7 +168,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
             @Override
             public void onFailure(@NotNull Call<JWT> call, @NotNull Throwable t) {
                 //Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
-                Snackbar.make(findViewById(R.id.constraintLayout), "Can't connect to server :(", Snackbar.LENGTH_LONG)
+                Snackbar.make(findViewById(R.id.constraintLayout), getString(R.string.serverMessage), Snackbar.LENGTH_LONG)
                         .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             }
         });
@@ -188,14 +189,16 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
     @Override
     public void sendRegisterData(String usernameRegister, String passwordRegister) {
 
-        Snackbar.make(findViewById(R.id.constraintLayout), "Account registered :D", Snackbar.LENGTH_LONG)
+        Snackbar.make(findViewById(R.id.constraintLayout), getString(R.string.registerErrorMessage), Snackbar.LENGTH_LONG)
                 .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
 
+        // fill login fields with newly registered user data
         usernameEditText.setText(usernameRegister);
         passwordEditText.setText(passwordRegister);
 
     }
 
+    // stores the JWT to shared preferences
     public void storeJWT(String jwt) {
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("SaveBluePref", 0);
 

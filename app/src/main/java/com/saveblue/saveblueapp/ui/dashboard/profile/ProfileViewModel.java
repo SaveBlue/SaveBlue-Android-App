@@ -1,24 +1,27 @@
 package com.saveblue.saveblueapp.ui.dashboard.profile;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.saveblue.saveblueapp.Logout;
+import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.api.SaveBlueAPI;
 import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.User;
+
+import org.jetbrains.annotations.NotNull;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileViewModel extends AndroidViewModel {
-    private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
+    private final SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
     private MutableLiveData<User> userMutableLiveData;
 
     public ProfileViewModel(@NonNull Application application) {
@@ -27,7 +30,7 @@ public class ProfileViewModel extends AndroidViewModel {
 
     // returns the live data with an object containing user's data
     public LiveData<User> getUser(String id, String jwt) {
-        if(userMutableLiveData == null){
+        if (userMutableLiveData == null) {
             userMutableLiveData = new MutableLiveData<>();
         }
         callApiGetUser(id, jwt);
@@ -41,14 +44,11 @@ public class ProfileViewModel extends AndroidViewModel {
 
         callAsync.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(@NotNull Call<User> call, @NotNull Response<User> response) {
                 // if request was denied
                 if (!response.isSuccessful()) {
-                    //Toast.makeText((), "Request Error", Toast.LENGTH_LONG).show();
-                    System.out.println("Request Error");
-
                     //logout if jwt in not valid any more
-                    Logout.logout(getApplication().getApplicationContext());
+                    Logout.logout(getApplication().getApplicationContext(), 1);
 
                     return;
                 }
@@ -59,10 +59,9 @@ public class ProfileViewModel extends AndroidViewModel {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                //Toast.makeText(getApplicationContext(), "No Network Connectivity!", Toast.LENGTH_LONG).show();
-                System.out.println("No Network Connectivity!");
+            public void onFailure(@NotNull Call<User> call, @NotNull Throwable t) {
+                Toast.makeText(getApplication().getApplicationContext(), getApplication().getApplicationContext().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }
-    }
+}

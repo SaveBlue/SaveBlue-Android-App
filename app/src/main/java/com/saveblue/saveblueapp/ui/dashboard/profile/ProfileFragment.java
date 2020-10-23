@@ -35,6 +35,7 @@ public class ProfileFragment extends Fragment {
     private ImageView profilePicture;
 
 
+    // initialise ui elements
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -44,7 +45,7 @@ public class ProfileFragment extends Fragment {
         profilePicture = root.findViewById(R.id.profileImage);
 
         Button logout = root.findViewById(R.id.LogOutButton);
-        logout.setOnClickListener(v -> Logout.logout(requireContext()));
+        logout.setOnClickListener(v -> Logout.logout(requireContext(), 0));
 
 
         // edit profile activity setup process
@@ -62,22 +63,6 @@ public class ProfileFragment extends Fragment {
             startActivity(editProfileIntent);
         });
 
-
-        /*CardView card = root.findViewById(R.id.cardProfile);
-        ConstraintLayout expandable = root.findViewById(R.id.buttonView);
-        ImageView arrow = root.findViewById(R.id.profileArrow);
-        card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (expandable.getVisibility() == View.VISIBLE) {
-                    expandable.setVisibility(View.GONE);
-                    arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
-                } else {
-                    expandable.setVisibility(View.VISIBLE);
-                    arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
-                }
-            }
-        });*/
 
         return root;
     }
@@ -98,24 +83,22 @@ public class ProfileFragment extends Fragment {
         String jwt = jwtHandler.getJwt();
         String id = jwtHandler.getId();
 
-        profileViewModel.getUser(id, jwt).observe(getViewLifecycleOwner(), new Observer<User>() {
-            @Override
-            public void onChanged(User user) {
+        profileViewModel.getUser(id, jwt).observe(getViewLifecycleOwner(), user -> {
 
-                username.setText(user.getUsername());
-                email.setText(user.getEmail());
+            username.setText(user.getUsername());
+            email.setText(user.getEmail());
 
-                profilePicture.setImageResource(R.drawable.avatar_1);
+            profilePicture.setImageResource(R.drawable.avatar_1);
 
-            }
         });
     }
 
+    //updates data on resuming view
     @Override
     public void onResume() {
         super.onResume();
         JwtHandler jwtHandler = new JwtHandler(getContext());
-        profileViewModel.getUser(jwtHandler.getId(),jwtHandler.getJwt());
+        profileViewModel.getUser(jwtHandler.getId(), jwtHandler.getJwt());
     }
 
 }

@@ -20,15 +20,17 @@ public class DeleteAccountDialog extends AppCompatDialogFragment {
 
     private DeleteAccountListener deleteAccountListener;
 
+    // creates dialog for deletion
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        builder.setTitle("Delete Account?");
+        builder.setTitle(getString(R.string.deleteDialogTitle));
 
-        builder.setMessage("Delete the account and all its content?")
-                .setPositiveButton("Yes", (dialog, id) -> deleteAccountListener.deleteAccountConfirm())
-                .setNegativeButton("No", (dialog, id) -> {});
+        builder.setMessage(getString(R.string.deleteDialogMessage))
+                .setPositiveButton(getString(R.string.deleteDialogYes), (dialog, id) -> deleteAccountListener.deleteAccountConfirm())
+                .setNegativeButton(getString(R.string.deleteDialogNo), (dialog, id) -> {
+                });
 
         // Create the AlertDialog object and return it
         return builder.create();
@@ -46,7 +48,7 @@ public class DeleteAccountDialog extends AppCompatDialogFragment {
     }
 
 
-    public interface DeleteAccountListener{
+    public interface DeleteAccountListener {
         void deleteAccountConfirm();
     }
 }

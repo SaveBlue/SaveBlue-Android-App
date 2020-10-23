@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -28,7 +27,6 @@ import com.saveblue.saveblueapp.models.RegisterUser;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -38,7 +36,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterDialog extends DialogFragment {
-    private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
+    private final SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
     private ConstraintLayout snackbarLayout;
 
     private EditText username;
@@ -53,18 +51,15 @@ public class RegisterDialog extends DialogFragment {
     private EditText password2;
     private TextInputLayout password2Layout;
 
-    private Button button;
-
-
     private Toolbar toolbar;
 
     private RegisterDialogListener registerDialogListener;
 
 
-    public static RegisterDialog display(FragmentManager fragmentManager) {
+    // displays the register dialog
+    public static void display(FragmentManager fragmentManager) {
         RegisterDialog registerDialog = new RegisterDialog();
         registerDialog.show(fragmentManager, "registerDialog");
-        return registerDialog;
     }
 
     @Override
@@ -73,6 +68,7 @@ public class RegisterDialog extends DialogFragment {
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
     }
 
+    // set the dialog in fullscreen
     @Override
     public void onStart() {
         super.onStart();
@@ -99,13 +95,14 @@ public class RegisterDialog extends DialogFragment {
     public void onViewCreated(@NotNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setNavigationOnClickListener(v -> dismiss());
-        toolbar.setTitle("Register");
+        toolbar.setTitle(getString(R.string.register));
 
         snackbarLayout = view.findViewById(R.id.constraintLayout);
 
         initUI(view);
     }
 
+    // initialize the ui elements
     private void initUI(View view) {
         username = view.findViewById(R.id.username);
         usernameLayout = view.findViewById(R.id.layoutUsername);
@@ -119,7 +116,7 @@ public class RegisterDialog extends DialogFragment {
         password2 = view.findViewById(R.id.passwordRegister2);
         password2Layout = view.findViewById(R.id.layoutPass2);
 
-        button = view.findViewById(R.id.registerButton);
+        Button button = view.findViewById(R.id.registerButton);
         button.setOnClickListener(v -> {
             if (handleInputFields()) {
                 sendToRegister();
@@ -129,6 +126,7 @@ public class RegisterDialog extends DialogFragment {
         setTextListeners();
     }
 
+    // starts the register api call
     private void sendToRegister() {
         String emailStr = email.getText().toString();
         String usernameStr = username.getText().toString();
@@ -137,6 +135,7 @@ public class RegisterDialog extends DialogFragment {
         register(emailStr, usernameStr, passwordStr);
     }
 
+    // returns new user data to activity
     private void sendToActivity() {
         String usernameStr = username.getText().toString();
         String passwordStr = password1.getText().toString();
@@ -150,6 +149,7 @@ public class RegisterDialog extends DialogFragment {
     // Text field handling
     // ---------------------------------------------------------
 
+    // handle input fields correctness on register button click
     private boolean handleInputFields() {
         boolean detectedError = false;
 
@@ -188,6 +188,7 @@ public class RegisterDialog extends DialogFragment {
         return !detectedError;
     }
 
+    // clears errors on text field
     private void setTextListeners() {
 
         username.addTextChangedListener(new TextWatcher() {
@@ -292,6 +293,7 @@ public class RegisterDialog extends DialogFragment {
     // API calls
     // ---------------------------------------------------------
 
+    // registers the user
     public void register(String email, String username, String password) {
 
         RegisterUser registerUser = new RegisterUser(email, username, password);
@@ -303,7 +305,7 @@ public class RegisterDialog extends DialogFragment {
             public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
                 if (!response.isSuccessful() && response.code() != 409) {
 
-                    Snackbar.make(snackbarLayout, "Error registering :(", Snackbar.LENGTH_LONG)
+                    Snackbar.make(snackbarLayout, getString(R.string.registerErrorMessage), Snackbar.LENGTH_LONG)
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                     return;
                 }
@@ -329,7 +331,7 @@ public class RegisterDialog extends DialogFragment {
 
             @Override
             public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
-                Snackbar.make(snackbarLayout, "Can't connect to server :(", Snackbar.LENGTH_LONG)
+                Snackbar.make(snackbarLayout, getString(R.string.serverMessage), Snackbar.LENGTH_LONG)
                         .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             }
         });

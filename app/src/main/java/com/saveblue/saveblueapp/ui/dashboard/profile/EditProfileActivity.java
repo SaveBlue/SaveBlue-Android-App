@@ -1,18 +1,15 @@
 package com.saveblue.saveblueapp.ui.dashboard.profile;
 
 import android.os.Bundle;
-import android.os.PatternMatcher;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -35,7 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditProfileActivity extends AppCompatActivity {
-    private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
+    private final SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
     String task;
 
     EditText editText1;
@@ -43,6 +40,7 @@ public class EditProfileActivity extends AppCompatActivity {
     TextInputLayout layout1;
     TextInputLayout layout2;
 
+    // selectes either change password or user data
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +57,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
+    // initialise toolbar
     public void initToolbar(String text) {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationOnClickListener(v -> finish());
@@ -66,6 +65,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
+    // initialise general ui elements
     public void initUI() {
         editText1 = findViewById(R.id.inputField1);
         editText2 = findViewById(R.id.inputField2);
@@ -73,8 +73,9 @@ public class EditProfileActivity extends AppCompatActivity {
         layout2 = findViewById(R.id.inputLayout2);
     }
 
+    // initialise ui elements for password changes
     public void initUIPass() {
-        initToolbar("Change Password");
+        initToolbar(getString(R.string.changePassword));
         initUI();
 
         layout1.setStartIconDrawable(R.drawable.ic_baseline_lock_24);
@@ -86,20 +87,18 @@ public class EditProfileActivity extends AppCompatActivity {
         Button confirmButton = findViewById(R.id.confirmButton);
         setTextListeners();
 
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (handleInputFields()) {
-                    User user = new User();
-                    user.setPassword(editText1.getText().toString());
+        confirmButton.setOnClickListener(v -> {
+            if (handleInputFields()) {
+                User user = new User();
+                user.setPassword(editText1.getText().toString());
 
-                    callApiUpdatetUser(user);
-                }
+                callApiUpdatetUser(user);
             }
         });
 
     }
 
+    // initialise ui elements for user data changes
     public void initUIEdit() {
         initToolbar("Edit Profile");
         initUI();
@@ -112,31 +111,27 @@ public class EditProfileActivity extends AppCompatActivity {
         fillUserData();
 
         // rename fields
-        layout1.setHint("Username");
-        layout2.setHint("Email");
-        confirmButton.setText("Update Profile");
+        layout1.setHint(getString(R.string.username));
+        layout2.setHint(getString(R.string.email));
+        confirmButton.setText(getString(R.string.email));
 
         editText1.setInputType(InputType.TYPE_CLASS_TEXT);
         editText2.setInputType(InputType.TYPE_CLASS_TEXT);
 
 
+        confirmButton.setOnClickListener(v -> {
+            if (handleInputFields()) {
+                User user = new User();
+                user.setUsername(editText1.getText().toString());
+                user.setEmail(editText2.getText().toString());
 
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-               if(handleInputFields()) {
-                   User user = new User();
-                   user.setUsername(editText1.getText().toString());
-                   user.setEmail(editText2.getText().toString());
-
-                   callApiUpdatetUser(user);
-               }
+                callApiUpdatetUser(user);
             }
         });
     }
 
-    private void fillUserData(){
+    // fills fetched user data in corresponding fields
+    private void fillUserData() {
         //fetch jwt from dedicated handler class
         JwtHandler jwtHandler = new JwtHandler(getApplicationContext());
         String jwt = jwtHandler.getJwt();
@@ -144,13 +139,9 @@ public class EditProfileActivity extends AppCompatActivity {
 
         ProfileViewModel profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
 
-        profileViewModel.getUser(id, jwt).observe(this, new Observer<User>() {
-            @Override
-            public void onChanged(User user) {
-
-                editText1.setText(user.getUsername());
-                editText2.setText(user.getEmail());
-            }
+        profileViewModel.getUser(id, jwt).observe(this, user -> {
+            editText1.setText(user.getUsername());
+            editText2.setText(user.getEmail());
         });
     }
 
@@ -158,6 +149,7 @@ public class EditProfileActivity extends AppCompatActivity {
     // Input field handling
     // ---------------------------------------------------------
 
+    // checks input field correctness
     private boolean handleInputFields() {
         boolean detectedError = false;
 
@@ -177,7 +169,7 @@ public class EditProfileActivity extends AppCompatActivity {
         }
 
         Pattern emailRegex = Pattern.compile("(?:[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])");
-        if(Objects.equals(task, "EDIT") && !emailRegex.matcher(Objects.requireNonNull(editText2.getText().toString())).matches()){
+        if (Objects.equals(task, "EDIT") && !emailRegex.matcher(Objects.requireNonNull(editText2.getText().toString())).matches()) {
             layout2.setError(getString(R.string.emailError));
             detectedError = true;
         }
@@ -185,6 +177,7 @@ public class EditProfileActivity extends AppCompatActivity {
         return !detectedError;
     }
 
+    // clears errors from input fields
     private void setTextListeners() {
 
         editText1.addTextChangedListener(new TextWatcher() {
@@ -232,6 +225,7 @@ public class EditProfileActivity extends AppCompatActivity {
     // API calls
     // ---------------------------------------------------------
 
+    // api call to update user data or change password
     private void callApiUpdatetUser(User user) {
         JwtHandler jwtHandler = new JwtHandler(getApplicationContext());
 
@@ -242,20 +236,20 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
                 if (!response.isSuccessful()) {
-                    Snackbar.make(findViewById(R.id.constraintLayout), "Couldn't update User data :(", Snackbar.LENGTH_LONG)
+                    Snackbar.make(findViewById(R.id.constraintLayout), getString(R.string.updateUserErrorMessage), Snackbar.LENGTH_LONG)
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                     return;
                 }
 
                 // Display toast and close activity
-                Toast.makeText(getApplicationContext(), "User data updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.updateUserMessage), Toast.LENGTH_SHORT).show();
                 finish();
 
             }
 
             @Override
             public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
-                Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.serverMessage), Toast.LENGTH_SHORT).show();
             }
         });
     }

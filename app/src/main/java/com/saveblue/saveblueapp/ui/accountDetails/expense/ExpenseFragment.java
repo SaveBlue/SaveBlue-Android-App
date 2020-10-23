@@ -1,20 +1,17 @@
 package com.saveblue.saveblueapp.ui.accountDetails.expense;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.saveblue.saveblueapp.JwtHandler;
 import com.saveblue.saveblueapp.R;
@@ -30,7 +27,7 @@ public class ExpenseFragment extends Fragment {
     private ExpenseRecyclerAdapter expenseRecyclerAdapter;
     private List<Expense> expenseList = new ArrayList<>();
 
-    private String accountID;
+    private final String accountID;
 
     private TextView noExpenses;
 
@@ -84,18 +81,15 @@ public class ExpenseFragment extends Fragment {
         JwtHandler jwtHandler = new JwtHandler(getContext());
         String jwt = jwtHandler.getJwt();
 
-        expenseViewModel.getExpenses(accountID, jwt).observe(getViewLifecycleOwner(), new Observer<List<Expense>>() {
-            @Override
-            public void onChanged(List<Expense> expenseList) {
-                expenseRecyclerAdapter.setExpenseList(expenseList);
+        expenseViewModel.getExpenses(accountID, jwt).observe(getViewLifecycleOwner(), expenseList -> {
+            expenseRecyclerAdapter.setExpenseList(expenseList);
 
-                // Show/hide "no incomes" text
-                if (expenseRecyclerAdapter.getItemCount()>0){
-                    noExpenses.setVisibility(View.GONE);
-                }
-                else{
-                    noExpenses.setVisibility(View.VISIBLE);
-                }
+            // Show/hide "no incomes" text
+            if (expenseRecyclerAdapter.getItemCount()>0){
+                noExpenses.setVisibility(View.GONE);
+            }
+            else{
+                noExpenses.setVisibility(View.VISIBLE);
             }
         });
     }

@@ -8,11 +8,11 @@ import android.util.Base64;
 // custom class to handle fetching of jwt from shared preferences and decoding it
 public class JwtHandler extends Application {
 
-    private String jwt;
-    private String id;
-    private Context context;
+    private final String jwt;
+    private final String id;
+    private final Context context;
 
-    public JwtHandler(Context context){
+    public JwtHandler(Context context) {
         this.context = context;
 
         jwt = getJWTfromSharedPref();

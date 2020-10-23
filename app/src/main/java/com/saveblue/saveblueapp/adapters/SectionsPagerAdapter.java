@@ -14,13 +14,14 @@ import com.saveblue.saveblueapp.ui.accountDetails.overview.AccountOverviewFragme
  * one of the sections/tabs/pages.
  */
 public class SectionsPagerAdapter extends FragmentStateAdapter {
-    private String accountId;
+    private final String accountId;
 
     public SectionsPagerAdapter(FragmentActivity fa, String accountId) {
         super(fa);
         this.accountId = accountId;
     }
 
+    // paginates account details activity
     @NonNull
     @Override
     public Fragment createFragment(int position) {

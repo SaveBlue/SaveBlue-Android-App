@@ -139,8 +139,8 @@ public class AddExpenseActivity extends AppCompatActivity {
 
 
         // Populate spinner
-        spinnerArrayAdapter = new ArrayAdapter<>(this,  R.layout.dropdown_menu_item, accountListNames);
-        spinnerArrayAdapter.setDropDownViewResource( R.layout.dropdown_menu_item);
+        spinnerArrayAdapter = new ArrayAdapter<>(this, R.layout.dropdown_menu_item, accountListNames);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.dropdown_menu_item);
         spinnerAccount.setAdapter(spinnerArrayAdapter);
 
         // setup date operations
@@ -230,13 +230,13 @@ public class AddExpenseActivity extends AppCompatActivity {
         buttonAddExpense.setOnClickListener(v -> {
                     //TODO pohendli polja za vnos v newExpense
 
-                    if(handleInputFields()){
+                    if (handleInputFields()) {
                         String jwt = jwtHandler.getJwt();
                         String userId = jwtHandler.getId();
                         String accountId = (accountList.get((int) spinnerAccount.getSelectedItemId()).getId());
 
                         Toast.makeText(getApplicationContext(), "Add clicked", Toast.LENGTH_SHORT).show();
-                        String description = descriptionEditText.getText().length() == 0 ?  "" : descriptionEditText.getText().toString();
+                        String description = descriptionEditText.getText().length() == 0 ? "" : descriptionEditText.getText().toString();
                         String date2Api = TimestampHandler.parse2Mongo(textDate.getText().toString());
 
                         System.out.println("-------------------------------");
@@ -280,7 +280,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
                     //TODO pohendli polja za vnos v newExpense
                     String date2Api = TimestampHandler.parse2Mongo(textDate.getText().toString());
-                    String description = "";
+                    String description = descriptionEditText.getText().length() == 0 ? "" : descriptionEditText.getText().toString();
 
                     Expense editedExpense = new Expense(accountId, userId, "name", description, date2Api, Float.parseFloat(editTextAmount.getText().toString()));
                     updateExpense(expenseID, editedExpense, jwtHandler.getJwt());
@@ -299,7 +299,7 @@ public class AddExpenseActivity extends AppCompatActivity {
             detectedError = true;
         }
 
-        if(catSpinner1.getSelectedItemId() == 0){
+        if (catSpinner1.getSelectedItemId() == 0) {
             catSpinner1Error.setVisibility(View.VISIBLE);
             detectedError = true;
         }

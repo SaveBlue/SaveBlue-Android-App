@@ -9,9 +9,10 @@ import java.util.Locale;
 
 public class TimestampHandler {
 
-    public static String parseMongoTimestamp(String timestamp){
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" , Locale.getDefault());
-        SimpleDateFormat df2 = new SimpleDateFormat("dd-MMM-yyyy" , Locale.getDefault());
+    // parse mongo timestamp to dd-MMM-yyyy format
+    public static String parseMongoTimestamp(String timestamp) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+        SimpleDateFormat df2 = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
         try {
             Date mongoDate = df.parse(timestamp);
 
@@ -25,10 +26,11 @@ public class TimestampHandler {
         return "No Date";
     }
 
-    public static String parse2Mongo(String dateStr){
+    // parse selected date to mongo timestamp
+    public static String parse2Mongo(String dateStr) {
 
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy" , Locale.getDefault());
-        SimpleDateFormat dfMongo = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" , Locale.getDefault());
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        SimpleDateFormat dfMongo = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
 
         try {
             Calendar cal = Calendar.getInstance();
@@ -48,8 +50,7 @@ public class TimestampHandler {
             System.out.println(dfMongo.format(cal.getTime()));
             assert date != null;
             return dfMongo.format(cal.getTime());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

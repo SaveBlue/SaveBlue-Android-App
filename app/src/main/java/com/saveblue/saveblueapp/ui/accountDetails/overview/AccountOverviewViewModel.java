@@ -13,6 +13,8 @@ import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.Account;
 import com.saveblue.saveblueapp.models.Income;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,20 +49,19 @@ public class AccountOverviewViewModel extends AndroidViewModel {
 
         callAsync.enqueue(new Callback<Account>() {
             @Override
-            public void onResponse(Call<Account> call, Response<Account> response) {
+            public void onResponse(@NotNull Call<Account> call, @NotNull Response<Account> response) {
                 // if request was denied, ignore call not found
                 if (!response.isSuccessful() && response.code() != 404) {
                     //Toast.makeText((), "Request Error", Toast.LENGTH_LONG).show();
-                    System.out.println("Request Error");
 
                     //logout if jwt in not valid any more
-                    Logout.logout(getApplication().getApplicationContext());
+                    Logout.logout(getApplication().getApplicationContext(), 1);
                     return;
                 }
 
                 // if call not found set empty list
-                if(response.code() == 404) {
-                    account.setValue(new Account("",1));
+                if (response.code() == 404) {
+                    account.setValue(new Account("", 1));
                     return;
                 }
 
@@ -71,9 +72,8 @@ public class AccountOverviewViewModel extends AndroidViewModel {
             }
 
             @Override
-            public void onFailure(Call<Account> call, Throwable t) {
+            public void onFailure(@NotNull Call<Account> call, @NotNull Throwable t) {
                 //Toast.makeText(getApplicationContext(), "No Network Connectivity!", Toast.LENGTH_LONG).show();
-                System.out.println("No Network Connectivity!");
             }
         });
     }
