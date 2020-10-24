@@ -12,7 +12,9 @@ public class Expense {
 
     private String userID;
 
-    private String name;
+    private String category1;
+
+    private String category2;
 
     private String description;
 
@@ -22,13 +24,14 @@ public class Expense {
 
     // Constructor
 
-    public Expense(String accountID, String userID, String name, String description, String date, float amount) {
+    public Expense(String accountID, String userID, String description, String date, float amount, String category1, String category2) {
         this.accountID = accountID;
         this.userID = userID;
-        this.name = name;
         this.description = description;
         this.date = date;
         this.amount = amount;
+        this.category1 = category1;
+        this.category2 = category2;
     }
 
     public String getAccountID() {
@@ -37,10 +40,6 @@ public class Expense {
 
     public String getUserID() {
         return userID;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getDescription() {
@@ -56,4 +55,12 @@ public class Expense {
     }
 
     public String getId() { return id; }
+
+    public String getCategory1() {
+        return category1;
+    }
+
+    public String getCategory2() {
+        return category2;
+    }
 }

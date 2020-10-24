@@ -51,7 +51,8 @@ public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAd
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
 
-        holder.name.setText(incomeList.get(position).getName());
+        holder.cat1.setText(incomeList.get(position).getName());
+        holder.cat2.setVisibility(View.GONE);
         holder.description.setText(incomeList.get(position).getDescription());
         holder.date.setText(TimestampHandler.parseMongoTimestamp(incomeList.get(position).getDate()));
         holder.amount.setText(String.valueOf(incomeList.get(position).getAmount()) + " €");
@@ -87,7 +88,8 @@ public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAd
     }
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
-        public TextView name;
+        public TextView cat1;
+        public TextView cat2;
         public TextView amount;
         public TextView date;
         public TextView description;
@@ -98,7 +100,8 @@ public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAd
 
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.ExpenseIncomeName);
+            cat1 = itemView.findViewById(R.id.ExpenseIncomeCat1);
+            cat2 = itemView.findViewById(R.id.ExpenseIncomeCat2);
             amount = itemView.findViewById(R.id.ExpenseIncomeAmount);
             date = itemView.findViewById(R.id.ExpenseIncomeDate);
             description = itemView.findViewById(R.id.ExpenseIncomeDescription);

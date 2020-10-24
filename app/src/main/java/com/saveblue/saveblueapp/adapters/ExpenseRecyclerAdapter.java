@@ -54,10 +54,12 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
 
-        holder.name.setText(expenseList.get(position).getName());
-        holder.description.setText(expenseList.get(position).getDescription());
+        holder.cat1.setText(expenseList.get(position).getCategory1());
+        holder.cat2.setText(expenseList.get(position).getCategory2());
         holder.date.setText(TimestampHandler.parseMongoTimestamp(expenseList.get(position).getDate()));
         holder.amount.setText(String.valueOf(expenseList.get(position).getAmount()) + " €");
+        holder.description.setText(expenseList.get(position).getDescription());
+
 
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +92,8 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
     }
 
     public  class CardViewHolder extends RecyclerView.ViewHolder {
-        public TextView name;
+        public TextView cat1;
+        public TextView cat2;
         public TextView amount;
         public TextView date;
         public TextView description;
@@ -101,7 +104,8 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
 
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.ExpenseIncomeName);
+            cat1 = itemView.findViewById(R.id.ExpenseIncomeCat1);
+            cat2 = itemView.findViewById(R.id.ExpenseIncomeCat2);
             amount = itemView.findViewById(R.id.ExpenseIncomeAmount);
             date = itemView.findViewById(R.id.ExpenseIncomeDate);
             description = itemView.findViewById(R.id.ExpenseIncomeDescription);

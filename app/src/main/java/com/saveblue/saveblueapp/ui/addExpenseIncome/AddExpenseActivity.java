@@ -36,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -48,13 +49,14 @@ import retrofit2.Response;
 
 public class AddExpenseActivity extends AppCompatActivity {
 
-    private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
+    private final SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
     private JwtHandler jwtHandler;
 
     private OverviewViewModel overviewViewModel;
     private ArrayAdapter<String> spinnerArrayAdapter;
     private ArrayAdapter<String> spinnerCategoryAdapter1;
     private ArrayAdapter<String> spinnerCategoryAdapter2;
+    private String setSpinner2Flag = "";
 
     private List<Account> accountList = new ArrayList<>();
     private final List<String> accountListNames = new ArrayList<>();
@@ -69,15 +71,12 @@ public class AddExpenseActivity extends AppCompatActivity {
     private Spinner spinnerAccount;
     private Spinner catSpinner1;
     private Spinner catSpinner2;
-    private EditText editTextNameAddExpense;
     private EditText descriptionEditText;
     private TextInputLayout amountLayout;
     private TextView catSpinner1Error;
 
 
-    // TODO: remove name edit text
-
-
+    // differentiate between adding and editing expense + setup viewmodel
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +103,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         observerSetup();
     }
 
+    // initialize general ui elements
     private void initUIElements() {
         // Set UI elements
         spinnerAccount = findViewById(R.id.spinnerAccountAddExpense);
@@ -112,7 +112,6 @@ public class AddExpenseActivity extends AppCompatActivity {
         catSpinner1Error = findViewById(R.id.catSpinner1Error);
 
         // TODO fix
-        editTextNameAddExpense = findViewById(R.id.editTextNameAddIncome);
         descriptionEditText = findViewById(R.id.descriptionEditText);
 
         textDate = findViewById(R.id.date);
@@ -148,25 +147,19 @@ public class AddExpenseActivity extends AppCompatActivity {
         textDate.setText(df.format(Calendar.getInstance().getTime()));
 
         MaterialDatePicker.Builder<Long> dateBuilder = MaterialDatePicker.Builder.datePicker();
-        dateBuilder.setTitleText("Select Date");
+        dateBuilder.setTitleText(getString(R.string.datePickerTitle));
         MaterialDatePicker<Long> datePicker = dateBuilder.build();
 
-        datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
-            @Override
-            public void onPositiveButtonClick(Long selection) {
-                textDate.setText(df.format(new Date(selection)));
-            }
-        });
+        datePicker.addOnPositiveButtonClickListener(selection -> textDate.setText(df.format(new Date(selection))));
 
         // display date picker on icon click
         Button dateButton = findViewById(R.id.dateButton);
         dateButton.setOnClickListener(v -> datePicker.show(getSupportFragmentManager(), "Select date of Expense"));
 
-
         initCategorySelector();
-
     }
 
+    // initialize category selectors + fill them up according to right category
     private void initCategorySelector() {
         Resources res = getResources();
         String[] categories1 = res.getStringArray(R.array.categoriesE1);
@@ -214,12 +207,18 @@ public class AddExpenseActivity extends AppCompatActivity {
                 }
 
                 // clear spinner error message
-                if(position > 0)
+                if (position > 0)
                     catSpinner1Error.setVisibility(View.GONE);
 
                 spinnerCategoryAdapter2 = new ArrayAdapter<>(getApplicationContext(), R.layout.dropdown_menu_item, categories2);
                 spinnerCategoryAdapter2.setDropDownViewResource(R.layout.dropdown_menu_item);
                 catSpinner2.setAdapter(spinnerCategoryAdapter2);
+
+                // required to set spinner 2 for edit task
+                if (task.equals("EDIT") && !setSpinner2Flag.equals("")) {
+                    catSpinner2.setSelection(Arrays.asList(categories2).indexOf(setSpinner2Flag));
+                    setSpinner2Flag = "";
+                }
             }
 
             @Override
@@ -227,14 +226,13 @@ public class AddExpenseActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
+    // initialize ui elements for adding expense
     private void initUIAdd() {
         // init toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Add Expense");
+        toolbar.setTitle(getString(R.string.addExpenseTitle));
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
@@ -246,37 +244,29 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         // Set onClickListeners
         buttonAddExpense.setOnClickListener(v -> {
-                    //TODO pohendli polja za vnos v newExpense
-
                     if (handleInputFields()) {
                         String jwt = jwtHandler.getJwt();
                         String userId = jwtHandler.getId();
                         String accountId = (accountList.get((int) spinnerAccount.getSelectedItemId()).getId());
 
-                        Toast.makeText(getApplicationContext(), "Add clicked", Toast.LENGTH_SHORT).show();
                         String description = descriptionEditText.getText().length() == 0 ? "" : descriptionEditText.getText().toString();
                         String date2Api = TimestampHandler.parse2Mongo(textDate.getText().toString());
-
-                        System.out.println("-------------------------------");
                         String cat1 = catSpinner1.getSelectedItem().toString();
                         String cat2 = catSpinner2.getSelectedItem().toString();
-                        System.out.println(cat1);
-                        System.out.println(cat2);
-                        System.out.println("-------------------------------");
 
-
-                        //Expense newExpense = new Expense(accountId, userId, editTextNameAddExpense.getText().toString(), description, date2Api, Float.parseFloat(editTextAmount.getText().toString()));
-                        //addExpense(newExpense, jwt);
+                        Expense newExpense = new Expense(accountId, userId, description, date2Api, Float.parseFloat(editTextAmount.getText().toString()), cat1, cat2);
+                        addExpense(newExpense, jwt);
                     }
 
                 }
         );
     }
 
+    // initialize ui elements for editing expense
     private void initUIEdit() {
         // init toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Update Expense");
+        toolbar.setTitle(getString(R.string.editExpenseTitle));
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
@@ -286,22 +276,25 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         // setup buttons
         Button buttonEditExpense = findViewById(R.id.buttonAddExpense);
-        buttonEditExpense.setText("Update Expense");
+        buttonEditExpense.setText(getString(R.string.updateExpenseText));
 
         Button buttonDeleteExpense = findViewById(R.id.buttonDeleteExpense);
         buttonDeleteExpense.setVisibility(View.VISIBLE);
 
         // Set onClickListeners
         buttonEditExpense.setOnClickListener(v -> {
-                    String userId = jwtHandler.getId();
-                    String accountId = (accountList.get((int) spinnerAccount.getSelectedItemId()).getId());
+                    if (handleInputFields()) {
+                        String userId = jwtHandler.getId();
+                        String accountId = (accountList.get((int) spinnerAccount.getSelectedItemId()).getId());
 
-                    //TODO pohendli polja za vnos v newExpense
-                    String date2Api = TimestampHandler.parse2Mongo(textDate.getText().toString());
-                    String description = descriptionEditText.getText().length() == 0 ? "" : descriptionEditText.getText().toString();
+                        String date2Api = TimestampHandler.parse2Mongo(textDate.getText().toString());
+                        String description = descriptionEditText.getText().length() == 0 ? "" : descriptionEditText.getText().toString();
+                        String cat1 = catSpinner1.getSelectedItem().toString();
+                        String cat2 = catSpinner2.getSelectedItem().toString();
 
-                    Expense editedExpense = new Expense(accountId, userId, "name", description, date2Api, Float.parseFloat(editTextAmount.getText().toString()));
-                    updateExpense(expenseID, editedExpense, jwtHandler.getJwt());
+                        Expense editedExpense = new Expense(accountId, userId, description, date2Api, Float.parseFloat(editTextAmount.getText().toString()), cat1, cat2);
+                        updateExpense(expenseID, editedExpense, jwtHandler.getJwt());
+                    }
                 }
         );
 
@@ -309,6 +302,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     }
 
+    // handles input field correctness
     private boolean handleInputFields() {
         boolean detectedError = false;
 
@@ -325,7 +319,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         return !detectedError;
     }
 
-
+    // on edit task set account spinner to right account
     public void setSpinnerToRightAccount(String baseAccountID) {
         for (int i = 0; i < accountList.size(); i++) {
             if (accountList.get(i).getId().equals(baseAccountID)) {
@@ -334,6 +328,15 @@ public class AddExpenseActivity extends AppCompatActivity {
         }
     }
 
+    //sets both spinners to the right category
+    public void setSpinnersToRightCategory(String cat1, String cat2) {
+        final ArrayList<String> cat1Strings = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.categoriesE1)));
+        catSpinner1.setSelection(cat1Strings.indexOf(cat1));
+        setSpinner2Flag = cat2;
+    }
+
+
+    // setup observer for fetching account list
     private void observerSetup() {
         //fetch jwt from dedicated handler class
         String jwt = jwtHandler.getJwt();
@@ -361,6 +364,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         });
     }
 
+    // handle back button press
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -380,6 +384,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     // API calls
     // ---------------------------------------------------------
 
+    // api call for adding new expense
     private void addExpense(Expense newExpense, String jwt) {
 
         Call<ResponseBody> callAddExpense = api.addExpense(jwt, newExpense);
@@ -395,7 +400,6 @@ public class AddExpenseActivity extends AppCompatActivity {
                 // Display toast and close activity
                 Toast.makeText(getApplicationContext(), "Expense added", Toast.LENGTH_SHORT).show();
                 finish();
-
             }
 
             @Override
@@ -405,6 +409,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         });
     }
 
+    // api call for fetching expenses
     private void getExpense(String expenseID, String jwt) {
 
         Call<Expense> callGetExpense = api.getExpense(jwt, expenseID);
@@ -419,25 +424,24 @@ public class AddExpenseActivity extends AppCompatActivity {
                 Expense expense = response.body();
                 assert expense != null;
 
-                //fill UI elements from fetched income;
-                //editTextNameAddExpense.setText(expense.getName());
+                // fill ui from fetched expense
                 descriptionEditText.setText(expense.getDescription());
                 editTextAmount.setText(String.valueOf(expense.getAmount()));
-
                 textDate.setText(TimestampHandler.parseMongoTimestamp(expense.getDate()));
 
                 setSpinnerToRightAccount(expense.getAccountID());
-
+                setSpinnersToRightCategory(expense.getCategory1(), expense.getCategory2());
             }
 
             @Override
             public void onFailure(@NotNull Call<Expense> call, @NotNull Throwable t) {
-                Toast.makeText(getApplicationContext(), "Other Errorr", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
             }
         });
     }
 
+    // api call for updating expense
     private void updateExpense(String expenseID, Expense expense, String jwt) {
         Call<ResponseBody> callUpdateExpense = api.editExpense(jwt, expenseID, expense);
 
@@ -452,7 +456,6 @@ public class AddExpenseActivity extends AppCompatActivity {
                 // Display toast and close activity
                 Toast.makeText(getApplicationContext(), "Expense updated", Toast.LENGTH_SHORT).show();
                 finish();
-
             }
 
             @Override
@@ -462,6 +465,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         });
     }
 
+    // api call for deleting expense
     private void deleteExpense(String expenseID, String jwt) {
         Call<ResponseBody> callDeleteExpense = api.deleteExpense(jwt, expenseID);
 
@@ -476,7 +480,6 @@ public class AddExpenseActivity extends AppCompatActivity {
                 // Display toast and close activity
                 Toast.makeText(getApplicationContext(), "Expense deleted", Toast.LENGTH_SHORT).show();
                 finish();
-
             }
 
             @Override

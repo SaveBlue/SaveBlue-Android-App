@@ -57,12 +57,18 @@
     <string name="accountText">Account:</string>
 
 
+    <!-- add/edit expense activity -->
+    <string name="addExpenseTitle">Add Expense</string>
+    <string name="editExpenseTitle">Edit Expense</string>
+    <string name="updateExpenseText">Update Expense</string>
+    <string name="datePickerTitle">Select Date</string>
+
+
 
 
 
 
     <!-- delete acc dialog -->
-
     <string name="deleteDialogTitle">Delete Account?</string>
     <string name="deleteDialogMessage">Delete the account and all its content?</string>
     <string name="deleteDialogYes">Yes</string>
