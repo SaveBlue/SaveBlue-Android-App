@@ -70,31 +70,64 @@
     <string name="start_of_month">Start of Month</string>
 
     <!-- categories string arrays -->
-    <string-array name="categories1">
+    <string-array name="categoriesE1">
         <item>Primary Category</item>
-        <item>1</item>
-        <item>2</item>
+        <item>Personal</item>
+        <item>Food &amp; Drinks</item>
+        <item>Home &amp; Utilities</item>
+        <item>Transport</item>
+        <item>Leisure</item>
+        <item>Health</item>
     </string-array>
 
-    <string-array name="categories2">
+    <string-array name="categoriesE2">
         <item>Select primary category first!</item>
     </string-array>
 
-
-
-    <string-array name="categories21">
-        <item>21</item>
-        <item>21</item>
+    <string-array name="categoriesE21">
+        <item>Personal Hygiene</item>
+        <item>Personal Care Services</item>
+        <item>Clothing &amp; Footwear</item>
+        <item>Consumer Electronics</item>
+        <item>Subscriptions</item>
+        <item>Education</item>
+        <item>Insurance</item>
+        <item>Taxes</item>
+        <item>Debts</item>
     </string-array>
 
-    <string-array name="categories22">
-        <item>22</item>
-        <item>22</item>
+    <string-array name="categoriesE22">
+        <item>Groceries</item>
+        <item>Restaurants</item>
+        <item>Alcohol</item>
+        <item>Coffee &amp; Tea</item>
     </string-array>
 
-    <string-array name="categories23">
-        <item>23</item>
-        <item>23</item>
+    <string-array name="categoriesE23">
+        <item>Household Goods</item>
+        <item>Bills</item>
+        <item>Maintenance</item>
+        <item>Rent</item>
     </string-array>
 
+    <string-array name="categoriesE24">
+        <item>Personal vehicle</item>
+        <item>Gas</item>
+        <item>Parking</item>
+        <item>Public transport</item>
+        <item>Tolls</item>
+        <item>Taxi</item>
+    </string-array>
+
+    <string-array name="categoriesE25">
+        <item>Sport</item>
+        <item>Entertainment</item>
+        <item>Culture</item>
+        <item>Holidays</item>
+    </string-array>
+
+    <string-array name="categoriesE26">
+        <item>Medicine &amp; supplements</item>
+        <item>Medical services &amp; diagnostics</item>
+    </string-array>
 </resources>

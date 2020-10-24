@@ -169,7 +169,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     private void initCategorySelector() {
         Resources res = getResources();
-        String[] categories1 = res.getStringArray(R.array.categories1);
+        String[] categories1 = res.getStringArray(R.array.categoriesE1);
 
         spinnerCategoryAdapter1 = new ArrayAdapter<>(getApplicationContext(), R.layout.dropdown_menu_item, categories1);
         spinnerCategoryAdapter1.setDropDownViewResource(R.layout.dropdown_menu_item);
@@ -179,7 +179,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         catSpinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String[] categories2 = res.getStringArray(R.array.categories2);
+                String[] categories2 = res.getStringArray(R.array.categoriesE2);
 
                 catSpinner2.setEnabled(true);
 
@@ -189,15 +189,33 @@ public class AddExpenseActivity extends AppCompatActivity {
                         break;
 
                     case 1:
-                        categories2 = res.getStringArray(R.array.categories21);
-                        catSpinner1Error.setVisibility(View.GONE);
+                        categories2 = res.getStringArray(R.array.categoriesE21);
                         break;
 
                     case 2:
-                        categories2 = res.getStringArray(R.array.categories22);
-                        catSpinner1Error.setVisibility(View.GONE);
+                        categories2 = res.getStringArray(R.array.categoriesE22);
+                        break;
+
+                    case 3:
+                        categories2 = res.getStringArray(R.array.categoriesE23);
+                        break;
+
+                    case 4:
+                        categories2 = res.getStringArray(R.array.categoriesE24);
+                        break;
+
+                    case 5:
+                        categories2 = res.getStringArray(R.array.categoriesE25);
+                        break;
+
+                    case 6:
+                        categories2 = res.getStringArray(R.array.categoriesE26);
                         break;
                 }
+
+                // clear spinner error message
+                if(position > 0)
+                    catSpinner1Error.setVisibility(View.GONE);
 
                 spinnerCategoryAdapter2 = new ArrayAdapter<>(getApplicationContext(), R.layout.dropdown_menu_item, categories2);
                 spinnerCategoryAdapter2.setDropDownViewResource(R.layout.dropdown_menu_item);
