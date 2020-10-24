@@ -1,15 +1,14 @@
 package com.saveblue.saveblueapp.adapters;
 
 import android.animation.LayoutTransition;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,25 +19,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.TimestampHandler;
 import com.saveblue.saveblueapp.animations.AdapterAnimations;
-import com.saveblue.saveblueapp.animations.ViewAnimation;
 import com.saveblue.saveblueapp.models.Expense;
 import com.saveblue.saveblueapp.ui.addExpenseIncome.AddExpenseActivity;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecyclerAdapter.CardViewHolder> {
 
     private List<Expense> expenseList;
-    private Context context;
+    private final Context context;
 
+    // adapter init
     public ExpenseRecyclerAdapter(Context context, List<Expense> expenseList) {
         this.context = context;
         this.expenseList = expenseList;
     }
 
+    // replaces expense list after api call
     public void setExpenseList(List<Expense> expenseList) {
         this.expenseList = expenseList;
         notifyDataSetChanged();
@@ -51,37 +48,34 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
         return new CardViewHolder(view);
     }
 
+    // handles recycler view items content
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
 
         holder.cat1.setText(expenseList.get(position).getCategory1());
         holder.cat2.setText(expenseList.get(position).getCategory2());
         holder.date.setText(TimestampHandler.parseMongoTimestamp(expenseList.get(position).getDate()));
-        holder.amount.setText(String.valueOf(expenseList.get(position).getAmount()) + " €");
+        holder.amount.setText(expenseList.get(position).getAmount() + " €");
         holder.description.setText(expenseList.get(position).getDescription());
 
-
-        holder.card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (holder.expandable.getVisibility() == View.VISIBLE) {
-                    holder.expandable.setVisibility(View.GONE);
-                    AdapterAnimations.toggleArrow(holder.arrow, false);
-                } else {
-                    holder.expandable.setVisibility(View.VISIBLE);
-                    AdapterAnimations.toggleArrow(holder.arrow, true);
-                }
+        // card expansion and colapse
+        holder.card.setOnClickListener(v -> {
+            if (holder.expandable.getVisibility() == View.VISIBLE) {
+                holder.expandable.setVisibility(View.GONE);
+                AdapterAnimations.toggleArrow(holder.arrow, false);
+            } else {
+                holder.expandable.setVisibility(View.VISIBLE);
+                AdapterAnimations.toggleArrow(holder.arrow, true);
             }
         });
 
-        holder.editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentEditExpense = new Intent(context, AddExpenseActivity.class);
-                intentEditExpense.putExtra("Task", "EDIT");
-                intentEditExpense.putExtra("ExpenseID", expenseList.get(position).getId());
-                context.startActivity(intentEditExpense);
-            }
+        // edit button
+        holder.editButton.setOnClickListener(v -> {
+            Intent intentEditExpense = new Intent(context, AddExpenseActivity.class);
+            intentEditExpense.putExtra("Task", "EDIT");
+            intentEditExpense.putExtra("ExpenseID", expenseList.get(position).getId());
+            context.startActivity(intentEditExpense);
         });
     }
 
@@ -91,7 +85,8 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
         return expenseList.size();
     }
 
-    public  class CardViewHolder extends RecyclerView.ViewHolder {
+    // view holder for each recycler view element
+    public static class CardViewHolder extends RecyclerView.ViewHolder {
         public TextView cat1;
         public TextView cat2;
         public TextView amount;
