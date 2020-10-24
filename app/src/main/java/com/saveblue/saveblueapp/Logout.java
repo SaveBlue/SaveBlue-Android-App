@@ -10,6 +10,8 @@ import com.saveblue.saveblueapp.ui.login.LoginActivity;
 
 public class Logout extends Application {
     //delete user data from shared preferences and logs user out
+    // reason 0 -> normal logout
+    // reason 1 -> jwt expired
     public static void logout(Context applicationContext, int reason) {
         SharedPreferences sharedPref = applicationContext.getSharedPreferences("SaveBluePref", 0);
 

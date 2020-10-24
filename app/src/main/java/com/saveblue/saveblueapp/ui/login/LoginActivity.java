@@ -141,6 +141,8 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
     // ---------------------------------------------------------
 
     // logs in the user and saves jwt in shared preferences
+    // mode 0 -> normal
+    // mode 1 -> auto login try
     private void login(String username, String password, int mode) {
 
         LoginUser loginUser = new LoginUser(username, password);
