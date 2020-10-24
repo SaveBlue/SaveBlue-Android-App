@@ -9,13 +9,14 @@ import android.widget.Toast;
 import com.saveblue.saveblueapp.ui.login.LoginActivity;
 
 public class Logout extends Application {
-
+    //delete user data from shared preferences and logs user out
     public static void logout(Context applicationContext, int reason) {
-        //delete jwt from shared preferences
         SharedPreferences sharedPref = applicationContext.getSharedPreferences("SaveBluePref", 0);
 
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("JWT", "jwt");
+        editor.putString("USERNAME", "username");
+        editor.putString("PASS", "pass");
         editor.apply();
 
 

@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
 
         initUI();
 
+        tryLogin();
     }
 
     // initialize ui elements
@@ -57,25 +58,18 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         Button loginButton = findViewById(R.id.loginButton);
         Button registerButton = findViewById(R.id.registerButton);
 
-
         usernameEditText = findViewById(R.id.usernameLogin);
         usernameLayout = findViewById(R.id.usernameLoginLayout);
 
         passwordEditText = findViewById(R.id.passwordLogin);
         passwordLayout = findViewById(R.id.passwordLoginLayout);
 
-
-        // TODO remove
-        usernameEditText.setText("Sinane");
-        passwordEditText.setText("Password1");
-
-
         // Set onClickListeners
         registerButton.setOnClickListener(v -> showRegisterDialog());
         loginButton.setOnClickListener(v -> {
             if (handleInputFields()) {
                 progressBar.setVisibility(View.VISIBLE);
-                login(usernameEditText.getText().toString(), passwordEditText.getText().toString());
+                login(usernameEditText.getText().toString(), passwordEditText.getText().toString(), 0);
             }
         });
 
@@ -147,7 +141,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
     // ---------------------------------------------------------
 
     // logs in the user and saves jwt in shared preferences
-    private void login(String username, String password) {
+    private void login(String username, String password, int mode) {
 
         LoginUser loginUser = new LoginUser(username, password);
 
@@ -157,10 +151,11 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
             @Override
             public void onResponse(@NotNull Call<JWT> call, @NotNull Response<JWT> response) {
                 if (!response.isSuccessful()) {
-                    progressBar.setVisibility(View.GONE);
-                    Snackbar.make(findViewById(R.id.constraintLayout), getString(R.string.loginMessage), Snackbar.LENGTH_LONG)
-                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-
+                    if (mode != 1) {
+                        progressBar.setVisibility(View.GONE);
+                        Snackbar.make(findViewById(R.id.constraintLayout), getString(R.string.loginMessage), Snackbar.LENGTH_LONG)
+                                .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+                    }
                     return;
                 }
 
@@ -168,7 +163,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
                 progressBar.setVisibility(View.GONE);
 
                 //store jwt in shared preferences
-                storeJWT(response.body().getToken());
+                storeUserData(response.body().getToken(), username, password);
 
                 //redirect to dashboard activity started on a new stack
                 Intent intentDashboard = new Intent(getApplicationContext(), DashboardActivity.class);
@@ -210,11 +205,25 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
 
     }
 
+    // try to login user from saved data
+    private void tryLogin() {
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("SaveBluePref", 0);
+        String username = sharedPref.getString("USERNAME", "");
+        String password = sharedPref.getString("PASS", "");
+
+        if (!username.equals("username") && !password.equals("pass")) {
+            login(username, password, 1);
+        }
+    }
+
     // stores the JWT to shared preferences
-    public void storeJWT(String jwt) {
+    public void storeUserData(String jwt, String username, String password) {
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("SaveBluePref", 0);
 
         SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("JWT", jwt);
+        editor.putString("USERNAME", username);
+        editor.putString("PASS", password);
         editor.putString("JWT", jwt);
         editor.apply();
     }
