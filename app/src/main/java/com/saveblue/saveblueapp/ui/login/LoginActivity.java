@@ -5,8 +5,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,6 +38,8 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
 
     private EditText passwordEditText;
     private TextInputLayout passwordLayout;
+
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +73,13 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         // Set onClickListeners
         registerButton.setOnClickListener(v -> showRegisterDialog());
         loginButton.setOnClickListener(v -> {
-            if (handleInputFields())
+            if (handleInputFields()) {
+                progressBar.setVisibility(View.VISIBLE);
                 login(usernameEditText.getText().toString(), passwordEditText.getText().toString());
+            }
         });
+
+        progressBar = findViewById(R.id.progressBar);
 
 
         // --------------------------------------------------------
@@ -149,11 +157,15 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
             @Override
             public void onResponse(@NotNull Call<JWT> call, @NotNull Response<JWT> response) {
                 if (!response.isSuccessful()) {
+                    progressBar.setVisibility(View.GONE);
                     Snackbar.make(findViewById(R.id.constraintLayout), getString(R.string.loginMessage), Snackbar.LENGTH_LONG)
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
 
                     return;
                 }
+
+                //hide progress bar
+                progressBar.setVisibility(View.GONE);
 
                 //store jwt in shared preferences
                 storeJWT(response.body().getToken());
@@ -167,7 +179,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
 
             @Override
             public void onFailure(@NotNull Call<JWT> call, @NotNull Throwable t) {
-                //Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
                 Snackbar.make(findViewById(R.id.constraintLayout), getString(R.string.serverMessage), Snackbar.LENGTH_LONG)
                         .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             }
