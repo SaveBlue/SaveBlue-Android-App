@@ -75,6 +75,11 @@
     <string name="deleteDialogNo">No</string>
     <string name="start_of_month">Start of Month</string>
 
+    <!-- add acc dialog -->
+    <string name="addAccDialogTitle">Create Account</string>
+
+
+
     <!-- categories string arrays -->
     <string-array name="categoriesE1">
         <item>Primary Category</item>

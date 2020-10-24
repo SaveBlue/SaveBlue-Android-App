@@ -1,28 +1,27 @@
 package com.saveblue.saveblueapp.ui.dashboard.overview;
 
 import android.app.Application;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.saveblue.saveblueapp.Logout;
 import com.saveblue.saveblueapp.api.SaveBlueAPI;
 import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.Account;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OverviewViewModel extends AndroidViewModel {
-    private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
+    private final SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
 
     private MutableLiveData<List<Account>> accountList;
 
@@ -33,7 +32,7 @@ public class OverviewViewModel extends AndroidViewModel {
     // returns the live data list of all accounts
     public LiveData<List<Account>> getAccounts(String id, String jwt) {
         if (accountList == null) {
-            accountList = new MutableLiveData<List<Account>>();
+            accountList = new MutableLiveData<>();
         }
         callApiAccounts(id, jwt);
 
@@ -46,7 +45,7 @@ public class OverviewViewModel extends AndroidViewModel {
 
         callAsync.enqueue(new Callback<List<Account>>() {
             @Override
-            public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
+            public void onResponse(@NotNull Call<List<Account>> call, @NotNull Response<List<Account>> response) {
                 // if request was denied, ignore call not found
                 if (!response.isSuccessful() && response.code() != 404) {
                     //Toast.makeText((), "Request Error", Toast.LENGTH_LONG).show();
@@ -63,7 +62,7 @@ public class OverviewViewModel extends AndroidViewModel {
             }
 
             @Override
-            public void onFailure(Call<List<Account>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<Account>> call, @NotNull Throwable t) {
                 //Toast.makeText(getApplicationContext(), "No Network Connectivity!", Toast.LENGTH_LONG).show();
                 System.out.println("No Network Connectivity!");
             }
@@ -77,7 +76,7 @@ public class OverviewViewModel extends AndroidViewModel {
 
         callAddNewAccount.enqueue(new Callback<List<Account>>() {
             @Override
-            public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
+            public void onResponse(@NotNull Call<List<Account>> call, @NotNull Response<List<Account>> response) {
                 // if request was denied
                 if (!response.isSuccessful()) {
                     //Toast.makeText((), "Request Error", Toast.LENGTH_LONG).show();
@@ -93,7 +92,7 @@ public class OverviewViewModel extends AndroidViewModel {
             }
 
             @Override
-            public void onFailure(Call<List<Account>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<Account>> call, @NotNull Throwable t) {
                 //Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
                 System.out.println("Server unreachable!");
             }

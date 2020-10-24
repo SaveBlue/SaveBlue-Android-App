@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,12 +44,7 @@ public class OverviewFragment extends Fragment implements AddAccountDialog.AddAc
         // initialise recycler view and its adapter
         RecyclerView recyclerView = view.findViewById(R.id.accountRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        dashboardAccountAdapter = new DashboardAccountAdapter(getContext(), accountList, new OnAddAccountListener() {
-            @Override
-            public void onClick() {
-                showAddAccountDialog();
-            }
-        });
+        dashboardAccountAdapter = new DashboardAccountAdapter(getContext(), accountList, this::showAddAccountDialog);
         recyclerView.setAdapter(dashboardAccountAdapter);
     }
 
@@ -65,6 +58,7 @@ public class OverviewFragment extends Fragment implements AddAccountDialog.AddAc
 
     }
 
+    // fetch fresh account list
     @Override
     public void onResume() {
         super.onResume();
@@ -82,16 +76,11 @@ public class OverviewFragment extends Fragment implements AddAccountDialog.AddAc
         String jwt = jwtHandler.getJwt();
         String id = jwtHandler.getId();
 
-        overviewViewModel.getAccounts(id, jwt).observe(getViewLifecycleOwner(), new Observer<List<Account>>() {
-            @Override
-            public void onChanged(List<Account> accountList) {
-                dashboardAccountAdapter.setAccountsList(accountList);
-            }
-        });
+        overviewViewModel.getAccounts(id, jwt).observe(getViewLifecycleOwner(), accountList -> dashboardAccountAdapter.setAccountsList(accountList));
     }
 
 
-    //dialog
+    // handle input data from dialog
     @Override
     public void sendNewAccountData(String accountName, int accountStart) {
         JwtHandler jwtHandler = new JwtHandler(getContext());
@@ -101,7 +90,7 @@ public class OverviewFragment extends Fragment implements AddAccountDialog.AddAc
         overviewViewModel.addNewAccount(jwt, userId, new Account(accountName, accountStart));
     }
 
-
+    // display add account dialog
     public void showAddAccountDialog(){
         AddAccountDialog addAccountDialog = new AddAccountDialog();
         addAccountDialog.setTargetFragment(OverviewFragment.this, 420);

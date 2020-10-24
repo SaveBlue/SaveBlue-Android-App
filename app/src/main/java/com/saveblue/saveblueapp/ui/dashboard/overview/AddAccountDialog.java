@@ -1,18 +1,7 @@
 package com.saveblue.saveblueapp.ui.dashboard.overview;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDialogFragment;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,47 +12,27 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
+
 import com.google.android.material.textfield.TextInputLayout;
 import com.saveblue.saveblueapp.R;
-import com.saveblue.saveblueapp.api.SaveBlueAPI;
-import com.saveblue.saveblueapp.api.ServiceGenerator;
-import com.saveblue.saveblueapp.models.Account;
-import com.saveblue.saveblueapp.models.RegisterUser;
-import com.saveblue.saveblueapp.ui.login.RegisterDialog;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-import java.util.regex.Pattern;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class AddAccountDialog extends DialogFragment {
-
-    private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
-    private ConstraintLayout snackbarLayout;
 
     private EditText accountName;
     private TextInputLayout accountNameLayout;
 
     private NumberPicker startOfMonthPicker;
 
-    private Button button;
-
     private Toolbar toolbar;
 
     private AddAccountDialogListener addAccountDialogListener;
-
-    public static AddAccountDialog display(FragmentManager fragmentManager) {
-        AddAccountDialog addAccountDialog = new AddAccountDialog();
-        addAccountDialog.show(fragmentManager, "addAccountDialog");
-        return addAccountDialog;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,13 +66,12 @@ public class AddAccountDialog extends DialogFragment {
     public void onViewCreated(@NotNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setNavigationOnClickListener(v -> dismiss());
-        toolbar.setTitle("Create Account");
-
-        snackbarLayout = view.findViewById(R.id.constraintLayout);
+        toolbar.setTitle(getString(R.string.addAccDialogTitle));
 
         initUI(view);
     }
 
+    // initialise UI elements
     private void initUI(View view) {
         accountName = view.findViewById(R.id.accountName);
         accountNameLayout = view.findViewById(R.id.layoutAccountName);
@@ -112,7 +80,7 @@ public class AddAccountDialog extends DialogFragment {
         startOfMonthPicker.setMaxValue(31);
         startOfMonthPicker.setMinValue(1);
 
-        button = view.findViewById(R.id.createAccountButton);
+        Button button = view.findViewById(R.id.createAccountButton);
         button.setOnClickListener(v -> {
             if (handleInputFields()) {
                 sendNewAccountData();
@@ -122,6 +90,7 @@ public class AddAccountDialog extends DialogFragment {
         setTextListeners();
     }
 
+    // send input field data to fragment for api call
     private void sendNewAccountData() {
         String accountNameStr = accountName.getText().toString();
         int startOfMonthInt = startOfMonthPicker.getValue();
@@ -131,19 +100,11 @@ public class AddAccountDialog extends DialogFragment {
         dismiss();
     }
 
-    /*private void sendToActivity() {
-        String usernameStr = accountName.getText().toString();
-        int startOfMonthInt = Integer.parseInt(startOfMonth.getText().toString());
-
-        // Send new account data to fragment and dismiss the dialog
-        addAccountDialogListener.sendNewAccountData(usernameStr, startOfMonthInt);
-        dismiss();
-    }*/
-
     // --------------------------------------------------------
     // Text field handling
     // ---------------------------------------------------------
 
+    // handle input field correctness
     private boolean handleInputFields() {
         boolean detectedError = false;
 
@@ -155,6 +116,7 @@ public class AddAccountDialog extends DialogFragment {
         return !detectedError;
     }
 
+    // clears error message from text fields
     private void setTextListeners() {
 
         accountName.addTextChangedListener(new TextWatcher() {
