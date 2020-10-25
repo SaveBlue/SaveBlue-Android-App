@@ -1,19 +1,27 @@
 package com.saveblue.saveblueapp.ui.addExpenseIncome;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.textfield.TextInputLayout;
 import com.saveblue.saveblueapp.JwtHandler;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.TimestampHandler;
@@ -25,8 +33,12 @@ import com.saveblue.saveblueapp.ui.dashboard.overview.OverviewViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import okhttp3.ResponseBody;
@@ -36,26 +48,30 @@ import retrofit2.Response;
 
 public class AddIncomeActivity extends AppCompatActivity {
 
-    private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
+    private final SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
     private JwtHandler jwtHandler;
 
     private OverviewViewModel overviewViewModel;
     private ArrayAdapter<String> spinnerArrayAdapter;
 
     private List<Account> accountList = new ArrayList<>();
-    private List<String> accountListNames = new ArrayList<>();
+    private final List<String> accountListNames = new ArrayList<>();
 
     private String incomeID;
-    String task;
-
+    private String task;
 
     // UI elements for easier work
-    Spinner spinnerAccountIncomeAdd;
-    EditText editTextNameAddIncome;
-    EditText editTextDescriptionAddIncome;
-    EditText editTextDateAddIncome;
-    EditText editTextAmountAddIncome;
+    private EditText editTextAmount;
+    private TextView textDate;
 
+    private Spinner spinnerAccount;
+    private Spinner catSpinner1;
+    private EditText descriptionEditText;
+    private TextInputLayout amountLayout;
+    private TextView catSpinner1Error;
+
+
+    // differentiate between adding and editing income + setup viewmodel
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +88,7 @@ public class AddIncomeActivity extends AppCompatActivity {
         assert task != null;
         if (task.equals("ADD")) {
             initUIAdd();
-        }
-        else {
+        } else {
             incomeID = getIntent().getStringExtra("IncomeID");
             initUIEdit();
         }
@@ -81,27 +96,92 @@ public class AddIncomeActivity extends AppCompatActivity {
         // Get user's accounts
         overviewViewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
         observerSetup();
-
     }
 
-    private void initUIElements(){
+    // initialize general ui elements
+    private void initUIElements() {
         // Set UI elements
-        spinnerAccountIncomeAdd = findViewById(R.id.spinnerAccountAddIncome);
-        editTextNameAddIncome = findViewById(R.id.editTextNameAddIncome);
-        editTextDescriptionAddIncome = findViewById(R.id.editTextDescriptionAddIncome);
-        editTextDateAddIncome = findViewById(R.id.editTextDateAddIncome);
-        editTextAmountAddIncome = findViewById(R.id.editTextAmountAddIncome);
+        spinnerAccount = findViewById(R.id.spinnerAccountAddIncome);
+        catSpinner1 = findViewById(R.id.catSpinner1);
+        catSpinner1Error = findViewById(R.id.catSpinner1Error);
+
+        descriptionEditText = findViewById(R.id.descriptionEditText);
+        textDate = findViewById(R.id.date);
+        editTextAmount = findViewById(R.id.amount);
+        amountLayout = findViewById(R.id.amountLayout);
+
+
+        editTextAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (Objects.requireNonNull(editTextAmount.getText()).length() > 0) {
+                    amountLayout.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
 
         // Populate spinner
-        spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, accountListNames);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerAccountIncomeAdd.setAdapter(spinnerArrayAdapter);
+        spinnerArrayAdapter = new ArrayAdapter<>(this, R.layout.dropdown_menu_item, accountListNames);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.dropdown_menu_item);
+        spinnerAccount.setAdapter(spinnerArrayAdapter);
+
+        // setup date operations
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        textDate.setText(df.format(Calendar.getInstance().getTime()));
+
+        MaterialDatePicker.Builder<Long> dateBuilder = MaterialDatePicker.Builder.datePicker();
+        dateBuilder.setTitleText(getString(R.string.datePickerTitle));
+        MaterialDatePicker<Long> datePicker = dateBuilder.build();
+
+        datePicker.addOnPositiveButtonClickListener(selection -> textDate.setText(df.format(new Date(selection))));
+
+        // display date picker on icon click
+        Button dateButton = findViewById(R.id.dateButton);
+        dateButton.setOnClickListener(v -> datePicker.show(getSupportFragmentManager(), "Select date of Income"));
+
+        initCategorySelector();
     }
 
+    // initialize category selectors + fill them up according to right category
+    private void initCategorySelector() {
+        Resources res = getResources();
+        String[] categories1 = res.getStringArray(R.array.categoriesI1);
+
+        ArrayAdapter<String> spinnerCategoryAdapter1 = new ArrayAdapter<>(getApplicationContext(), R.layout.dropdown_menu_item, categories1);
+        spinnerCategoryAdapter1.setDropDownViewResource(R.layout.dropdown_menu_item);
+        catSpinner1.setAdapter(spinnerCategoryAdapter1);
+
+        catSpinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                // clear spinner error message
+                if (position > 0)
+                    catSpinner1Error.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
+    // initialize ui elements for adding income
     private void initUIAdd() {
         // init toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Add Income");
+        toolbar.setTitle(getString(R.string.addIncomeTitle));
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
@@ -113,23 +193,28 @@ public class AddIncomeActivity extends AppCompatActivity {
 
         // Set onClickListeners
         buttonAddIncome.setOnClickListener(v -> {
-                    String jwt = jwtHandler.getJwt();
-                    String userId = jwtHandler.getId();
-                    String accountId = (accountList.get((int) spinnerAccountIncomeAdd.getSelectedItemId()).getId());
+                    if (handleInputFields()) {
+                        String jwt = jwtHandler.getJwt();
+                        String userId = jwtHandler.getId();
+                        String accountId = (accountList.get((int) spinnerAccount.getSelectedItemId()).getId());
 
-                    //TODO pohendli polja za vnos v newIncome
-                    String date2Api = TimestampHandler.parse2Mongo( editTextDateAddIncome.getText().toString());
+                        String description = descriptionEditText.getText().length() == 0 ? "" : descriptionEditText.getText().toString();
+                        String date2Api = TimestampHandler.parse2Mongo(textDate.getText().toString());
+                        String cat1 = catSpinner1.getSelectedItem().toString();
 
-                    Income newIncome = new Income(accountId, userId, editTextNameAddIncome.getText().toString(), editTextDescriptionAddIncome.getText().toString(),date2Api, Float.parseFloat(editTextAmountAddIncome.getText().toString()));
-                    addIncome(newIncome, jwt);
+                        Income newIncome = new Income(accountId, userId, description, date2Api, Float.parseFloat(editTextAmount.getText().toString()), cat1);
+                        addIncome(newIncome, jwt);
+                    }
+
                 }
         );
     }
 
-    private void initUIEdit(){
+    // initialize ui elements for editing income
+    private void initUIEdit() {
         // init toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Edit Income");
+        toolbar.setTitle(getString(R.string.editIncomeTitle));
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
@@ -139,40 +224,65 @@ public class AddIncomeActivity extends AppCompatActivity {
 
         // setup buttons
         Button buttonEditIncome = findViewById(R.id.buttonAddIncome);
-        buttonEditIncome.setText("Update Income");
+        buttonEditIncome.setText(getString(R.string.updateIncomeText));
 
         Button buttonDeleteIncome = findViewById(R.id.buttonDeleteIncome);
         buttonDeleteIncome.setVisibility(View.VISIBLE);
 
         // Set onClickListeners
         buttonEditIncome.setOnClickListener(v -> {
-                    String userId = jwtHandler.getId();
-                    String accountId = (accountList.get((int) spinnerAccountIncomeAdd.getSelectedItemId()).getId());
+                    if (handleInputFields()) {
+                        String userId = jwtHandler.getId();
+                        String accountId = (accountList.get((int) spinnerAccount.getSelectedItemId()).getId());
 
-                    //TODO pohendli polja za vnos v newIncome
-                    String date2Api = TimestampHandler.parse2Mongo( editTextDateAddIncome.getText().toString());
+                        String date2Api = TimestampHandler.parse2Mongo(textDate.getText().toString());
+                        String description = descriptionEditText.getText().length() == 0 ? "" : descriptionEditText.getText().toString();
+                        String cat1 = catSpinner1.getSelectedItem().toString();
 
-
-            Income editedIncome = new Income(accountId, userId, editTextNameAddIncome.getText().toString(), editTextDescriptionAddIncome.getText().toString(), date2Api, Float.parseFloat(editTextAmountAddIncome.getText().toString()));
-                    updateIncome(incomeID, editedIncome, jwtHandler.getJwt());
+                        Income editedIncome = new Income(accountId, userId, description, date2Api, Float.parseFloat(editTextAmount.getText().toString()), cat1);
+                        updateIncome(incomeID, editedIncome, jwtHandler.getJwt());
+                    }
                 }
         );
 
         buttonDeleteIncome.setOnClickListener(v -> deleteIncome(incomeID, jwtHandler.getJwt()));
 
-
-
     }
 
-    public void setSpinnerToRightAccount(String baseAccountID){
+    // handles input field correctness
+    private boolean handleInputFields() {
+        boolean detectedError = false;
+
+        if (Objects.requireNonNull(editTextAmount.getText()).length() == 0) {
+            amountLayout.setError(getString(R.string.fieldError));
+            detectedError = true;
+        }
+
+        if (catSpinner1.getSelectedItemId() == 0) {
+            catSpinner1Error.setVisibility(View.VISIBLE);
+            detectedError = true;
+        }
+
+        return !detectedError;
+    }
+
+    // on edit task set account spinner to right account
+    public void setSpinnerToRightAccount(String baseAccountID) {
         for (int i = 0; i < accountList.size(); i++) {
-            if(accountList.get(i).getId().equals(baseAccountID)){
-                spinnerAccountIncomeAdd.setSelection(i);
+            if (accountList.get(i).getId().equals(baseAccountID)) {
+                spinnerAccount.setSelection(i);
             }
         }
     }
 
+    //sets both spinners to the right category
+    public void setSpinnersToRightCategory(String cat1) {
+        final ArrayList<String> cat1Strings = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.categoriesI1)));
+        catSpinner1.setSelection(cat1Strings.indexOf(cat1));
+    }
 
+
+    // setup observer for fetching account list
     private void observerSetup() {
         //fetch jwt from dedicated handler class
         String jwt = jwtHandler.getJwt();
@@ -188,11 +298,11 @@ public class AddIncomeActivity extends AppCompatActivity {
             spinnerArrayAdapter.notifyDataSetChanged();
 
             // set spinner to current account if called from account details activity
-            if(Objects.equals(getIntent().getStringExtra("CallingActivity"), "Details") && task.equals("ADD")) {
+            if (Objects.equals(getIntent().getStringExtra("CallingActivity"), "Details") && task.equals("ADD")) {
                 setSpinnerToRightAccount(getIntent().getStringExtra("BaseAccountID"));
             }
 
-            if(task.equals("EDIT")){
+            if (task.equals("EDIT")) {
                 // fetch income data and fill UI elements
                 getIncome(incomeID, jwtHandler.getJwt());
             }
@@ -200,6 +310,7 @@ public class AddIncomeActivity extends AppCompatActivity {
         });
     }
 
+    // handle back button press
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -219,6 +330,7 @@ public class AddIncomeActivity extends AppCompatActivity {
     // API calls
     // ---------------------------------------------------------
 
+    // api call for adding new editedIncome
     private void addIncome(Income newIncome, String jwt) {
 
         Call<ResponseBody> callAddIncome = api.addIncome(jwt, newIncome);
@@ -234,7 +346,6 @@ public class AddIncomeActivity extends AppCompatActivity {
                 // Display toast and close activity
                 Toast.makeText(getApplicationContext(), "Income added", Toast.LENGTH_SHORT).show();
                 finish();
-
             }
 
             @Override
@@ -244,8 +355,8 @@ public class AddIncomeActivity extends AppCompatActivity {
         });
     }
 
-    private void getIncome(String incomeID, String jwt){
-        System.out.println("----------------------------------");
+    // api call for fetching income
+    private void getIncome(String incomeID, String jwt) {
 
         Call<Income> callGetIncome = api.getIncome(jwt, incomeID);
 
@@ -259,14 +370,13 @@ public class AddIncomeActivity extends AppCompatActivity {
                 Income income = response.body();
                 assert income != null;
 
-                //fill UI elements from fetched income;
-                editTextNameAddIncome.setText(income.getName());
-                editTextDescriptionAddIncome.setText(income.getDescription());
-                editTextDateAddIncome.setText(income.getDate());
-                editTextAmountAddIncome.setText(String.valueOf(income.getAmount()));
+                // fill ui from fetched income
+                descriptionEditText.setText(income.getDescription());
+                editTextAmount.setText(String.valueOf(income.getAmount()));
+                textDate.setText(TimestampHandler.parseMongoTimestamp(income.getDate()));
 
                 setSpinnerToRightAccount(income.getAccountID());
-
+                setSpinnersToRightCategory(income.getCategory1());
             }
 
             @Override
@@ -277,7 +387,8 @@ public class AddIncomeActivity extends AppCompatActivity {
         });
     }
 
-    private void updateIncome(String incomeID, Income income, String jwt){
+    // api call for updating income
+    private void updateIncome(String incomeID, Income income, String jwt) {
         Call<ResponseBody> callUpdateIncome = api.editIncome(jwt, incomeID, income);
 
         callUpdateIncome.enqueue(new Callback<ResponseBody>() {
@@ -291,7 +402,6 @@ public class AddIncomeActivity extends AppCompatActivity {
                 // Display toast and close activity
                 Toast.makeText(getApplicationContext(), "Income updated", Toast.LENGTH_SHORT).show();
                 finish();
-
             }
 
             @Override
@@ -301,7 +411,8 @@ public class AddIncomeActivity extends AppCompatActivity {
         });
     }
 
-    private void deleteIncome(String incomeID, String jwt){
+    // api call for deleting income
+    private void deleteIncome(String incomeID, String jwt) {
         Call<ResponseBody> callDeleteIncome = api.deleteIncome(jwt, incomeID);
 
         callDeleteIncome.enqueue(new Callback<ResponseBody>() {
@@ -315,7 +426,6 @@ public class AddIncomeActivity extends AppCompatActivity {
                 // Display toast and close activity
                 Toast.makeText(getApplicationContext(), "Income deleted", Toast.LENGTH_SHORT).show();
                 finish();
-
             }
 
             @Override
@@ -326,5 +436,6 @@ public class AddIncomeActivity extends AppCompatActivity {
     }
 
 
-
 }
+
+

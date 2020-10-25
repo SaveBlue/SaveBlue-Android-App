@@ -51,7 +51,7 @@ public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAd
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
 
-        holder.cat1.setText(incomeList.get(position).getName());
+        holder.cat1.setText(incomeList.get(position).getCategory1());
         holder.cat2.setVisibility(View.GONE);
         holder.description.setText(incomeList.get(position).getDescription());
         holder.date.setText(TimestampHandler.parseMongoTimestamp(incomeList.get(position).getDate()));

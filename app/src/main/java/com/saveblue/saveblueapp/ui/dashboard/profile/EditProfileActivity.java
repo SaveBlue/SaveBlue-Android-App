@@ -113,7 +113,7 @@ public class EditProfileActivity extends AppCompatActivity {
         // rename fields
         layout1.setHint(getString(R.string.username));
         layout2.setHint(getString(R.string.email));
-        confirmButton.setText(getString(R.string.email));
+        confirmButton.setText(getString(R.string.updateProfile));
 
         editText1.setInputType(InputType.TYPE_CLASS_TEXT);
         editText2.setInputType(InputType.TYPE_CLASS_TEXT);

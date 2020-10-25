@@ -54,6 +54,7 @@
 
 
     <string name="descriptionExpense">Expense description</string>
+    <string name="descriptionIncome">Income description</string>
     <string name="accountText">Account:</string>
 
 
@@ -62,6 +63,12 @@
     <string name="editExpenseTitle">Edit Expense</string>
     <string name="updateExpenseText">Update Expense</string>
     <string name="datePickerTitle">Select Date</string>
+
+    <!-- add/edit income activity -->
+    <string name="addIncomeTitle">Add Income</string>
+    <string name="editIncomeTitle">Edit Income</string>
+    <string name="updateIncomeText">Update Income</string>
+
 
 
 
@@ -79,8 +86,16 @@
     <string name="addAccDialogTitle">Create Account</string>
 
 
-
     <!-- categories string arrays -->
+    <string-array name="categoriesI1">
+        <item>Primary Category</item>
+        <item>Salary / Wage</item>
+        <item>Assets</item>
+        <item>Student Work</item>
+        <item>Other</item>
+    </string-array>
+
+
     <string-array name="categoriesE1">
         <item>Primary Category</item>
         <item>Personal</item>

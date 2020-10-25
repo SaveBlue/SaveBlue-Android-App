@@ -109,8 +109,6 @@ public class AddExpenseActivity extends AppCompatActivity {
         catSpinner1 = findViewById(R.id.catSpinner1);
         catSpinner2 = findViewById(R.id.catSpinner2);
         catSpinner1Error = findViewById(R.id.catSpinner1Error);
-
-        // TODO fix
         descriptionEditText = findViewById(R.id.descriptionEditText);
 
         textDate = findViewById(R.id.date);

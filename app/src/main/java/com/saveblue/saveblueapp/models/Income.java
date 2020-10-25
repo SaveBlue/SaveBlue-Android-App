@@ -13,24 +13,23 @@ public class Income {
 
     private String userID;
 
-    private String name;
-
     private String description;
 
     private String date;
 
     private float amount;
 
+    private String category1;
     // Constructor
 
 
-    public Income(String accountID, String userID, String name, String description, String date, float amount) {
+    public Income(String accountID, String userID, String description, String date, float amount, String category1) {
         this.accountID = accountID;
         this.userID = userID;
-        this.name = name;
         this.description = description;
         this.date = date;
         this.amount = amount;
+        this.category1 = category1;
     }
 
     public String getAccountID() {
@@ -41,8 +40,8 @@ public class Income {
         return userID;
     }
 
-    public String getName() {
-        return name;
+    public String getCategory1() {
+        return category1;
     }
 
     public String getDescription() {
