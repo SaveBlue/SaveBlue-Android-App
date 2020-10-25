@@ -9,6 +9,8 @@ public class Account {
 
     private float totalBalance;
 
+    private float availableBalance;
+
     private int startOfMonth;
 
     @SerializedName("_id")
@@ -26,6 +28,8 @@ public class Account {
     public float getTotalBalance() {
         return totalBalance;
     }
+
+    public float getAvailableBalance() { return availableBalance; }
 
     public int getStartOfMonth() {
         return startOfMonth;

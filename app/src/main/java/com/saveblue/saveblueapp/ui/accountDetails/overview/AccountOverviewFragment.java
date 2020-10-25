@@ -94,37 +94,13 @@ public class AccountOverviewFragment extends Fragment {
         String jwt = jwtHandler.getJwt();
 
 
-        accountOverviewViewModel.getAccount(accountID, jwt).observe(getViewLifecycleOwner(), new Observer<Account>() {
-            @Override
-            public void onChanged(Account account) {
-                // TODO: set available
-                availableBalance.setText(String.format(Locale.getDefault(), "%.2f €", account.getTotalBalance()));
-                totalBalance.setText(String.format(Locale.getDefault(), "%.2f €", account.getTotalBalance()));
-                startOfMonth.setText(String.valueOf(account.getStartOfMonth()));
+        accountOverviewViewModel.getAccount(accountID, jwt).observe(getViewLifecycleOwner(), account -> {
+            availableBalance.setText(String.format(Locale.getDefault(), "%.2f €", account.getAvailableBalance()));
+            totalBalance.setText(String.format(Locale.getDefault(), "%.2f €", account.getTotalBalance()));
+            startOfMonth.setText(String.valueOf(account.getStartOfMonth()));
 
-            }
         });
 
     }
-
-    /*private void initArrowButton(View view) {
-
-        ConstraintLayout accountDetails = view.findViewById(R.id.accountDetails);
-        CardView cardView = view.findViewById(R.id.cardAccountDetails);
-        ImageView arrowImage = view.findViewById(R.id.accountExpand);
-
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (accountDetails.getVisibility() == View.VISIBLE) {
-                    accountDetails.setVisibility(View.GONE);
-                    arrowImage.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
-                } else {
-                    accountDetails.setVisibility(View.VISIBLE);
-                    arrowImage.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
-                }
-            }
-        });
-    }*/
 
 }
