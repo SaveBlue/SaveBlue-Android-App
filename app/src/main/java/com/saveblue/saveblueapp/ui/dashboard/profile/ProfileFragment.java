@@ -11,20 +11,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.saveblue.saveblueapp.JwtHandler;
 import com.saveblue.saveblueapp.Logout;
 import com.saveblue.saveblueapp.R;
-import com.saveblue.saveblueapp.models.User;
-import com.saveblue.saveblueapp.ui.addExpenseIncome.AddIncomeActivity;
-
-import java.util.Objects;
 
 
 public class ProfileFragment extends Fragment {
@@ -43,6 +36,7 @@ public class ProfileFragment extends Fragment {
         username = root.findViewById(R.id.textViewUsername);
         email = root.findViewById(R.id.textViewEmail);
         profilePicture = root.findViewById(R.id.profileImage);
+        profilePicture.setImageResource(R.drawable.avatar_1);
 
         Button logout = root.findViewById(R.id.LogOutButton);
         logout.setOnClickListener(v -> Logout.logout(requireContext(), 0));
@@ -87,8 +81,6 @@ public class ProfileFragment extends Fragment {
 
             username.setText(user.getUsername());
             email.setText(user.getEmail());
-
-            profilePicture.setImageResource(R.drawable.avatar_1);
 
         });
     }
