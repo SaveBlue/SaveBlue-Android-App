@@ -12,17 +12,23 @@
         android:roundIcon="@mipmap/saveblue_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.accountDetails.EditAccountActivity"></activity>
-        <activity android:name=".ui.dashboard.profile.EditProfileActivity" />
+        <activity
+            android:name=".ui.accountDetails.EditAccountActivity"
+            android:label="EditAccountActivity" />
+        <activity
+            android:name=".ui.dashboard.profile.EditProfileActivity"
+            android:label="EditProfileActivity" />
         <activity
             android:name=".ui.accountDetails.AccountDetailsActivity"
             android:label="@string/title_activity_account_details"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.addExpenseIncome.AddIncomeActivity"
+            android:label="AddIncomeActivity"
             android:parentActivityName=".ui.dashboard.DashboardActivity" />
         <activity
             android:name=".ui.addExpenseIncome.AddExpenseActivity"
+            android:label="AddExpenseActivity"
             android:parentActivityName=".ui.dashboard.DashboardActivity" />
         <activity
             android:name=".ui.dashboard.DashboardActivity"
@@ -31,7 +37,6 @@
         <activity android:name=".ui.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

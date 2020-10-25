@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.accountDetails.AccountDetailsActivity"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    tools:context=".ui.accountDetails.AccountDetailsActivity">
 
 
     <com.google.android.material.card.MaterialCardView
@@ -15,17 +15,18 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:animateLayoutChanges="true"
         app:cardCornerRadius="4sp"
         app:cardElevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:animateLayoutChanges="true">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/balanceCardTitleLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
 
             <FrameLayout
                 android:id="@+id/availableBalanceIcon"
@@ -34,17 +35,16 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                android:background="@drawable/circle_background"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:background="@drawable/circle_background">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="4dp"
-                    app:tint="@color/white"
                     android:src="@drawable/ic_baseline_euro_symbol_24"
-                    />
+                    app:tint="@color/white" />
 
 
             </FrameLayout>
@@ -56,7 +56,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="Available Balance"
+                android:text="@string/available_balance"
+                android:textColor="@color/white"
                 android:textSize="24sp"
                 app:layout_constraintStart_toEndOf="@+id/availableBalanceIcon"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -66,7 +67,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Start of Month: "
+                android:text="@string/start_of_month_text"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/availableBalanceIcon"
                 app:layout_constraintTop_toBottomOf="@id/availableBalanceText" />
@@ -76,29 +78,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/accountStartText"
                 app:layout_constraintTop_toBottomOf="@id/availableBalanceText" />
-
-
-            <!--<ImageView
-                android:id="@+id/accountExpand"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-
-                android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24"
-                app:tint="?attr/colorControlNormal" />-->
 
             <RelativeLayout
                 android:id="@+id/relativeLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/side_nav_bar"
+                android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/availableBalanceIcon">
@@ -111,8 +101,7 @@
                     android:layout_marginTop="16dp"
                     android:text="1000.00€"
                     android:textSize="72sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/totalBalance"
@@ -130,8 +119,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/totalBalance"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="0dp"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="0dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="16dp"
                     android:text="(Total Balance)"
