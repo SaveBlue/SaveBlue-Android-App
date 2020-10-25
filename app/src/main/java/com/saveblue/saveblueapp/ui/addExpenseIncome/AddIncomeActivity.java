@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputLayout;
+import com.saveblue.saveblueapp.DigitsInputFilter;
 import com.saveblue.saveblueapp.JwtHandler;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.TimestampHandler;
@@ -109,6 +111,8 @@ public class AddIncomeActivity extends AppCompatActivity {
         textDate = findViewById(R.id.date);
         editTextAmount = findViewById(R.id.amount);
         amountLayout = findViewById(R.id.amountLayout);
+        // Text field limiting of decimal size
+        editTextAmount.setFilters(new InputFilter[] {new DigitsInputFilter(7,2)});
 
 
         editTextAmount.addTextChangedListener(new TextWatcher() {

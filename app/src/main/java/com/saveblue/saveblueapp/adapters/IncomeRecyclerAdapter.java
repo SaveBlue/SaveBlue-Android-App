@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,14 +21,12 @@ import com.saveblue.saveblueapp.animations.AdapterAnimations;
 import com.saveblue.saveblueapp.models.Income;
 import com.saveblue.saveblueapp.ui.addExpenseIncome.AddIncomeActivity;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAdapter.CardViewHolder>{
     private List<Income> incomeList;
-    private Context context;
+    private final Context context;
 
     public IncomeRecyclerAdapter(Context context, List<Income> incomeList) {
         this.context = context;
@@ -55,29 +52,23 @@ public class IncomeRecyclerAdapter extends RecyclerView.Adapter<IncomeRecyclerAd
         holder.cat2.setVisibility(View.GONE);
         holder.description.setText(incomeList.get(position).getDescription());
         holder.date.setText(TimestampHandler.parseMongoTimestamp(incomeList.get(position).getDate()));
-        holder.amount.setText(String.valueOf(incomeList.get(position).getAmount()) + " €");
+        holder.amount.setText(String.format(Locale.getDefault(), "%.2f €", incomeList.get(position).getAmount()));
 
-        holder.card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (holder.expandable.getVisibility() == View.VISIBLE) {
-                    holder.expandable.setVisibility(View.GONE);
-                    AdapterAnimations.toggleArrow(holder.arrow, false);
-                } else {
-                    holder.expandable.setVisibility(View.VISIBLE);
-                    AdapterAnimations.toggleArrow(holder.arrow, false);
-                }
+        holder.card.setOnClickListener(v -> {
+            if (holder.expandable.getVisibility() == View.VISIBLE) {
+                holder.expandable.setVisibility(View.GONE);
+                AdapterAnimations.toggleArrow(holder.arrow, false);
+            } else {
+                holder.expandable.setVisibility(View.VISIBLE);
+                AdapterAnimations.toggleArrow(holder.arrow, true);
             }
         });
 
-        holder.editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentEditIncome = new Intent(context, AddIncomeActivity.class);
-                intentEditIncome.putExtra("Task", "EDIT");
-                intentEditIncome.putExtra("IncomeID", incomeList.get(position).getId());
-                context.startActivity(intentEditIncome);
-            }
+        holder.editButton.setOnClickListener(v -> {
+            Intent intentEditIncome = new Intent(context, AddIncomeActivity.class);
+            intentEditIncome.putExtra("Task", "EDIT");
+            intentEditIncome.putExtra("IncomeID", incomeList.get(position).getId());
+            context.startActivity(intentEditIncome);
         });
     }
 

@@ -23,6 +23,7 @@ import com.saveblue.saveblueapp.models.Expense;
 import com.saveblue.saveblueapp.ui.addExpenseIncome.AddExpenseActivity;
 
 import java.util.List;
+import java.util.Locale;
 
 public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecyclerAdapter.CardViewHolder> {
 
@@ -56,7 +57,7 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
         holder.cat1.setText(expenseList.get(position).getCategory1());
         holder.cat2.setText(expenseList.get(position).getCategory2());
         holder.date.setText(TimestampHandler.parseMongoTimestamp(expenseList.get(position).getDate()));
-        holder.amount.setText(expenseList.get(position).getAmount() + " €");
+        holder.amount.setText(String.format(Locale.getDefault(), "%.2f €", expenseList.get(position).getAmount()));
         holder.description.setText(expenseList.get(position).getDescription());
 
         // card expansion and colapse

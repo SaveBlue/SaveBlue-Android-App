@@ -17,11 +17,12 @@ import com.saveblue.saveblueapp.ui.accountDetails.AccountDetailsActivity;
 import com.saveblue.saveblueapp.ui.dashboard.overview.OnAddAccountListener;
 
 import java.util.List;
+import java.util.Locale;
 
 public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccountAdapter.CardViewHolder> {
     private List<Account> accountList;
-    private Context context;
-    private OnAddAccountListener addAccountListener;
+    private final Context context;
+    private final OnAddAccountListener addAccountListener;
 
     public DashboardAccountAdapter(Context context, List<Account> accountListlist, OnAddAccountListener addAccountListener) {
         this.context = context;
@@ -52,25 +53,16 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
 
        try {
            if (position == accountList.size()) {
-            holder.addAccountButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    addAccountListener.onClick();
-                }
-            });
+            holder.addAccountButton.setOnClickListener(v -> addAccountListener.onClick());
 
            } else {
 
                holder.accountTitle.setText(accountList.get(position).getName());
-               holder.accountBalance.setText(String.valueOf(accountList.get(position).getTotalBalance()) + " €");
-               holder.accountDetailsButton.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       Intent accountDetailsIntent = new Intent(context, AccountDetailsActivity.class);
-                       accountDetailsIntent.putExtra("accountId", accountList.get(position).getId());
-                       context.startActivity(accountDetailsIntent);
-                   }
+               holder.accountBalance.setText(String.format(Locale.getDefault(), "%.2f €", accountList.get(position).getTotalBalance()));
+               holder.accountDetailsButton.setOnClickListener(v -> {
+                   Intent accountDetailsIntent = new Intent(context, AccountDetailsActivity.class);
+                   accountDetailsIntent.putExtra("accountId", accountList.get(position).getId());
+                   context.startActivity(accountDetailsIntent);
                });
            }
        }

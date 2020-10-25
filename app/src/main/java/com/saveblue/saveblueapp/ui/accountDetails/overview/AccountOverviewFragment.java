@@ -28,6 +28,7 @@ import com.saveblue.saveblueapp.ui.dashboard.overview.AddAccountDialog;
 import com.saveblue.saveblueapp.ui.dashboard.overview.OverviewFragment;
 
 import java.util.List;
+import java.util.Locale;
 
 public class AccountOverviewFragment extends Fragment {
 
@@ -97,8 +98,8 @@ public class AccountOverviewFragment extends Fragment {
             @Override
             public void onChanged(Account account) {
                 // TODO: set available
-                availableBalance.setText(String.valueOf(account.getTotalBalance()) + " €");
-                totalBalance.setText(String.valueOf(account.getTotalBalance())+ " €");
+                availableBalance.setText(String.format(Locale.getDefault(), "%.2f €", account.getTotalBalance()));
+                totalBalance.setText(String.format(Locale.getDefault(), "%.2f €", account.getTotalBalance()));
                 startOfMonth.setText(String.valueOf(account.getStartOfMonth()));
 
             }
