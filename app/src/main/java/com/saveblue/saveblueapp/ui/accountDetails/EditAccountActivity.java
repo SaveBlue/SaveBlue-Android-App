@@ -160,8 +160,16 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
         callUpdateAccount.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Not successful", Toast.LENGTH_SHORT).show();
+
+                // JWT expired
+                if (response.code() == 401) {
+                    Logout.logout(getApplication().getApplicationContext(), 1);
+                    return;
+                }
+
+                // Other Error
+                if (!response.isSuccessful() && response.code() != 404) {
+                    Toast.makeText(getApplication(), getApplication().getString(R.string.serverErrorMessage), Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -185,13 +193,16 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
         callAsync.enqueue(new Callback<Account>() {
             @Override
             public void onResponse(@NotNull Call<Account> call, @NotNull Response<Account> response) {
-                // if request was denied, ignore call not found
-                if (!response.isSuccessful()) {
-                    //Toast.makeText((), "Request Error", Toast.LENGTH_LONG).show();
-                    System.out.println("Request Error");
 
-                    //logout if jwt is not valid any more
-                    Logout.logout(getApplication().getApplicationContext(),0);
+                // JWT expired
+                if (response.code() == 401) {
+                    Logout.logout(getApplication().getApplicationContext(), 1);
+                    return;
+                }
+
+                // Other Error
+                if (!response.isSuccessful() && response.code() != 404) {
+                    Toast.makeText(getApplication(), getApplication().getString(R.string.serverErrorMessage), Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -222,8 +233,16 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
         callUpdateAccount.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Not successful", Toast.LENGTH_SHORT).show();
+
+                // JWT expired
+                if (response.code() == 401) {
+                    Logout.logout(getApplication().getApplicationContext(), 1);
+                    return;
+                }
+
+                // Other Error
+                if (!response.isSuccessful() && response.code() != 404) {
+                    Toast.makeText(getApplication(), getApplication().getString(R.string.serverErrorMessage), Toast.LENGTH_LONG).show();
                     return;
                 }
 

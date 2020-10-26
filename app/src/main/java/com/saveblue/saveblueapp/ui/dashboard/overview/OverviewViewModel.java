@@ -1,6 +1,7 @@
 package com.saveblue.saveblueapp.ui.dashboard.overview;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -8,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.saveblue.saveblueapp.Logout;
+import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.api.SaveBlueAPI;
 import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.Account;
@@ -46,13 +48,16 @@ public class OverviewViewModel extends AndroidViewModel {
         callAsync.enqueue(new Callback<List<Account>>() {
             @Override
             public void onResponse(@NotNull Call<List<Account>> call, @NotNull Response<List<Account>> response) {
-                // if request was denied, ignore call not found
-                if (!response.isSuccessful() && response.code() != 404) {
-                    //Toast.makeText((), "Request Error", Toast.LENGTH_LONG).show();
-                    System.out.println("Request Error");
 
-                    //logout if jwt in not valid any more
-                    Logout.logout(getApplication().getApplicationContext(),1);
+                // JWT expired
+                if (response.code() == 401) {
+                    Logout.logout(getApplication().getApplicationContext(), 1);
+                    return;
+                }
+
+                // Other Error
+                if (!response.isSuccessful() && response.code() != 404) {
+                    Toast.makeText(getApplication(), getApplication().getString(R.string.serverErrorMessage), Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -77,13 +82,16 @@ public class OverviewViewModel extends AndroidViewModel {
         callAddNewAccount.enqueue(new Callback<List<Account>>() {
             @Override
             public void onResponse(@NotNull Call<List<Account>> call, @NotNull Response<List<Account>> response) {
-                // if request was denied
-                if (!response.isSuccessful()) {
-                    //Toast.makeText((), "Request Error", Toast.LENGTH_LONG).show();
-                    System.out.println("Request Error");
 
-                    //logout if jwt in not valid any more
-                    Logout.logout(getApplication().getApplicationContext(),1);
+                // JWT expired
+                if (response.code() == 401) {
+                    Logout.logout(getApplication().getApplicationContext(), 1);
+                    return;
+                }
+
+                // Other Error
+                if (!response.isSuccessful() && response.code() != 404) {
+                    Toast.makeText(getApplication(), getApplication().getString(R.string.serverErrorMessage), Toast.LENGTH_LONG).show();
                     return;
                 }
 

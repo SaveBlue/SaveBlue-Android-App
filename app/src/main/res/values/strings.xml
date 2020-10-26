@@ -22,6 +22,7 @@
 
 
     <string name="serverMessage">Can\'t connect to server :(</string>
+    <string name="serverErrorMessage">Request Error :(</string>
     <string name="logoutMessage0">Logged out</string>
     <string name="logoutMessage1">Logged out because security token expired</string>
 
