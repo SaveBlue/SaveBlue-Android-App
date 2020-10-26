@@ -25,6 +25,7 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputLayout;
 import com.saveblue.saveblueapp.DigitsInputFilter;
 import com.saveblue.saveblueapp.JwtHandler;
+import com.saveblue.saveblueapp.Logout;
 import com.saveblue.saveblueapp.R;
 import com.saveblue.saveblueapp.TimestampHandler;
 import com.saveblue.saveblueapp.api.SaveBlueAPI;
@@ -393,8 +394,16 @@ public class AddExpenseActivity extends AppCompatActivity {
         callAddExpense.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Not successful", Toast.LENGTH_SHORT).show();
+
+                // JWT expired
+                if (response.code() == 401) {
+                    Logout.logout(getApplication().getApplicationContext(), 1);
+                    return;
+                }
+
+                // Other Error
+                if (!response.isSuccessful() && response.code() != 404) {
+                    Toast.makeText(getApplication(), getApplication().getString(R.string.serverErrorMessage), Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -418,10 +427,19 @@ public class AddExpenseActivity extends AppCompatActivity {
         callGetExpense.enqueue(new Callback<Expense>() {
             @Override
             public void onResponse(@NotNull Call<Expense> call, @NotNull Response<Expense> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Not successful", Toast.LENGTH_SHORT).show();
+
+                // JWT expired
+                if (response.code() == 401) {
+                    Logout.logout(getApplication().getApplicationContext(), 1);
                     return;
                 }
+
+                // Other Error
+                if (!response.isSuccessful() && response.code() != 404) {
+                    Toast.makeText(getApplication(), getApplication().getString(R.string.serverErrorMessage), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 Expense expense = response.body();
                 assert expense != null;
 
@@ -449,8 +467,16 @@ public class AddExpenseActivity extends AppCompatActivity {
         callUpdateExpense.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Not successful", Toast.LENGTH_SHORT).show();
+
+                // JWT expired
+                if (response.code() == 401) {
+                    Logout.logout(getApplication().getApplicationContext(), 1);
+                    return;
+                }
+
+                // Other Error
+                if (!response.isSuccessful() && response.code() != 404) {
+                    Toast.makeText(getApplication(), getApplication().getString(R.string.serverErrorMessage), Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -473,8 +499,16 @@ public class AddExpenseActivity extends AppCompatActivity {
         callDeleteExpense.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Not successful", Toast.LENGTH_SHORT).show();
+
+                // JWT expired
+                if (response.code() == 401) {
+                    Logout.logout(getApplication().getApplicationContext(), 1);
+                    return;
+                }
+
+                // Other Error
+                if (!response.isSuccessful() && response.code() != 404) {
+                    Toast.makeText(getApplication(), getApplication().getString(R.string.serverErrorMessage), Toast.LENGTH_LONG).show();
                     return;
                 }
 
