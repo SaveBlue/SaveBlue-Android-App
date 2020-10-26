@@ -108,6 +108,7 @@
         <item>Transport</item>
         <item>Leisure</item>
         <item>Health</item>
+        <item>Finance</item>
     </string-array>
 
     <string-array name="categoriesE2">
@@ -121,10 +122,6 @@
         <item>Consumer Electronics</item>
         <item>Subscriptions</item>
         <item>Education</item>
-        <item>Insurance</item>
-        <item>Taxes</item>
-        <item>Debts</item>
-        <item>Funds Transfer</item>
     </string-array>
 
     <string-array name="categoriesE22">
@@ -160,5 +157,12 @@
     <string-array name="categoriesE26">
         <item>Medicine &amp; supplements</item>
         <item>Medical services &amp; diagnostics</item>
+    </string-array>
+
+    <string-array name="categoriesE27">
+        <item>Insurance</item>
+        <item>Taxes</item>
+        <item>Debts</item>
+        <item>Funds Transfer</item>
     </string-array>
 </resources>

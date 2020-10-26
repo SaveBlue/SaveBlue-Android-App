@@ -206,6 +206,10 @@ public class AddExpenseActivity extends AppCompatActivity {
                     case 6:
                         categories2 = res.getStringArray(R.array.categoriesE26);
                         break;
+
+                    case 7:
+                        categories2 = res.getStringArray(R.array.categoriesE27);
+                        break;
                 }
 
                 // clear spinner error message
