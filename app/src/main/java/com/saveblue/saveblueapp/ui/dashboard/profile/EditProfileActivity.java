@@ -2,6 +2,7 @@ package com.saveblue.saveblueapp.ui.dashboard.profile;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.widget.Button;
@@ -115,8 +116,11 @@ public class EditProfileActivity extends AppCompatActivity {
         layout2.setHint(getString(R.string.email));
         confirmButton.setText(getString(R.string.updateProfile));
 
+        // change input type and limit the length to 32
         editText1.setInputType(InputType.TYPE_CLASS_TEXT);
+        editText1.setFilters(new InputFilter[] { new InputFilter.LengthFilter(32) });
         editText2.setInputType(InputType.TYPE_CLASS_TEXT);
+        editText2.setFilters(new InputFilter[] { new InputFilter.LengthFilter(32) });
 
 
         confirmButton.setOnClickListener(v -> {
