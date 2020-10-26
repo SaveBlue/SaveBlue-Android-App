@@ -49,6 +49,28 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="/"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/ExpenseIncomeCat2"
+                app:layout_constraintStart_toEndOf="@+id/ExpenseIncomeCat1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/ExpenseIncomeCat2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Category2"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
                 android:id="@+id/ExpenseIncomeAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -84,23 +106,13 @@
 
 
             <TextView
-                android:id="@+id/ExpenseIncomeCat2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Category2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
                 android:id="@+id/ExpenseIncomeDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:text="Description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ExpenseIncomeCat2" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonEditExpenseIncome"
