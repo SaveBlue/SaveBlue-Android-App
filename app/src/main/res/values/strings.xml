@@ -95,6 +95,7 @@
         <item>Salary &amp; Wage</item>
         <item>Assets</item>
         <item>Student Work</item>
+        <item>Funds Transfer</item>
         <item>Other</item>
     </string-array>
 
@@ -123,6 +124,7 @@
         <item>Insurance</item>
         <item>Taxes</item>
         <item>Debts</item>
+        <item>Funds Transfer</item>
     </string-array>
 
     <string-array name="categoriesE22">
