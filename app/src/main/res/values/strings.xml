@@ -91,7 +91,7 @@
     <!-- categories string arrays -->
     <string-array name="categoriesI1">
         <item>Primary Category</item>
-        <item>Salary / Wage</item>
+        <item>Salary &amp; Wage</item>
         <item>Assets</item>
         <item>Student Work</item>
         <item>Other</item>
