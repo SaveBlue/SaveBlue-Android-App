@@ -78,7 +78,7 @@ public class EditProfileActivity extends AppCompatActivity {
     // Initialise ui elements for password changes
     public void initUIPass() {
 
-        initToolbar(getString(R.string.changePassword));
+        initToolbar(getString(R.string.change_password));
         initUI();
 
         layout1.setStartIconDrawable(R.drawable.ic_baseline_lock_24);

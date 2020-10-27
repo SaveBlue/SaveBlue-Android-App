@@ -20,7 +20,7 @@
             android:label="EditProfileActivity" />
         <activity
             android:name=".ui.accountDetails.AccountDetailsActivity"
-            android:label="@string/title_activity_account_details"
+            android:label="AccountDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.addExpenseIncome.AddIncomeActivity"
@@ -32,7 +32,7 @@
             android:parentActivityName=".ui.dashboard.DashboardActivity" />
         <activity
             android:name=".ui.dashboard.DashboardActivity"
-            android:label="@string/title_activity_dashboard2"
+            android:label="DashboardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.login.LoginActivity">
             <intent-filter>

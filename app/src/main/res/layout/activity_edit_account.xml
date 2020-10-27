@@ -44,7 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textCapSentences"
-            android:maxLength="32" />
+            android:maxLength="32"
+            android:autofillHints="no" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
