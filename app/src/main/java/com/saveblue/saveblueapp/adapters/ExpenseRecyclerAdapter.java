@@ -49,7 +49,7 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
         return new CardViewHolder(view);
     }
 
-    // Handles recycler view items content
+    // Handle recycler view items content
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {

@@ -51,6 +51,7 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
         return new CardViewHolder(view);
     }
 
+    // fill account cards data in recycler view
     @Override
     public void onBindViewHolder(@NonNull DashboardAccountAdapter.CardViewHolder holder, int position) {
 
@@ -83,6 +84,7 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
         return (position == accountList.size()) ? R.layout.card_dashboard_account : R.layout.card_dashboard_account_add_button;
     }
 
+    // View holder for each recycler view element
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         public TextView accountTitle;
         public TextView accountBalance;
