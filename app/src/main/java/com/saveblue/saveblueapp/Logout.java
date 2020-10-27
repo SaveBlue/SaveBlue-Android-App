@@ -9,10 +9,12 @@ import android.widget.Toast;
 import com.saveblue.saveblueapp.ui.login.LoginActivity;
 
 public class Logout extends Application {
-    //delete user data from shared preferences and logs user out
-    // reason 0 -> normal logout
-    // reason 1 -> jwt expired
+
+    //Delete user data from shared preferences and log out user
+    // reason =  0 -> normal logout
+    // reason = 1 -> jwt expired
     public static void logout(Context applicationContext, int reason) {
+
         SharedPreferences sharedPref = applicationContext.getSharedPreferences("SaveBluePref", 0);
 
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -20,7 +22,6 @@ public class Logout extends Application {
         editor.putString("USERNAME", "username");
         editor.putString("PASS", "pass");
         editor.apply();
-
 
         switch (reason) {
             case 0:
@@ -32,8 +33,7 @@ public class Logout extends Application {
                 break;
         }
 
-
-        //redirect to login activity
+        // Redirect to login activity
         Intent intentDashboard = new Intent(applicationContext, LoginActivity.class);
         intentDashboard.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         applicationContext.startActivity(intentDashboard);

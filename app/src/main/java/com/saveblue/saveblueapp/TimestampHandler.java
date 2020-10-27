@@ -9,7 +9,7 @@ import java.util.Locale;
 
 public class TimestampHandler {
 
-    // parse mongo timestamp to dd-MMM-yyyy format
+    // Parse mongo timestamp to dd-MMM-yyyy format
     public static String parseMongoTimestamp(String timestamp) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         SimpleDateFormat df2 = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
@@ -26,7 +26,7 @@ public class TimestampHandler {
         return "No Date";
     }
 
-    // parse selected date to mongo timestamp
+    // Parse selected date to mongo timestamp
     public static String parse2Mongo(String dateStr) {
 
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
@@ -36,16 +36,15 @@ public class TimestampHandler {
             Calendar cal = Calendar.getInstance();
             Date date = df.parse(dateStr);
 
-            //parse values from selected date
+            // Parse values from selected date
             String day = (String) DateFormat.format("dd", date);
             String month = (String) DateFormat.format("MM", date);
             String year = (String) DateFormat.format("yyyy", date);
 
-            // set values in calendar, subtraction of 1 because January is 0
+            // Set values in calendar, subtract 1 because January is 0
             cal.set(Calendar.DATE, Integer.parseInt(day));
             cal.set(Calendar.MONTH, Integer.parseInt(month) - 1);
             cal.set(Calendar.YEAR, Integer.parseInt(year));
-
 
             System.out.println(dfMongo.format(cal.getTime()));
             assert date != null;
@@ -53,7 +52,6 @@ public class TimestampHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         return dfMongo.format(new Date());
     }

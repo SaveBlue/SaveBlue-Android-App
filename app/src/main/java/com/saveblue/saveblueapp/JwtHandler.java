@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
 
-// custom class to handle fetching of jwt from shared preferences and decoding it
+// Custom class to handle jwt fetching from shared preferences and decoding it
 public class JwtHandler extends Application {
 
     private final String jwt;
@@ -27,14 +27,14 @@ public class JwtHandler extends Application {
         return id;
     }
 
-    // gets jwt from shared preferences
+    // Get jwt from shared preferences
     private String getJWTfromSharedPref() {
         SharedPreferences sharedPref = context.getSharedPreferences("SaveBluePref", 0);
 
         return sharedPref.getString("JWT", "");
     }
 
-    // decode id from jwt
+    // Decode id from jwt
     private String getIdFromJWT() {
 
         String jwtPayload = jwt.split("\\.")[1];
