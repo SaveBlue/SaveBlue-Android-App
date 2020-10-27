@@ -28,9 +28,10 @@ public class ProfileFragment extends Fragment {
     private ImageView profilePicture;
 
 
-    // initialise ui elements
+    // Initialise ui elements
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+
+        profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
 
         username = root.findViewById(R.id.textViewUsername);
@@ -41,8 +42,7 @@ public class ProfileFragment extends Fragment {
         Button logout = root.findViewById(R.id.LogOutButton);
         logout.setOnClickListener(v -> Logout.logout(requireContext(), 0));
 
-
-        // edit profile activity setup process
+        // Edit profile activity setup process
         Intent editProfileIntent = new Intent(getContext(), EditProfileActivity.class);
 
         Button editProfile = root.findViewById(R.id.editProfile);
@@ -57,7 +57,6 @@ public class ProfileFragment extends Fragment {
             startActivity(editProfileIntent);
         });
 
-
         return root;
     }
 
@@ -65,14 +64,15 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // initialise viewmodel
+        // Initialise viewmodel
         profileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         observerSetup();
     }
 
-    // initialise observer for account list
+    // Initialise observer for account list
     public void observerSetup() {
-        //fetch jwt from dedicated handler class
+
+        // Fetch jwt from dedicated handler class
         JwtHandler jwtHandler = new JwtHandler(getContext());
         String jwt = jwtHandler.getJwt();
         String id = jwtHandler.getId();
@@ -85,7 +85,7 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    //updates data on resuming view
+    // Update data on resuming view
     @Override
     public void onResume() {
         super.onResume();

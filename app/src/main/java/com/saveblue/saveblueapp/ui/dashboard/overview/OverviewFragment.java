@@ -29,6 +29,7 @@ public class OverviewFragment extends Fragment implements AddAccountDialog.AddAc
     private List<Account> accountList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View root = inflater.inflate(R.layout.fragment_overview, container, false);
 
         jwtHandler = new JwtHandler(getContext());
@@ -38,10 +39,10 @@ public class OverviewFragment extends Fragment implements AddAccountDialog.AddAc
         return root;
     }
 
-    // initialise ui elements
+    // Initialise ui elements
     public void initUI(View view) {
 
-        // initialise recycler view and its adapter
+        // Initialise recycler view and its adapter
         RecyclerView recyclerView = view.findViewById(R.id.accountRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         dashboardAccountAdapter = new DashboardAccountAdapter(getContext(), accountList, this::showAddAccountDialog);
@@ -52,35 +53,35 @@ public class OverviewFragment extends Fragment implements AddAccountDialog.AddAc
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // initialise viewmodel
+        // Initialise viewmodel
         overviewViewModel = new ViewModelProvider(this).get(OverviewViewModel.class);
         observerSetup();
 
     }
 
-    // fetch fresh account list
+    // Fetch fresh account list
     @Override
     public void onResume() {
         super.onResume();
 
-        //fetch jwt from dedicated handler class
+        // Fetch jwt from dedicated handler class
         String jwt = jwtHandler.getJwt();
         String id = jwtHandler.getId();
 
         overviewViewModel.getAccounts(id, jwt);
     }
 
-    // initialise observer for account list
+    // Initialise observer for account list
     public void observerSetup() {
-        //fetch jwt from dedicated handler class
+
+        // Fetch jwt from dedicated handler class
         String jwt = jwtHandler.getJwt();
         String id = jwtHandler.getId();
 
         overviewViewModel.getAccounts(id, jwt).observe(getViewLifecycleOwner(), accountList -> dashboardAccountAdapter.setAccountsList(accountList));
     }
 
-
-    // handle input data from dialog
+    // Handle input data from dialog
     @Override
     public void sendNewAccountData(String accountName, int accountStart) {
         JwtHandler jwtHandler = new JwtHandler(getContext());
@@ -90,11 +91,11 @@ public class OverviewFragment extends Fragment implements AddAccountDialog.AddAc
         overviewViewModel.addNewAccount(jwt, userId, new Account(accountName, accountStart));
     }
 
-    // display add account dialog
-    public void showAddAccountDialog(){
+    // Display add account dialog
+    public void showAddAccountDialog() {
+
         AddAccountDialog addAccountDialog = new AddAccountDialog();
         addAccountDialog.setTargetFragment(OverviewFragment.this, 420);
         addAccountDialog.show(getParentFragmentManager(), "add account dialog");
     }
-
 }

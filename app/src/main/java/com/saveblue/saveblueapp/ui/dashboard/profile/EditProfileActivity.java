@@ -33,6 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditProfileActivity extends AppCompatActivity {
+
     private final SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
     String task;
 
@@ -41,10 +42,11 @@ public class EditProfileActivity extends AppCompatActivity {
     TextInputLayout layout1;
     TextInputLayout layout2;
 
-    // selectes either change password or user data
+    // Select change password or change user data
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_edit_profile);
 
         task = getIntent().getStringExtra("Task");
@@ -55,10 +57,9 @@ public class EditProfileActivity extends AppCompatActivity {
             initUIEdit();
         }
 
-
     }
 
-    // initialise toolbar
+    // Initialise toolbar
     public void initToolbar(String text) {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationOnClickListener(v -> finish());
@@ -66,7 +67,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
-    // initialise general ui elements
+    // Initialise general ui elements
     public void initUI() {
         editText1 = findViewById(R.id.inputField1);
         editText2 = findViewById(R.id.inputField2);
@@ -74,8 +75,9 @@ public class EditProfileActivity extends AppCompatActivity {
         layout2 = findViewById(R.id.inputLayout2);
     }
 
-    // initialise ui elements for password changes
+    // Initialise ui elements for password changes
     public void initUIPass() {
+
         initToolbar(getString(R.string.changePassword));
         initUI();
 
@@ -99,8 +101,9 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
-    // initialise ui elements for user data changes
+    // Initialise ui elements for user data changes
     public void initUIEdit() {
+
         initToolbar(getString(R.string.editProfile));
         initUI();
 
@@ -111,17 +114,16 @@ public class EditProfileActivity extends AppCompatActivity {
         setTextListeners();
         fillUserData();
 
-        // rename fields
+        // Rename fields
         layout1.setHint(getString(R.string.username));
         layout2.setHint(getString(R.string.email));
         confirmButton.setText(getString(R.string.updateProfile));
 
-        // change input type and limit the length to 32
+        // Change input type and limit the length to 32
         editText1.setInputType(InputType.TYPE_CLASS_TEXT);
-        editText1.setFilters(new InputFilter[] { new InputFilter.LengthFilter(32) });
+        editText1.setFilters(new InputFilter[]{new InputFilter.LengthFilter(32)});
         editText2.setInputType(InputType.TYPE_CLASS_TEXT);
-        editText2.setFilters(new InputFilter[] { new InputFilter.LengthFilter(32) });
-
+        editText2.setFilters(new InputFilter[]{new InputFilter.LengthFilter(32)});
 
         confirmButton.setOnClickListener(v -> {
             if (handleInputFields()) {
@@ -134,9 +136,10 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
-    // fills fetched user data in corresponding fields
+    // Fill fetched user data in corresponding fields
     private void fillUserData() {
-        //fetch jwt from dedicated handler class
+
+        // Fetch jwt from dedicated handler class
         JwtHandler jwtHandler = new JwtHandler(getApplicationContext());
         String jwt = jwtHandler.getJwt();
         String id = jwtHandler.getId();
@@ -153,7 +156,7 @@ public class EditProfileActivity extends AppCompatActivity {
     // Input field handling
     // ---------------------------------------------------------
 
-    // checks input field correctness
+    // Check input field regularity
     private boolean handleInputFields() {
         boolean detectedError = false;
 
@@ -181,10 +184,11 @@ public class EditProfileActivity extends AppCompatActivity {
         return !detectedError;
     }
 
-    // clears errors from input fields
+    // Clear errors from input fields
     private void setTextListeners() {
 
         editText1.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -202,7 +206,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
             }
         });
-
 
         editText2.addTextChangedListener(new TextWatcher() {
             @Override
@@ -229,16 +232,18 @@ public class EditProfileActivity extends AppCompatActivity {
     // API calls
     // ---------------------------------------------------------
 
-    // api call to update user data or change password
+    // Api call to update user data or change password
     private void callApiUpdatetUser(User user) {
-        JwtHandler jwtHandler = new JwtHandler(getApplicationContext());
 
+        JwtHandler jwtHandler = new JwtHandler(getApplicationContext());
 
         Call<ResponseBody> callUpdateUser = api.editUserData(jwtHandler.getJwt(), jwtHandler.getId(), user);
 
         callUpdateUser.enqueue(new Callback<ResponseBody>() {
+
             @Override
             public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
+
                 if (!response.isSuccessful()) {
                     Snackbar.make(findViewById(R.id.constraintLayout), getString(R.string.updateUserErrorMessage), Snackbar.LENGTH_LONG)
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
@@ -257,6 +262,4 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }

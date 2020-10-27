@@ -23,6 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OverviewViewModel extends AndroidViewModel {
+
     private final SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
 
     private MutableLiveData<List<Account>> accountList;
@@ -31,7 +32,7 @@ public class OverviewViewModel extends AndroidViewModel {
         super(application);
     }
 
-    // returns the live data list of all accounts
+    // Return live data list of all accounts
     public LiveData<List<Account>> getAccounts(String id, String jwt) {
         if (accountList == null) {
             accountList = new MutableLiveData<>();
@@ -41,11 +42,13 @@ public class OverviewViewModel extends AndroidViewModel {
         return accountList;
     }
 
-    // async api call to get user's accounts
+    // Api call to get user's accounts
     private void callApiAccounts(String id, String jwt) {
+
         Call<List<Account>> callAsync = api.getUsersAccounts(jwt, id);
 
         callAsync.enqueue(new Callback<List<Account>>() {
+
             @Override
             public void onResponse(@NotNull Call<List<Account>> call, @NotNull Response<List<Account>> response) {
 
@@ -61,7 +64,7 @@ public class OverviewViewModel extends AndroidViewModel {
                     return;
                 }
 
-                // on success set the fetched account list
+                // On success set the fetched account list
                 accountList.setValue(response.body());
 
             }
@@ -74,7 +77,7 @@ public class OverviewViewModel extends AndroidViewModel {
     }
 
 
-    public void addNewAccount(String jwt, String id, Account account){
+    public void addNewAccount(String jwt, String id, Account account) {
 
         Call<List<Account>> callAddNewAccount = api.addNewAccount(jwt, id, account);
 
@@ -104,6 +107,4 @@ public class OverviewViewModel extends AndroidViewModel {
             }
         });
     }
-
-
 }

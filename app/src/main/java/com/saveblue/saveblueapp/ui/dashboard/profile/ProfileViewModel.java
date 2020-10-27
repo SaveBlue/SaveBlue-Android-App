@@ -31,9 +31,11 @@ public class ProfileViewModel extends AndroidViewModel {
 
     // Return the live data with an object containing user's data
     public LiveData<User> getUser(String id, String jwt) {
+
         if (userMutableLiveData == null) {
             userMutableLiveData = new MutableLiveData<>();
         }
+
         callApiGetUser(id, jwt);
 
         return userMutableLiveData;

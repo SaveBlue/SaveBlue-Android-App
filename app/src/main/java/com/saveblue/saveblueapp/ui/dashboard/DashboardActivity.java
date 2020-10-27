@@ -27,6 +27,7 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_dashboard);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -35,11 +36,12 @@ public class DashboardActivity extends AppCompatActivity {
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_overview, R.id.nav_profile, R.id.nav_settings)
-                .setDrawerLayout(drawer)
+                .setOpenableLayout(drawer)
                 .build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -47,9 +49,10 @@ public class DashboardActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
-    // initialise floating action button
+    // Initialise floating action button
     private void initFAB() {
-        //FAB-related
+
+        // FAB-related
         FloatingActionButton fab = findViewById(R.id.fab);
         FloatingActionButton fabIncome = findViewById(R.id.fabIncome);
         FloatingActionButton fabExpense = findViewById(R.id.fabExpense);
@@ -59,17 +62,15 @@ public class DashboardActivity extends AppCompatActivity {
         ViewAnimation.init(findViewById(R.id.fabExpense));
 
         // Set onClickListeners for FABs
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                rotatedFAB = ViewAnimation.rotateFab(view, !rotatedFAB);
-                if (rotatedFAB) {
-                    ViewAnimation.showIn(findViewById(R.id.fabIncome));
-                    ViewAnimation.showIn(findViewById(R.id.fabExpense));
-                } else {
-                    ViewAnimation.showOut(findViewById(R.id.fabIncome));
-                    ViewAnimation.showOut(findViewById(R.id.fabExpense));
-                }
+        fab.setOnClickListener(view -> {
+
+            rotatedFAB = ViewAnimation.rotateFab(view, !rotatedFAB);
+            if (rotatedFAB) {
+                ViewAnimation.showIn(findViewById(R.id.fabIncome));
+                ViewAnimation.showIn(findViewById(R.id.fabExpense));
+            } else {
+                ViewAnimation.showOut(findViewById(R.id.fabIncome));
+                ViewAnimation.showOut(findViewById(R.id.fabExpense));
             }
         });
 
@@ -90,13 +91,11 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-
     // handles navigation
     @Override
     public boolean onSupportNavigateUp() {
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
-
-
 }

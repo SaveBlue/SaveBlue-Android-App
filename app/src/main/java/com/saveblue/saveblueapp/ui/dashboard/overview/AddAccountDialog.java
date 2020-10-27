@@ -37,13 +37,16 @@ public class AddAccountDialog extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
         Dialog dialog = getDialog();
+
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -55,6 +58,7 @@ public class AddAccountDialog extends DialogFragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
         View view = inflater.inflate(R.layout.dialog_add_account, container, false);
 
         toolbar = view.findViewById(R.id.toolbar);
@@ -64,6 +68,7 @@ public class AddAccountDialog extends DialogFragment {
 
     @Override
     public void onViewCreated(@NotNull View view, Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
         toolbar.setNavigationOnClickListener(v -> dismiss());
         toolbar.setTitle(getString(R.string.addAccDialogTitle));
@@ -71,8 +76,9 @@ public class AddAccountDialog extends DialogFragment {
         initUI(view);
     }
 
-    // initialise UI elements
+    // Initialise UI elements
     private void initUI(View view) {
+
         accountName = view.findViewById(R.id.accountName);
         accountNameLayout = view.findViewById(R.id.layoutAccountName);
 
@@ -90,13 +96,14 @@ public class AddAccountDialog extends DialogFragment {
         setTextListeners();
     }
 
-    // send input field data to fragment for api call
+    // Send input field data to fragment for api call
     private void sendNewAccountData() {
+
         String accountNameStr = accountName.getText().toString();
         int startOfMonthInt = startOfMonthPicker.getValue();
 
         // Send user register data to activity
-        addAccountDialogListener.sendNewAccountData(accountNameStr,startOfMonthInt);
+        addAccountDialogListener.sendNewAccountData(accountNameStr, startOfMonthInt);
         dismiss();
     }
 
@@ -104,8 +111,9 @@ public class AddAccountDialog extends DialogFragment {
     // Text field handling
     // ---------------------------------------------------------
 
-    // handle input field correctness
+    // Handle input field correctness
     private boolean handleInputFields() {
+
         boolean detectedError = false;
 
         if (Objects.requireNonNull(accountName.getText()).length() == 0) {
@@ -116,7 +124,7 @@ public class AddAccountDialog extends DialogFragment {
         return !detectedError;
     }
 
-    // clears error message from text fields
+    // Clear error message from text fields
     private void setTextListeners() {
 
         accountName.addTextChangedListener(new TextWatcher() {
@@ -158,6 +166,5 @@ public class AddAccountDialog extends DialogFragment {
     public interface AddAccountDialogListener {
         void sendNewAccountData(String accountName, int startOfMonth);
     }
-
 
 }
