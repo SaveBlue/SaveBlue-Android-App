@@ -21,12 +21,10 @@
     <string name="tab_text_2">Expenses</string>
     <string name="tab_text_3">Incomes</string>
 
-
     <string name="serverMessage">Can\'t connect to server :(</string>
     <string name="serverErrorMessage">Request Error :(</string>
     <string name="logoutMessage0">Logged out</string>
     <string name="logoutMessage1">Logged out because security token expired</string>
-
 
     <!-- login activity strings -->
     <string name="login">Login</string>
@@ -44,21 +42,14 @@
     <string name="registerErrorMessage">Error registering :(</string>
     <string name="registerMessage">Account registered :D</string>
 
-
-
-
     <string name="updateProfile">Update Profile</string>
     <string name="changePassword">Change Password</string>
     <string name="updateUserErrorMessage">Couldn\'t update User data :(</string>
     <string name="updateUserMessage">"User data updated"</string>
 
-
-
-
     <string name="descriptionExpense">Expense description</string>
     <string name="descriptionIncome">Income description</string>
     <string name="accountText">Account:</string>
-
 
     <!-- add/edit expense activity -->
     <string name="addExpenseTitle">Add Expense</string>
@@ -70,12 +61,6 @@
     <string name="addIncomeTitle">Add Income</string>
     <string name="editIncomeTitle">Edit Income</string>
     <string name="updateIncomeText">Update Income</string>
-
-
-
-
-
-
 
     <!-- delete acc dialog -->
     <string name="deleteDialogTitle">Delete Account?</string>
@@ -129,6 +114,7 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="log_out">Log Out</string>
     <string name="profile_info">Profile Info</string>
+    <string name="edit">Edit</string>
 
 
     <!-- categories string arrays -->
@@ -140,7 +126,6 @@
         <item>Funds Transfer</item>
         <item>Other</item>
     </string-array>
-
 
     <string-array name="categoriesE1">
         <item>Primary Category</item>
@@ -207,4 +192,5 @@
         <item>Debts</item>
         <item>Funds Transfer</item>
     </string-array>
+
 </resources>

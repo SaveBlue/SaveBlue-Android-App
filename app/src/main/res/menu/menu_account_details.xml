@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_item_edit_account"
         android:icon="@drawable/ic_baseline_edit_24"
-        android:title="Edit"
+        android:title="@string/edit"
         app:showAsAction="always" />
 
 </menu>
