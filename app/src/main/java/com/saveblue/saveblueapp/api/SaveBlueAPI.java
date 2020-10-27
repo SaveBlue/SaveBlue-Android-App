@@ -35,10 +35,10 @@ public interface SaveBlueAPI {
     Call<ResponseBody> registerUser(
             @Body RegisterUser registerUser);
 
+
     //-------------------------------------------------------
     // User API calls
     //-------------------------------------------------------
-
 
     @GET("users/{id}")
     Call<User> getUserData(
@@ -51,10 +51,10 @@ public interface SaveBlueAPI {
             @Path("id") String userID,
             @Body User user);
 
+
     //-------------------------------------------------------
     // Account API calls
     //-------------------------------------------------------
-
 
     @GET("accounts/{uid}")
     Call<List<Account>> getUsersAccounts(
@@ -83,10 +83,10 @@ public interface SaveBlueAPI {
             @Header("x-access-token") String jwt,
             @Path("id") String accountID);
 
+
     //-------------------------------------------------------
     // Income API calls
     //-------------------------------------------------------
-
 
     @POST("incomes/")
     Call<ResponseBody> addIncome(
@@ -113,6 +113,7 @@ public interface SaveBlueAPI {
     Call<ResponseBody> deleteIncome(
             @Header("x-access-token") String jwt,
             @Path("id") String incomeID);
+
 
     //-------------------------------------------------------
     // Expense API calls

@@ -19,8 +19,7 @@ public class ServiceGenerator {
 
     private static void init() {
 
-        /// create Interceptor and add it to client
-
+        // Create Interceptor and add it to client
         HttpLoggingInterceptor interceptor  = new HttpLoggingInterceptor();
         interceptor .setLevel(HttpLoggingInterceptor.Level.BASIC);
 
