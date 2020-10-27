@@ -7,7 +7,6 @@
     android:animateLayoutChanges="true"
     tools:context=".ui.accountDetails.AccountDetailsActivity">
 
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardAccountDetails"
         android:layout_width="match_parent"
@@ -44,8 +43,8 @@
                     android:layout_height="match_parent"
                     android:padding="4dp"
                     android:src="@drawable/ic_baseline_euro_symbol_24"
-                    app:tint="@color/white" />
-
+                    app:tint="@color/white"
+                    android:contentDescription="@string/euro_symbol" />
 
             </FrameLayout>
 
@@ -77,7 +76,7 @@
                 android:id="@+id/accountStart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1"
+                android:text="@string/startOfMonthPlaceholder"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/accountStartText"
@@ -99,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="16dp"
-                    android:text="1000.00€"
+                    android:text="@string/total_balance_placeholder"
                     android:textSize="72sp"
                     android:textStyle="bold" />
 
@@ -110,7 +109,7 @@
                     android:layout_below="@+id/availableBalance"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"
-                    android:text="1000.00€"
+                    android:text="@string/total_balance_placeholder"
                     android:textSize="36sp" />
 
                 <TextView
@@ -123,7 +122,7 @@
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="16dp"
-                    android:text="(Total Balance)"
+                    android:text="@string/total_balance"
                     android:textSize="12sp" />
 
             </RelativeLayout>
@@ -131,4 +130,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

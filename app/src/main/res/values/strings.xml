@@ -113,8 +113,22 @@
     <string name="change_password">Change Password</string>
     <string name="saveblue_launcher_icon">SaveBlue Launcher Icon</string>
     <string name="account_icon_image">Account Icon Image</string>
-    <string name="total_balance_placeholder">1000000.00€</string>
+    <string name="total_balance_placeholder">100000.00€</string>
     <string name="add_account_icon_image">Add Account Icon Image</string>
+    <string name="add_income_floating_action_button">Add Income Floating Action Button</string>
+    <string name="add_expense_floating_action_button">Add Expense Floating Action Button</string>
+    <string name="add_income_or_expense_floating_action_button">Add Income or Expense Floating Action Button</string>
+    <string name="euro_symbol">Euro symbol</string>
+    <string name="total_balance">(Total Balance)</string>
+    <string name="startOfMonthPlaceholder">1</string>
+    <string name="no_expenses_yet">No expenses yet</string>
+    <string name="no_incomes_yet">No Incomes yet</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="username_placeholder">USERNAME</string>
+    <string name="email_placeholder">EMAIL</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="log_out">Log Out</string>
+    <string name="profile_info">Profile Info</string>
 
 
     <!-- categories string arrays -->
