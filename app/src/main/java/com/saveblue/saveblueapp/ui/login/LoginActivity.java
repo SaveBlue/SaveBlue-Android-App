@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         tryLogin();
     }
 
-    // initialize ui elements
+    // Initialize ui elements
     public void initUI() {
 
         // Find views
@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         // Text field handling
         // ---------------------------------------------------------
 
-        //clearing of error messages under text fields
+        // Clear error messages under text fields
         usernameEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         });
     }
 
-    // on login click check for input field correctness
+    // On login click check for input field regularity
     private boolean handleInputFields() {
         boolean detectedError = false;
 
@@ -140,9 +140,9 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
     // API calls
     // ---------------------------------------------------------
 
-    // logs in the user and saves jwt in shared preferences
-    // mode 0 -> normal
-    // mode 1 -> auto login try
+    // Logs in the user and saves jwt in shared preferences
+    // mode = 0 -> normal
+    // mode = 1 -> auto login try
     private void login(String username, String password, int mode) {
 
         LoginUser loginUser = new LoginUser(username, password);
@@ -161,13 +161,13 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
                     return;
                 }
 
-                //hide progress bar
+                // Hide progress bar
                 progressBar.setVisibility(View.GONE);
 
-                //store jwt in shared preferences
+                // Store jwt in shared preferences
                 storeUserData(response.body().getToken(), username, password);
 
-                //redirect to dashboard activity started on a new stack
+                // Redirect to dashboard activity started on a new stack
                 Intent intentDashboard = new Intent(getApplicationContext(), DashboardActivity.class);
                 intentDashboard.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentDashboard);
@@ -184,9 +184,9 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
     }
 
 
-    /**
-     * Register Methods
-     */
+    // --------------------------------------------------------
+    // Register Methods
+    // ---------------------------------------------------------
 
     // Open Register Dialog
     private void showRegisterDialog() {
@@ -207,7 +207,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
 
     }
 
-    // try to login user from saved data
+    // Try to login user from saved data
     private void tryLogin() {
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("SaveBluePref", 0);
         String username = sharedPref.getString("USERNAME", "");
@@ -218,7 +218,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         }
     }
 
-    // stores the JWT to shared preferences
+    // Store JWT to shared preferences
     public void storeUserData(String jwt, String username, String password) {
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("SaveBluePref", 0);
 

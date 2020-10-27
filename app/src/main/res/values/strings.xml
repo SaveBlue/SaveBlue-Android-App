@@ -36,7 +36,7 @@
     <string name="register">Register</string>
     <string name="fieldError">Required Field!</string>
     <string name="matchError">Passwords don\'t Match!</string>
-    <string name="emailError">Email should be like x@x.x!</string>
+    <string name="emailError">Email should follow form: x@y.z!</string>
     <string name="registerUsernameError">Username already taken!</string>
     <string name="registerEmailError">Email already taken!</string>
     <string name="loginMessage">Wrong username or password</string>

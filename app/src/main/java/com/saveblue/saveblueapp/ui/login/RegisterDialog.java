@@ -36,6 +36,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterDialog extends DialogFragment {
+
     private final SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
     private ConstraintLayout snackbarLayout;
 
@@ -55,8 +56,7 @@ public class RegisterDialog extends DialogFragment {
 
     private RegisterDialogListener registerDialogListener;
 
-
-    // displays the register dialog
+    // Display the register dialog
     public static void display(FragmentManager fragmentManager) {
         RegisterDialog registerDialog = new RegisterDialog();
         registerDialog.show(fragmentManager, "registerDialog");
@@ -68,7 +68,7 @@ public class RegisterDialog extends DialogFragment {
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
     }
 
-    // set the dialog in fullscreen
+    // Set the dialog in fullscreen
     @Override
     public void onStart() {
         super.onStart();
@@ -102,7 +102,7 @@ public class RegisterDialog extends DialogFragment {
         initUI(view);
     }
 
-    // initialize the ui elements
+    // Initialize ui elements
     private void initUI(View view) {
         username = view.findViewById(R.id.username);
         usernameLayout = view.findViewById(R.id.layoutUsername);
@@ -126,7 +126,7 @@ public class RegisterDialog extends DialogFragment {
         setTextListeners();
     }
 
-    // starts the register api call
+    // Start the register api call
     private void sendToRegister() {
         String emailStr = email.getText().toString();
         String usernameStr = username.getText().toString();
@@ -135,7 +135,7 @@ public class RegisterDialog extends DialogFragment {
         register(emailStr, usernameStr, passwordStr);
     }
 
-    // returns new user data to activity
+    // Return new user data to activity
     private void sendToActivity() {
         String usernameStr = username.getText().toString();
         String passwordStr = password1.getText().toString();
@@ -149,7 +149,7 @@ public class RegisterDialog extends DialogFragment {
     // Text field handling
     // ---------------------------------------------------------
 
-    // handle input fields correctness on register button click
+    // Handle input fields correctness on register button click
     private boolean handleInputFields() {
         boolean detectedError = false;
 
@@ -188,7 +188,7 @@ public class RegisterDialog extends DialogFragment {
         return !detectedError;
     }
 
-    // clears errors on text field
+    // Clear errors on text fields
     private void setTextListeners() {
 
         username.addTextChangedListener(new TextWatcher() {
@@ -293,7 +293,7 @@ public class RegisterDialog extends DialogFragment {
     // API calls
     // ---------------------------------------------------------
 
-    // registers the user
+    // Register the user
     public void register(String email, String username, String password) {
 
         RegisterUser registerUser = new RegisterUser(email, username, password);
@@ -309,7 +309,7 @@ public class RegisterDialog extends DialogFragment {
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
                     return;
                 }
-                // handle displaying duplicate user data
+                // Handle displaying duplicate user data
                 else if (response.code() == 409) {
                     try {
                         String responseMessage = response.errorBody().string();
