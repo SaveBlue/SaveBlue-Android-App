@@ -4,20 +4,20 @@ import com.google.gson.annotations.SerializedName;
 
 public class User {
 
-    private String username;
-
-    private String email;
-
-    private String password;
-
+    // Attributes
     @SerializedName("_id")
     private String id;
+    private String username;
+    private String email;
+    private String password;
 
 
     // Constructor
-    public User() {}
+    public User() {
+    }
 
-    // Getters
+
+    // Getters and Setters
     public String getId() {
         return id;
     }
@@ -29,9 +29,6 @@ public class User {
     public String getEmail() {
         return email;
     }
-
-
-    // Setters
 
     public void setUsername(String username) {
         this.username = username;

@@ -5,24 +5,18 @@ import com.google.gson.annotations.SerializedName;
 
 public class Income {
 
-    // Fields
+    // Attributes
     @SerializedName("_id")
     private String id;
-
     private String accountID;
-
     private String userID;
-
     private String description;
-
     private String date;
-
     private float amount;
-
     private String category1;
+
+
     // Constructor
-
-
     public Income(String accountID, String userID, String description, String date, float amount, String category1) {
         this.accountID = accountID;
         this.userID = userID;
@@ -32,6 +26,7 @@ public class Income {
         this.category1 = category1;
     }
 
+    // Getters and Setters
     public String getAccountID() {
         return accountID;
     }

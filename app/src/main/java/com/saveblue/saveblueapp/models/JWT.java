@@ -4,17 +4,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class JWT {
 
+    // Attributes
     @SerializedName("JWT Token")
     private String token;
 
-    // Getter
 
+    // Getters and Setters
     public String getToken() {
         return token;
     }
-
-
-    // Setter
 
     public void setToken(String token) {
         this.token = token;

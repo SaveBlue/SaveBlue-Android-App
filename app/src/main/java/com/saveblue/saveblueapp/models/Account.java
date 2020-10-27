@@ -5,22 +5,22 @@ import com.google.gson.annotations.SerializedName;
 
 public class Account {
 
-    private String name;
-
-    private float totalBalance;
-
-    private float availableBalance;
-
-    private int startOfMonth;
-
+    // Attributes
     @SerializedName("_id")
     private String id;
+    private String name;
+    private float totalBalance;
+    private float availableBalance;
+    private int startOfMonth;
 
+
+    // Constructor
     public Account(String name, int startOfMonth) {
         this.name = name;
         this.startOfMonth = startOfMonth;
     }
 
+    // Getters and Setters
     public String getName() {
         return name;
     }
