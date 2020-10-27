@@ -32,7 +32,7 @@
         android:layout_marginStart="80dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="80dp"
-        android:hint="Account Name"
+        android:hint="@string/account_name"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,6 @@
         app:startIconDrawable="@drawable/ic_saveblue_logo_outline">
 
         <EditText
-
             android:id="@+id/accountName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,6 +53,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="90dp"
+        android:contentDescription="@string/dateiconimage"
         app:layout_constraintBottom_toBottomOf="@+id/startOfMonthPicker"
         app:layout_constraintEnd_toStartOf="@+id/startOfMonthText"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +77,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="80dp"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutAccountName" />
 
@@ -89,12 +88,11 @@
         android:layout_marginTop="320dp"
         android:layout_marginEnd="80dp"
         android:layout_marginBottom="160dp"
-        android:text="Update Account"
+        android:text="@string/update_account"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutStartOfMonth" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/deleteButton"
@@ -104,7 +102,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="80dp"
         android:backgroundTint="@color/colorAccent"
-        android:text="Delete Account"
+        android:text="@string/delete_account"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

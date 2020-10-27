@@ -2,11 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.LoginActivity"
-    android:id="@+id/constraintLayout">
-
+    tools:context=".ui.login.LoginActivity">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -19,7 +18,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/saveblue_launcher_round" />
+        app:srcCompat="@mipmap/saveblue_launcher_round"
+        android:contentDescription="@string/saveblue_launcher_icon" />
 
     <TextView
         android:id="@+id/SaveBlueTitle"
@@ -28,13 +28,12 @@
         android:layout_marginStart="80dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="80dp"
-        android:text="SaveBlue"
+        android:text="@string/app_name"
         android:textSize="42sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usernameLoginLayout"
@@ -51,7 +50,6 @@
         app:startIconDrawable="@drawable/ic_baseline_person_24">
 
         <EditText
-
             android:id="@+id/usernameLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,16 +67,15 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="80dp"
         android:hint="@string/password"
-        app:errorEnabled="true"
         app:endIconMode="password_toggle"
-        app:startIconDrawable="@drawable/ic_baseline_lock_24"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameLoginLayout">
+        app:layout_constraintTop_toBottomOf="@+id/usernameLoginLayout"
+        app:startIconDrawable="@drawable/ic_baseline_lock_24">
 
         <EditText
-
             android:id="@+id/passwordLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -86,7 +83,6 @@
             android:maxLength="128" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
 
     <Button
         android:id="@+id/loginButton"
@@ -120,7 +116,6 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:visibility="gone"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -128,10 +123,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/loginButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordLoginLayout" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

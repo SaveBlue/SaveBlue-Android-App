@@ -44,7 +44,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:hint="Amount"
+            android:hint="@string/amount"
             app:startIconDrawable="@drawable/ic_baseline_euro_symbol_24">
 
             <EditText
@@ -58,7 +58,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardViewCategories"
@@ -82,8 +81,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="Categories"
-                android:textSize="20dp"
+                android:text="@string/categories"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -104,9 +103,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="26dp"
-                android:text="Required selection!"
+                android:text="@string/required_selection"
                 android:textColor="#B00020"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/catSpinner2"
                 app:layout_constraintStart_toStartOf="parent"
@@ -139,7 +138,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/catSpinner2">
 
                 <EditText
-
                     android:id="@+id/descriptionEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -148,11 +146,9 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardViewDate"
@@ -177,7 +173,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="Date:"
+                android:text="@string/date"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -207,7 +203,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -257,7 +252,7 @@
                 android:layout_marginTop="7dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
-                android:text="Add Expense"
+                android:text="@string/add_expense"
                 app:layout_constraintBottom_toTopOf="@+id/buttonDeleteExpense"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -272,7 +267,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/colorAccent"
-                android:text="Delete"
+                android:text="@string/delete"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

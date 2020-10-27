@@ -6,7 +6,8 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="add_account">Settings</string>
+    <string name="add_account">Add Account</string>
+    <!--<string name="add_account">Settings</string>-->
 
     <string name="menu_overview">Overview</string>
     <string name="menu_profile">Profile</string>
@@ -96,6 +97,24 @@
     <string name="expenseUpdated">Expense Updated</string>
     <string name="expenseAdded">Expense Added</string>
     <string name="selectDateExpense">Select Date of Expense</string>
+    <string name="delete">Delete</string>
+    <string name="add_expense">Add Expense</string>
+    <string name="required_selection">Required selection!</string>
+    <string name="categories">Categories</string>
+    <string name="amount">Amount</string>
+    <string name="date">Date:</string>
+    <string name="add_income">Add Income</string>
+    <string name="account_name">Account Name</string>
+    <string name="update_account">Update Account</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="dateiconimage">Date Icon Image</string>
+    <string name="new_password">New Password</string>
+    <string name="retype_password">Retype Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="saveblue_launcher_icon">SaveBlue Launcher Icon</string>
+    <string name="account_icon_image">Account Icon Image</string>
+    <string name="total_balance_placeholder">1000000.00€</string>
+    <string name="add_account_icon_image">Add Account Icon Image</string>
 
 
     <!-- categories string arrays -->
