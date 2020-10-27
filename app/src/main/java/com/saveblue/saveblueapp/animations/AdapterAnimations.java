@@ -4,7 +4,7 @@ import android.view.View;
 
 public class AdapterAnimations {
 
-    // animation for rotating arrow
+    // Animation for rotating arrow
     public static void toggleArrow(View view, boolean isExpanded) {
 
         if (isExpanded) {

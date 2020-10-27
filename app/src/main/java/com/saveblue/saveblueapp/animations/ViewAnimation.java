@@ -6,6 +6,7 @@ import android.view.View;
 
 public class ViewAnimation {
 
+    // Main FAB rotation animation
     public static boolean rotateFab(final View v, boolean rotate) {
         v.animate().setDuration(200)
                 .setListener(new AnimatorListenerAdapter() {
@@ -18,6 +19,7 @@ public class ViewAnimation {
         return rotate;
     }
 
+    // Show sub-FABs animation
     public static void showIn(final View v) {
         v.setVisibility(View.VISIBLE);
         v.setAlpha(0f);
@@ -34,6 +36,8 @@ public class ViewAnimation {
                 .alpha(1f)
                 .start();
     }
+
+    // Hide sub-FABs animation
     public static void showOut(final View v) {
         v.setVisibility(View.VISIBLE);
         v.setAlpha(1f);
@@ -51,6 +55,7 @@ public class ViewAnimation {
                 .start();
     }
 
+    // Initial settings for sub-FABs animations
     public static void init(final View v) {
         v.setVisibility(View.INVISIBLE);
         v.setTranslationY(v.getHeight());

@@ -20,21 +20,25 @@ import java.util.List;
 import java.util.Locale;
 
 public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccountAdapter.CardViewHolder> {
+
     private List<Account> accountList;
     private final Context context;
     private final OnAddAccountListener addAccountListener;
 
+    // Adapter init
     public DashboardAccountAdapter(Context context, List<Account> accountListlist, OnAddAccountListener addAccountListener) {
         this.context = context;
         this.accountList = accountListlist;
         this.addAccountListener = addAccountListener;
     }
 
+    // Replace account list after api call
     public void setAccountsList(List<Account> accountsList) {
         this.accountList = accountsList;
         notifyDataSetChanged();
     }
 
+    // Handles recycler view items content
     @NonNull
     @Override
     public DashboardAccountAdapter.CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,7 +47,6 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
 
         if(viewType == R.layout.card_dashboard_account)
            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_dashboard_account_add_button, parent, false);
-
 
         return new CardViewHolder(view);
     }
@@ -56,7 +59,6 @@ public class DashboardAccountAdapter extends RecyclerView.Adapter<DashboardAccou
             holder.addAccountButton.setOnClickListener(v -> addAccountListener.onClick());
 
            } else {
-
                holder.accountTitle.setText(accountList.get(position).getName());
                holder.accountBalance.setText(String.format(Locale.getDefault(), "%.2f €", accountList.get(position).getTotalBalance()));
                holder.accountDetailsButton.setOnClickListener(v -> {

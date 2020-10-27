@@ -30,13 +30,13 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
     private List<Expense> expenseList;
     private final Context context;
 
-    // adapter init
+    // Adapter init
     public ExpenseRecyclerAdapter(Context context, List<Expense> expenseList) {
         this.context = context;
         this.expenseList = expenseList;
     }
 
-    // replaces expense list after api call
+    // Replace expense list after api call
     public void setExpenseList(List<Expense> expenseList) {
         this.expenseList = expenseList;
         notifyDataSetChanged();
@@ -49,7 +49,7 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
         return new CardViewHolder(view);
     }
 
-    // handles recycler view items content
+    // Handles recycler view items content
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
@@ -60,7 +60,7 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
         holder.amount.setText(String.format(Locale.getDefault(), "%.2f €", expenseList.get(position).getAmount()));
         holder.description.setText(expenseList.get(position).getDescription());
 
-        // card expansion and colapse
+        // Card expand and collapse
         holder.card.setOnClickListener(v -> {
             if (holder.expandable.getVisibility() == View.VISIBLE) {
                 holder.expandable.setVisibility(View.GONE);
@@ -71,7 +71,7 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
             }
         });
 
-        // edit button
+        // Edit button
         holder.editButton.setOnClickListener(v -> {
             Intent intentEditExpense = new Intent(context, AddExpenseActivity.class);
             intentEditExpense.putExtra("Task", "EDIT");
@@ -86,7 +86,7 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
         return expenseList.size();
     }
 
-    // view holder for each recycler view element
+    // View holder for each recycler view element
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         public TextView cat1;
         public TextView cat2;
@@ -110,7 +110,7 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
             arrow = itemView.findViewById(R.id.profileArrow);
             editButton = itemView.findViewById(R.id.buttonEditExpenseIncome);
 
-            // required for transition animation
+            // Required for transition animation
             LayoutTransition layoutTransition = card.getLayoutTransition();
             layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
         }

@@ -14,6 +14,7 @@ import com.saveblue.saveblueapp.ui.accountDetails.overview.AccountOverviewFragme
  * one of the sections/tabs/pages.
  */
 public class SectionsPagerAdapter extends FragmentStateAdapter {
+
     private final String accountId;
 
     public SectionsPagerAdapter(FragmentActivity fa, String accountId) {
