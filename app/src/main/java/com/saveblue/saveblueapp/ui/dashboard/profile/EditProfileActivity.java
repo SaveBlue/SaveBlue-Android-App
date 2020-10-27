@@ -101,7 +101,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     // initialise ui elements for user data changes
     public void initUIEdit() {
-        initToolbar("Edit Profile");
+        initToolbar(getString(R.string.editProfile));
         initUI();
 
         layout1.setStartIconDrawable(R.drawable.ic_baseline_person_24);

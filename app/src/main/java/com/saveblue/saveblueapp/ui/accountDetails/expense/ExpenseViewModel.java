@@ -28,13 +28,13 @@ public class ExpenseViewModel extends AndroidViewModel {
     private final SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
     private MutableLiveData<List<Expense>> expenseList;
 
-
     public ExpenseViewModel(@NonNull Application application) {
         super(application);
     }
 
-    // returns the live data list of all accounts
+    // Return the live data list of all accounts
     public LiveData<List<Expense>> getExpenses(String accountID, String jwt) {
+
         if (expenseList == null) {
             expenseList = new MutableLiveData<>();
         }
@@ -44,8 +44,9 @@ public class ExpenseViewModel extends AndroidViewModel {
         return expenseList;
     }
 
-    // async api call to get user's accounts
+    // Api call to get user's accounts
     private void callApiGetExpenses(String id, String jwt) {
+
         Call<List<Expense>> callAsync = api.getAccountsExpenses(jwt, id);
 
         callAsync.enqueue(new Callback<List<Expense>>() {
@@ -70,19 +71,16 @@ public class ExpenseViewModel extends AndroidViewModel {
                     return;
                 }
 
-                // on success set the fetched account list
+                // On success set the fetched account list
                 expenseList.setValue(response.body());
-
 
             }
 
             @Override
             public void onFailure(@NotNull Call<List<Expense>> call, @NotNull Throwable t) {
-                //Toast.makeText(getApplicationContext(), "No Network Connectivity!", Toast.LENGTH_LONG).show();
-                System.out.println("No Network Connectivity!");
+
+                Toast.makeText(getApplication(), getApplication().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }
-
-
 }

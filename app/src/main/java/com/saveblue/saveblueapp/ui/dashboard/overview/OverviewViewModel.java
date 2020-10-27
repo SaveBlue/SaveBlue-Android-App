@@ -68,8 +68,7 @@ public class OverviewViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(@NotNull Call<List<Account>> call, @NotNull Throwable t) {
-                //Toast.makeText(getApplicationContext(), "No Network Connectivity!", Toast.LENGTH_LONG).show();
-                System.out.println("No Network Connectivity!");
+                Toast.makeText(getApplication(), getApplication().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -101,8 +100,7 @@ public class OverviewViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(@NotNull Call<List<Account>> call, @NotNull Throwable t) {
-                //Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
-                System.out.println("Server unreachable!");
+                Toast.makeText(getApplication(), getApplication().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }

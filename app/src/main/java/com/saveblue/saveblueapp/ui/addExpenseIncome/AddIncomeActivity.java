@@ -153,7 +153,7 @@ public class AddIncomeActivity extends AppCompatActivity {
 
         // Display date picker on icon click
         Button dateButton = findViewById(R.id.dateButton);
-        dateButton.setOnClickListener(v -> datePicker.show(getSupportFragmentManager(), "Select date of Income"));
+        dateButton.setOnClickListener(v -> datePicker.show(getSupportFragmentManager(), getString(R.string.selectDateIncome)));
 
         initCategorySelector();
     }
@@ -363,13 +363,13 @@ public class AddIncomeActivity extends AppCompatActivity {
                 }
 
                 // Display toast and close activity
-                Toast.makeText(getApplicationContext(), "Income added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), getApplication().getString(R.string.incomeAdded), Toast.LENGTH_SHORT).show();
                 finish();
             }
 
             @Override
             public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
-                Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), getApplication().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -409,8 +409,7 @@ public class AddIncomeActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NotNull Call<Income> call, @NotNull Throwable t) {
-                Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
-                t.printStackTrace();
+                Toast.makeText(getApplication(), getApplication().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -437,13 +436,13 @@ public class AddIncomeActivity extends AppCompatActivity {
                 }
 
                 // Display toast and close activity
-                Toast.makeText(getApplicationContext(), "Income updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), getApplication().getString(R.string.incomeUpdated), Toast.LENGTH_SHORT).show();
                 finish();
             }
 
             @Override
             public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
-                Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), getApplication().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -470,13 +469,13 @@ public class AddIncomeActivity extends AppCompatActivity {
                 }
 
                 // Display toast and close activity
-                Toast.makeText(getApplicationContext(), "Income deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), getApplication().getString(R.string.incomeDeleted), Toast.LENGTH_SHORT).show();
                 finish();
             }
 
             @Override
             public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
-                Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), getApplication().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }

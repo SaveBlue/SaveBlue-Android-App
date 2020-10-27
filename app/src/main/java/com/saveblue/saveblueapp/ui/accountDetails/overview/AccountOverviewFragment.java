@@ -57,8 +57,6 @@ public class AccountOverviewFragment extends Fragment {
 
         initUI(root);
 
-        //initArrowButton(root);
-
         return root;
     }
 
@@ -66,7 +64,7 @@ public class AccountOverviewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // initialise viewmodel
+        // Initialise viewmodel
         accountOverviewViewModel = new ViewModelProvider(this).get(AccountOverviewViewModel.class);
         observerSetup();
 
@@ -88,11 +86,11 @@ public class AccountOverviewFragment extends Fragment {
         startOfMonth = view.findViewById(R.id.accountStart);
     }
 
-    // initialise observer for account list
+    // Initialise observer for account list
     public void observerSetup() {
-        //fetch jwt from dedicated handler class
-        String jwt = jwtHandler.getJwt();
 
+        // Fetch jwt from dedicated handler class
+        String jwt = jwtHandler.getJwt();
 
         accountOverviewViewModel.getAccount(accountID, jwt).observe(getViewLifecycleOwner(), account -> {
             availableBalance.setText(String.format(Locale.getDefault(), "%.2f €", account.getAvailableBalance()));

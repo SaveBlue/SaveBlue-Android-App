@@ -37,7 +37,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private AccountOverviewViewModel accountOverviewViewModel;
 
-    //The pager adapter, which provides the pages to the view pager widget.
+    // The pager adapter, which provides the pages to the view pager widget.
     private FragmentStateAdapter sectionsPagerAdapter;
 
 
@@ -46,9 +46,9 @@ public class AccountDetailsActivity extends AppCompatActivity {
     private boolean rotatedFAB = false;
     private JwtHandler jwtHandler;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_details);
 
@@ -65,7 +65,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
     }
 
     private void initFAB() {
-        //FAB-related
+
+        // FAB-related
         FloatingActionButton fab = findViewById(R.id.fab);
         FloatingActionButton fabIncome = findViewById(R.id.fabIncome);
         FloatingActionButton fabExpense = findViewById(R.id.fabExpense);
@@ -78,12 +79,11 @@ public class AccountDetailsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rotatedFAB = ViewAnimation.rotateFab(view,!rotatedFAB);
-                if(rotatedFAB){
-                    // TODO: bug on first touch
+                rotatedFAB = ViewAnimation.rotateFab(view, !rotatedFAB);
+                if (rotatedFAB) {
                     ViewAnimation.showIn(findViewById(R.id.fabIncome));
                     ViewAnimation.showIn(findViewById(R.id.fabExpense));
-                }else{
+                } else {
                     ViewAnimation.showOut(findViewById(R.id.fabIncome));
                     ViewAnimation.showOut(findViewById(R.id.fabExpense));
                 }
@@ -109,20 +109,19 @@ public class AccountDetailsActivity extends AppCompatActivity {
         });
     }
 
+    public void initUI() {
 
-    public void initUI(){
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Account Details");
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
 
-            // back button
+            // Back button
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         }
-
 
         viewPager = findViewById(R.id.view_pager);
         sectionsPagerAdapter = new SectionsPagerAdapter(this, accountId);
@@ -131,7 +130,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tabs);
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            switch (position){
+            switch (position) {
                 case 0:
                     String titleOverview = "Overview";
                     tab.setText(titleOverview.toUpperCase());
@@ -158,9 +157,11 @@ public class AccountDetailsActivity extends AppCompatActivity {
         accountOverviewViewModel.getAccount(accountId, jwtHandler.getJwt());
     }
 
-    // initialise observer for account list
+    // Initialise observer for account list
     public void observerSetup() {
+
         accountOverviewViewModel.getAccount(accountId, jwtHandler.getJwt()).observe(this, new Observer<Account>() {
+
             @Override
             public void onChanged(Account account) {
                 toolbar.setTitle(account.getName());
@@ -170,18 +171,22 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
         if (viewPager.getCurrentItem() == 0) {
+
             // If the user is currently looking at the first fragment, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
         } else {
-            // Otherwise, select the previous fragment.
+
+            // Otherwise, select the previous fragment
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_account_details, menu);
         return true;
@@ -198,12 +203,11 @@ public class AccountDetailsActivity extends AppCompatActivity {
         }
 
         // Edit button
-        if (id == R.id.action_item_edit_account){
+        if (id == R.id.action_item_edit_account) {
             Intent editAccountIntent = new Intent(getApplicationContext(), EditAccountActivity.class);
             editAccountIntent.putExtra("accountID", accountId);
             startActivity(editAccountIntent);
         }
-
 
         return super.onOptionsItemSelected(item);
     }

@@ -87,6 +87,15 @@
 
     <!-- add acc dialog -->
     <string name="addAccDialogTitle">Create Account</string>
+    <string name="incomeDeleted">Income Deleted</string>
+    <string name="incomeUpdated">Income Updated</string>
+    <string name="incomeAdded">Income Added</string>
+    <string name="selectDateIncome">Select Date of Income</string>
+    <string name="editProfile">Edit Profile</string>
+    <string name="expenseDeleted">Expense Deleted</string>
+    <string name="expenseUpdated">Expense Updated</string>
+    <string name="expenseAdded">Expense Added</string>
+    <string name="selectDateExpense">Select Date of Expense</string>
 
 
     <!-- categories string arrays -->

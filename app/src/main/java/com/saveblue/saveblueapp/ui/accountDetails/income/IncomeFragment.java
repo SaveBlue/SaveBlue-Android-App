@@ -27,9 +27,9 @@ public class IncomeFragment extends Fragment {
 
     private IncomeViewModel incomeViewModel;
     private IncomeRecyclerAdapter incomeRecyclerAdapter;
-    private List<Income> incomeList = new ArrayList<>();
+    private final List<Income> incomeList = new ArrayList<>();
 
-    private String accountID;
+    private final String accountID;
 
     private TextView noIncomes;
 
@@ -38,6 +38,7 @@ public class IncomeFragment extends Fragment {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View root = inflater.inflate(R.layout.fragment_income, container, false);
 
         initUI(root);
@@ -45,16 +46,16 @@ public class IncomeFragment extends Fragment {
         return root;
     }
 
-    // initialise ui elements
+    // Initialise ui elements
     public void initUI(View view) {
 
-        // initialise recycler view and its adapter
+        // Initialise recycler view and its adapter
         RecyclerView recyclerView = view.findViewById(R.id.expenseRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         incomeRecyclerAdapter = new IncomeRecyclerAdapter(getContext(), incomeList);
         recyclerView.setAdapter(incomeRecyclerAdapter);
 
-        // init "no incomes" text
+        // Init "no incomes" text
         noIncomes = view.findViewById(R.id.no_incomes);
     }
 
@@ -62,7 +63,7 @@ public class IncomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // initialise viewmodel
+        // Initialise viewmodel
         incomeViewModel = new ViewModelProvider(this).get(IncomeViewModel.class);
         observerSetup();
 
@@ -77,27 +78,26 @@ public class IncomeFragment extends Fragment {
         incomeViewModel.getIncomes(accountID, jwt);
     }
 
-    // initialise observer for income list
+    // Initialise observer for income list
     public void observerSetup() {
-        //fetch jwt from dedicated handler class
+        // Fetch jwt from dedicated handler class
         JwtHandler jwtHandler = new JwtHandler(getContext());
         String jwt = jwtHandler.getJwt();
 
-
         incomeViewModel.getIncomes(accountID, jwt).observe(getViewLifecycleOwner(), new Observer<List<Income>>() {
+
             @Override
             public void onChanged(List<Income> incomeList) {
+
                 incomeRecyclerAdapter.setIncomeList(incomeList);
 
                 // Show/hide "no incomes" text
-                if (incomeRecyclerAdapter.getItemCount()>0){
+                if (incomeRecyclerAdapter.getItemCount() > 0) {
                     noIncomes.setVisibility(View.GONE);
-                }
-                else{
+                } else {
                     noIncomes.setVisibility(View.VISIBLE);
                 }
             }
         });
     }
-
 }

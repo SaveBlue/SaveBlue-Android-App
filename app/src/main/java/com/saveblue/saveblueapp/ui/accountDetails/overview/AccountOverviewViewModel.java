@@ -29,27 +29,30 @@ public class AccountOverviewViewModel extends AndroidViewModel {
     private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
     private MutableLiveData<Account> account;
 
-
     public AccountOverviewViewModel(@NonNull Application application) {
         super(application);
     }
 
-    // returns the live data of the account
+    // Return the live data of the account
     public LiveData<Account> getAccount(String accountID, String jwt) {
+
         if (account == null) {
             account = new MutableLiveData<>();
 
         }
+
         callApiGetAccount(accountID, jwt);
 
         return account;
     }
 
-    // async api call to get user's account incomes
+    // Api call to get user's account incomes
     private void callApiGetAccount(String id, String jwt) {
+
         Call<Account> callAsync = api.getAccount(jwt, id);
 
         callAsync.enqueue(new Callback<Account>() {
+
             @Override
             public void onResponse(@NotNull Call<Account> call, @NotNull Response<Account> response) {
 
@@ -65,21 +68,20 @@ public class AccountOverviewViewModel extends AndroidViewModel {
                     return;
                 }
 
-                // if call not found set empty list
+                // If call not found set empty list
                 if (response.code() == 404) {
                     account.setValue(new Account("", 1));
                     return;
                 }
 
-                // on success set the fetched incomes list
+                // On success set the fetched incomes list
                 account.setValue(response.body());
-
 
             }
 
             @Override
             public void onFailure(@NotNull Call<Account> call, @NotNull Throwable t) {
-                //Toast.makeText(getApplicationContext(), "No Network Connectivity!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplication(), getApplication().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }

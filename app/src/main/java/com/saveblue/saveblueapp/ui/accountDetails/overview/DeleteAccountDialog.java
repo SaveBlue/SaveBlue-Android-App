@@ -20,9 +20,10 @@ public class DeleteAccountDialog extends AppCompatDialogFragment {
 
     private DeleteAccountListener deleteAccountListener;
 
-    // creates dialog for deletion
+    // Create dialog for deletion
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setTitle(getString(R.string.deleteDialogTitle));

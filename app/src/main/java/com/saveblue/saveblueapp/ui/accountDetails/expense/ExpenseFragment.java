@@ -36,6 +36,7 @@ public class ExpenseFragment extends Fragment {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View root = inflater.inflate(R.layout.fragment_expense, container, false);
 
         initUI(root);
@@ -43,16 +44,16 @@ public class ExpenseFragment extends Fragment {
         return root;
     }
 
-    // initialise ui elements
+    // Initialise ui elements
     public void initUI(View view) {
 
-        // initialise recycler view and its adapter
+        // Initialise recycler view and its adapter
         RecyclerView recyclerView = view.findViewById(R.id.expenseRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         expenseRecyclerAdapter = new ExpenseRecyclerAdapter(getContext(), expenseList);
         recyclerView.setAdapter(expenseRecyclerAdapter);
 
-        // init "no expenses" text
+        // Init "no expenses" text
         noExpenses = view.findViewById(R.id.no_expenses);
     }
 
@@ -60,7 +61,7 @@ public class ExpenseFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // initialise viewmodel
+        // Initialise viewmodel
         expenseViewModel = new ViewModelProvider(this).get(ExpenseViewModel.class);
         observerSetup();
 
@@ -75,9 +76,10 @@ public class ExpenseFragment extends Fragment {
         expenseViewModel.getExpenses(accountID, jwt);
     }
 
-    // initialise observer for account list
+    // Initialise observer for account list
     public void observerSetup() {
-        //fetch jwt from dedicated handler class
+
+        // Fetch jwt from dedicated handler class
         JwtHandler jwtHandler = new JwtHandler(getContext());
         String jwt = jwtHandler.getJwt();
 
@@ -93,5 +95,4 @@ public class ExpenseFragment extends Fragment {
             }
         });
     }
-
 }

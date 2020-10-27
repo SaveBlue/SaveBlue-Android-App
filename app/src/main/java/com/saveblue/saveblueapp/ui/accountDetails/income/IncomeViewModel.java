@@ -15,6 +15,8 @@ import com.saveblue.saveblueapp.api.ServiceGenerator;
 import com.saveblue.saveblueapp.models.Expense;
 import com.saveblue.saveblueapp.models.Income;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,15 +26,14 @@ import retrofit2.Response;
 
 public class IncomeViewModel extends AndroidViewModel {
 
-    private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
+    private final SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
     private MutableLiveData<List<Income>> incomeList;
-
 
     public IncomeViewModel(@NonNull Application application) {
         super(application);
     }
 
-    // returns the live data list of all incomes
+    // Return the live data list of all incomes
     public LiveData<List<Income>> getIncomes(String accountID, String jwt) {
         if (incomeList == null) {
             incomeList = new MutableLiveData<>();
@@ -43,13 +44,15 @@ public class IncomeViewModel extends AndroidViewModel {
         return incomeList;
     }
 
-    // async api call to get user's account incomes
+    // Api call to get user's account incomes
     private void callApiGetIncomes(String id, String jwt) {
+
         Call<List<Income>> callAsync = api.getAccountsIncomes(jwt, id);
 
         callAsync.enqueue(new Callback<List<Income>>() {
+
             @Override
-            public void onResponse(Call<List<Income>> call, Response<List<Income>> response) {
+            public void onResponse(@NotNull Call<List<Income>> call, @NotNull Response<List<Income>> response) {
 
                 // JWT expired
                 if (response.code() == 401) {
@@ -69,16 +72,16 @@ public class IncomeViewModel extends AndroidViewModel {
                     return;
                 }
 
-                // on success set the fetched incomes list
+                // On success set the fetched incomes list
                 incomeList.setValue(response.body());
 
 
             }
 
             @Override
-            public void onFailure(Call<List<Income>> call, Throwable t) {
-                //Toast.makeText(getApplicationContext(), "No Network Connectivity!", Toast.LENGTH_LONG).show();
-                System.out.println("No Network Connectivity!");
+            public void onFailure(@NotNull Call<List<Income>> call, @NotNull Throwable t) {
+
+                Toast.makeText(getApplication(), getApplication().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -158,7 +158,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         // Display date picker on icon click
         Button dateButton = findViewById(R.id.dateButton);
-        dateButton.setOnClickListener(v -> datePicker.show(getSupportFragmentManager(), "Select date of Expense"));
+        dateButton.setOnClickListener(v -> datePicker.show(getSupportFragmentManager(), getString(R.string.selectDateExpense)));
 
         initCategorySelector();
     }
@@ -420,13 +420,13 @@ public class AddExpenseActivity extends AppCompatActivity {
                 }
 
                 // Display toast and close activity
-                Toast.makeText(getApplicationContext(), "Expense added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.expenseAdded), Toast.LENGTH_SHORT).show();
                 finish();
             }
 
             @Override
             public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
-                Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), getApplication().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -466,8 +466,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NotNull Call<Expense> call, @NotNull Throwable t) {
-                Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
-                t.printStackTrace();
+                Toast.makeText(getApplication(), getApplication().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -494,13 +493,13 @@ public class AddExpenseActivity extends AppCompatActivity {
                 }
 
                 // Display toast and close activity
-                Toast.makeText(getApplicationContext(), "Expense updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.expenseUpdated), Toast.LENGTH_SHORT).show();
                 finish();
             }
 
             @Override
             public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
-                Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), getApplication().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -527,13 +526,13 @@ public class AddExpenseActivity extends AppCompatActivity {
                 }
 
                 // Display toast and close activity
-                Toast.makeText(getApplicationContext(), "Expense deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.expenseDeleted), Toast.LENGTH_SHORT).show();
                 finish();
             }
 
             @Override
             public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
-                Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), getApplication().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -36,6 +36,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditAccountActivity extends AppCompatActivity implements DeleteAccountDialog.DeleteAccountListener {
+
     private SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
     private JwtHandler jwtHandler;
 
@@ -49,6 +50,7 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_edit_account);
 
         jwtHandler = new JwtHandler(getApplicationContext());
@@ -56,7 +58,8 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
         initUI();
     }
 
-    private void initUI(){
+    private void initUI() {
+
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Edit Account");
         setSupportActionBar(toolbar);
@@ -85,13 +88,13 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
         Button deleteButton = findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(v -> showDeleteAccountDialog());
 
-        callApiGetAccount(getIntent().getStringExtra("accountID"),jwtHandler.getJwt());
+        callApiGetAccount(getIntent().getStringExtra("accountID"), jwtHandler.getJwt());
 
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish(); // close this activity as oppose to navigating up
+        finish();   // Close this activity as oppose to navigating up
 
         return false;
     }
@@ -99,21 +102,23 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
 
     //delete dialog handle
     @Override
-    public void deleteAccountConfirm(){
+    public void deleteAccountConfirm() {
         callApiDeleteAccount();
     }
 
 
-    public void showDeleteAccountDialog(){
+    public void showDeleteAccountDialog() {
         DeleteAccountDialog deleteAccountDialog = new DeleteAccountDialog();
         deleteAccountDialog.show(getSupportFragmentManager(), "delete dialog");
     }
+
 
     // --------------------------------------------------------
     // Text field handling
     // ---------------------------------------------------------
 
     private boolean handleInputFields() {
+
         boolean detectedError = false;
 
         if (Objects.requireNonNull(accountName.getText()).length() == 0) {
@@ -127,6 +132,7 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
     private void setTextListeners() {
 
         accountName.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -148,16 +154,17 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
     }
 
 
-
     // --------------------------------------------------------
     // API calls
     // ---------------------------------------------------------
 
     private void callApiUpdateAccount(Account account) {
+
         String accountID = getIntent().getStringExtra("accountID");
         Call<ResponseBody> callUpdateAccount = api.editAccount(jwtHandler.getJwt(), accountID, account);
 
         callUpdateAccount.enqueue(new Callback<ResponseBody>() {
+
             @Override
             public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
 
@@ -181,13 +188,14 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
 
             @Override
             public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
-                Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), getApplication().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    // async api call to get user's account incomes
+    // Api call to get user's account incomes
     private void callApiGetAccount(String id, String jwt) {
+
         Call<Account> callAsync = api.getAccount(jwt, id);
 
         callAsync.enqueue(new Callback<Account>() {
@@ -208,29 +216,28 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
 
                 Account receivedAccount = response.body();
 
-                // on success set the fetched account data
+                // On success set the fetched account data
                 assert receivedAccount != null;
                 toolbar.setTitle("Edit Account: " + receivedAccount.getName());
                 accountName.setText(receivedAccount.getName());
                 startOfMonthPicker.setValue(receivedAccount.getStartOfMonth());
 
-
-
             }
 
             @Override
             public void onFailure(@NotNull Call<Account> call, @NotNull Throwable t) {
-                //Toast.makeText(getApplicationContext(), "No Network Connectivity!", Toast.LENGTH_LONG).show();
-                System.out.println("No Network Connectivity!");
+                Toast.makeText(getApplication(), getApplication().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void callApiDeleteAccount() {
+
         String accountID = getIntent().getStringExtra("accountID");
         Call<ResponseBody> callUpdateAccount = api.deleteAccount(jwtHandler.getJwt(), accountID);
 
         callUpdateAccount.enqueue(new Callback<ResponseBody>() {
+
             @Override
             public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
 
@@ -252,12 +259,12 @@ public class EditAccountActivity extends AppCompatActivity implements DeleteAcco
                 deletedAccountIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(deletedAccountIntent);
 
-
             }
 
             @Override
             public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
-                Toast.makeText(getApplicationContext(), "Other Error", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(getApplication(), getApplication().getString(R.string.serverMessage), Toast.LENGTH_LONG).show();
             }
         });
     }

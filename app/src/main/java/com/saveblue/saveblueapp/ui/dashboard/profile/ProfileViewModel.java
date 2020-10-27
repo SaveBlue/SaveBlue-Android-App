@@ -21,6 +21,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileViewModel extends AndroidViewModel {
+
     private final SaveBlueAPI api = ServiceGenerator.createService(SaveBlueAPI.class);
     private MutableLiveData<User> userMutableLiveData;
 
@@ -28,7 +29,7 @@ public class ProfileViewModel extends AndroidViewModel {
         super(application);
     }
 
-    // returns the live data with an object containing user's data
+    // Return the live data with an object containing user's data
     public LiveData<User> getUser(String id, String jwt) {
         if (userMutableLiveData == null) {
             userMutableLiveData = new MutableLiveData<>();
@@ -38,22 +39,26 @@ public class ProfileViewModel extends AndroidViewModel {
         return userMutableLiveData;
     }
 
-    // async api call to get user's data
+    // Api call to get user's data
     private void callApiGetUser(String id, String jwt) {
+
         Call<User> callAsync = api.getUserData(jwt, id);
 
         callAsync.enqueue(new Callback<User>() {
+
             @Override
             public void onResponse(@NotNull Call<User> call, @NotNull Response<User> response) {
+
                 // if request was denied
                 if (!response.isSuccessful()) {
-                    //logout if jwt in not valid any more
+
+                    // Logout if jwt in not valid any more
                     Logout.logout(getApplication().getApplicationContext(), 1);
 
                     return;
                 }
 
-                // on success set the fetched user's data object
+                // On success set the fetched user's data object
                 userMutableLiveData.setValue(response.body());
 
             }
