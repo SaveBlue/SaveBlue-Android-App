@@ -11,30 +11,38 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/saveblue_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:screenOrientation="portrait">
         <activity
             android:name=".ui.accountDetails.EditAccountActivity"
-            android:label="EditAccountActivity" />
+            android:label="EditAccountActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.dashboard.profile.EditProfileActivity"
-            android:label="EditProfileActivity" />
+            android:label="EditProfileActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.accountDetails.AccountDetailsActivity"
             android:label="AccountDetailsActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.addExpenseIncome.AddIncomeActivity"
             android:label="AddIncomeActivity"
-            android:parentActivityName=".ui.dashboard.DashboardActivity" />
+            android:parentActivityName=".ui.dashboard.DashboardActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.addExpenseIncome.AddExpenseActivity"
             android:label="AddExpenseActivity"
-            android:parentActivityName=".ui.dashboard.DashboardActivity" />
+            android:parentActivityName=".ui.dashboard.DashboardActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.dashboard.DashboardActivity"
             android:label="DashboardActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.login.LoginActivity">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.login.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
