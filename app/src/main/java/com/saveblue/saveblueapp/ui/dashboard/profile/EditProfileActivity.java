@@ -1,5 +1,6 @@
 package com.saveblue.saveblueapp.ui.dashboard.profile;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -250,6 +251,11 @@ public class EditProfileActivity extends AppCompatActivity {
                     return;
                 }
 
+                // store username in sharedpreferences after updating it
+                if(user.getUsername() != null){
+                    storeUserData(user.getUsername());
+                }
+
                 // Display toast and close activity
                 Toast.makeText(getApplicationContext(), getString(R.string.updateUserMessage), Toast.LENGTH_SHORT).show();
                 finish();
@@ -261,5 +267,14 @@ public class EditProfileActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), getString(R.string.serverMessage), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+    public void storeUserData(String username) {
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("SaveBluePref", 0);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("USERNAME", username);
+        editor.apply();
     }
 }
