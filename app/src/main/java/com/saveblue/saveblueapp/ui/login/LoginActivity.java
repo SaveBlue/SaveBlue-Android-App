@@ -64,6 +64,8 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         passwordEditText = findViewById(R.id.passwordLogin);
         passwordLayout = findViewById(R.id.passwordLoginLayout);
 
+        progressBar = findViewById(R.id.progressBar);
+
         // Set onClickListeners
         registerButton.setOnClickListener(v -> showRegisterDialog());
         loginButton.setOnClickListener(v -> {
@@ -73,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
             }
         });
 
-        progressBar = findViewById(R.id.progressBar);
+
 
 
         // --------------------------------------------------------
@@ -214,6 +216,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
         String password = sharedPref.getString("PASS", "");
 
         if (!username.equals("username") && !password.equals("pass")) {
+            progressBar.setVisibility(View.VISIBLE);
             login(username, password, 1);
         }
     }
