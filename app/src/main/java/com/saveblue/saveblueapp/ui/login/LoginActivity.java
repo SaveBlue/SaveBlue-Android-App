@@ -200,7 +200,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialog.R
     @Override
     public void sendRegisterData(String usernameRegister, String passwordRegister) {
 
-        Snackbar.make(findViewById(R.id.constraintLayout), getString(R.string.registerErrorMessage), Snackbar.LENGTH_LONG)
+        Snackbar.make(findViewById(R.id.constraintLayout), getString(R.string.registerMessage), Snackbar.LENGTH_LONG)
                 .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
 
         // fill login fields with newly registered user data
